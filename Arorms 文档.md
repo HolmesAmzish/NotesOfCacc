@@ -28,6 +28,8 @@
 
 ## 编程笔记
 
+[CSS 选择器](ComputerScience/CSS选择器.html)
+
 [Python 笔记](ComputerScience/Python.html)
 
 [C 语言标准库](ComputerScience/C语言标准库.html)
