@@ -26,6 +26,8 @@
 
 [Visual Studio Code 如何运行代码](ComputerScience/Visual Studio Code运行代码.html)
 
+[Visual Studio Code HTML快捷键](ComputerScience/HTML-VSC快捷键.html)
+
 ## 编程笔记
 
 [CSS 选择器](ComputerScience/CSS选择器.html)
