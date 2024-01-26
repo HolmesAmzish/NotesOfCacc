@@ -23,11 +23,14 @@ git config --list
 
 在你需要创建仓库的文件夹根目录按住shift右键，打开命令行，或Git Bash。随后输入`git init`即可在本文件夹中创建仓库，可以看见本文夹多出了.git 这个文件夹，这就是本地仓库所在的位置。
 
-![本地仓库](/img/3.png)
+![本地仓库](../img/3.png)
 
 创建完成后，会默认进入主分支也就是**master**，有些版本可能主分支叫做**main**。现在将文件全部添加至暂存区中然后保存至仓库。
 
-```powershell
+```bash
+git init
+# 初始化仓库
+
 git add .
 # 添加所有改动的文件至暂存区
 
@@ -39,19 +42,17 @@ git commit -m <message>
 # -m 后的参数是每次提交时的信息，如果需要写多行，直接输入git commit后会进入vim来修改
 ```
 
-![commit](/img/6.png)
-
 首先按下 i 键进入到插入模式，写完你所要写的信息之后，按下Esc返回命令模式，输入`:wq `(意为write quit) 保存并退出，随后所有文件即被提交至本地仓库中。
 
 ## 建立远程仓库
 
 登录[Github主页](https://github.com/)并找到你的代码仓库页面，点击New创建新的代码仓库
 
-![github](/img/7.png)
+![github](../img/7.png)
 
-之后找到刚创建的git仓库的地址，此处有两个url地址，分别是HTTPS协议和SSH协议的地址，是远程仓库的链接。这里推荐使用SSH连接，更加安全。
+之后找到刚创建的git仓库的地址，此处有两个URL地址，分别是HTTPS协议和SSH协议的地址，是远程仓库的链接。这里推荐使用SSH连接，更加安全。
 
-![github](/img/8.png)
+![github](../img/8.png)
 
 ## 配置SSH密钥并连接
 
@@ -70,21 +71,21 @@ ssh-keygen
 
 在这里会让你输入文件的名称，如果没有创建过SSH密钥可以直接回车使用默认文件名，随后需要你设置密码并重复，如果不输入则设置为没有密码。
 
-![sshkey](/img/9.png)
+![sshkey](../img/9.png)
 
 然后输入 ls 查看.ssh文件夹的文件，会看到一个以.pub扩展名结尾的SSH公钥文件，通过`cat filename.pub` 查看这个文件并将整个文件的内容复制下来
 
-![sshkey](/img/11.png)
+![sshkey](../img/11.png)
 
 将这个SSH公钥填入你的Github账号中。重新回到Github主页，点击头像并找到设置的选项，来到设置页面后可以在菜单栏里找到SSH密钥的设置（SSH and GPG keys）
 
-![sshkey](/img/10.png)
+![sshkey](../img/10.png)
 
 点击 New SSH key新建一个SSH密钥配置，名字自定，建议写机器的名字用于区分，下面内容填入刚刚复制过来的SSH公钥。
 
 关联本地仓库和远程仓库
 
-```powershell
+```bash
 git remote add origin <url>
 # origin是仓库的别称
 # <url>是Github所复制下来的SSH链接
@@ -93,25 +94,110 @@ git remote -v
 # 检查仓库关联的情况
 ```
 
-![remote](/img/12.png)
+![remote](..\img\12.png)
 
 ## 推送和拉取仓库
 
 在本地完成操作并提交给本地仓库后，若需要同远程仓库同步，则需要推送仓库。
 
-```powershell
+```bash
 git push -u origin master
 # 推送本地仓库到远程仓库主分支
 ```
 
 如果你想要在其他机器，例如你的服务器将源码下载到本地，你可以通过克隆仓库和拉取仓库最新进度来将远程仓库的最新源码同步到服务器中。在这个步骤中不要忘了为服务器配置SSH密钥并添加到Github上。
 
-```powershell
+```bash
 git clone <url>
 # 克隆远程仓库
-
-git pull <url>
-# 拉取远程仓库
 ```
 
-注意这两者的区别，克隆远程仓库仅仅是将所有源代码克隆到本地，这已经是一个和远程仓库没有关联的仓库了。而拉取不仅仅将远程仓库的最新进度拉取到了本地，这个仓库和远程的仓库还存在联系，你可以在本地进行编辑并推送到远程仓库。
+抓取与拉取
+
+```bash
+git fetch
+# 抓取远程仓库但不进行分支
+
+git merge origin/master
+# 将远程仓库的主分支合并到本地主分支上
+```
+
+```bash
+git pull
+# 拉取远程仓库并直接合并
+```
+
+
+
+## 创建与合并分支
+
+```bash
+git branch
+# 查看分支
+
+git branch <branch name>
+# 创建分支
+```
+
+```bash
+git checkout <branch name>
+# 切换到分支
+
+git checkout -b <branch name>
+# 切换分支，如果不存在就创建
+```
+
+```bash
+git merge <branch name>
+# 将分支合并到本分支上
+
+git branch -d <branch name>
+# 删除分支
+
+git branch -D <branch name>
+# 强制删除分支
+```
+
+
+
+## 查看和回溯历史提交
+
+查看历史提交
+
+```bash
+git log
+# 查看历史提交
+
+git log --pretty=oneline --abbrev-commit --all --graph
+# --pretty=oneline 将每一次记录仅显示一行
+# --abbrev-commit 优化提交信息
+# --all 所有信息
+# --graph 图像化开发线
+
+alias "gitlog"="git log --pretty=oneline --abbrev-commit --all --graph"
+# 将gitlog赋予后面一段命令的含义，查询时可直接用gitlog代替
+```
+
+## 开发流程
+
+![git](../img/15.jpg)
+
+## 附录 指令速查
+
+\- 基本操作
+
+- git init 初始化仓库
+- gitlog 显示提交记录
+- git add <filename> 添加文件到暂存区
+- git commit -m 'commit message' 提交更变
+
+\- 分支切换类
+
+- git checkout <branch name> 切换分支
+- git checkout -b <branch name> 创建并切换到分支
+
+\- 远程操作
+
+- git clone <remote address> 克隆仓库
+- git pull 拉取仓库的修改并合并
+- git push [--set-upstream] origin <branch name> 推送本地仓库修改到远程分支

@@ -13,13 +13,13 @@ gcc -v
 
 在Visual Studio Code的扩展页中搜索Code Runner并下载扩展
 
-![](/img/1.png)
+![](../img/1.png)
 
 
 
 下载完成之后进入扩展设置，找到run in terminal选项并开启本设置。
 
-![](/img/2.png)
+![](../img/2.png)
 
 
 
