@@ -1,3 +1,5 @@
+# 基本
+
 ## PHP 程序中的注释
 
 | 代码         | 效果     |
@@ -5,6 +7,8 @@
 | // commit    | 单行注释 |
 | # commit     | 单行注释 |
 | /* commit */ | 多行注释 |
+
+
 
 ## PHP 中的输出方法
 
@@ -35,6 +39,20 @@
    var_dump($intVar);
    var_dump($cars);
    ```
+
+
+
+## 常量
+
+1. 定义常量
+
+   常量一旦定义就不能修改或者却笑定义。按照惯例，常量名采用大写，但不需要添加`$`符号。与变量不同，常量贯穿整个脚本，是全局自动的。
+
+   ```php
+   define("PI", 3.14);
+   echo "The value of const variable PI is: ", PI;
+   ```
+
 
 
 ## 变量数据类型
@@ -119,6 +137,8 @@
    var_dump($link);
    ```
 
+
+
 ## 变量类型转换
 
 | 关键字                    | 转换类型     |
@@ -129,6 +149,8 @@
 | (string)                  | 转换成字符串 |
 | (array)                   | 转换成数组   |
 | (object)                  | 转换成对象   |
+
+
 
 ## PHP 对变量的操作
 
@@ -168,16 +190,48 @@
    } else echo 'There is no variable $a<br>';
    ```
 
-## 常量
 
-1. 定义常量
 
-   常量一旦定义就不能修改或者却笑定义。按照惯例，常量名采用大写，但不需要添加`$`符号。与变量不同，常量贯穿整个脚本，是全局自动的。
 
-   ```php
-   define("PI", 3.14);
-   echo "The value of const variable PI is: ", PI;
-   ```
+## PHP运算符
 
-      
+| 运算符 | 描述       |
+| ------ | ---------- |
+| x + y  | 和         |
+| x - y  | 差         |
+| x * y  | 积         |
+| x / y  | 商         |
+| x % y  | 取余       |
+| -x     | 相反数     |
+| ~x     | 二进制取反 |
+| a . b  | 连接字符串 |
+
+
+
+# 流程控制
+
+## 数组
+
+```php
+$str = "";
+$hobby = array('Art', 'Photography', 'Sports');
+foreach ($hobby as $key => $value) {
+    $str .= $value;
+    if ($key < count($hobby) - 1) 
+        $str .= ', ';
+}
+echo $str, '<br>';
+```
+
+foreach遍历$hobby数组，并将$hobby数组中的键值赋予$key，每个键值相对应的数组的值赋予$value。
+
+
+
+# 网页交互
+
+## 预定义数组
+
+### $_POST
+
+当表单被提交时，表单中具有name属性的表单元素会将用户填写的内容提交给服务器，PHP会将表单数据保存在`$_POST`数组中。他是一个关联数组，数组的键名对应表单元素的name属性，值是用户填写的内容。
 
