@@ -168,7 +168,7 @@
    } else echo 'There is no variable $a<br>';
    ```
 
-   ## 常量
+## 常量
 
 1. 定义常量
 
