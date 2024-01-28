@@ -71,3 +71,33 @@ mysql -uroot -p
 # root是数据库用户，没有密码-p后不带参数
 ```
 
+
+
+## *强制安装PHP7.4版本*
+
+现在大多数系统安装源已经不支持7.4版本，但是众多软件与应用仍然以7.4为基础，为此，可以强制给系统安装PHP7.4环境，这样与原来的版本并不影响。首先要解决下载源的问题，按照下列指令添加下载源。
+
+```bash
+# 先更新软件源并升级
+apt update && apt upgrade -y
+
+# 安装software-properties-common软件管理器（这一步不是必须，有些发行版本已经安装好了）
+apt install software-properties-common
+
+# 增加 ondrej/php PPA，提供了多个 PHP 版本
+add-apt-repository ppa:ondrej/php
+
+# 再次更新
+apt update
+```
+
+然后安装`php7.4`以及相关的扩展
+
+```bash
+apt install -y php7.4-fpm php7.4-mysql php7.4-dev \
+php7.4-redis php7.4-gd php7.4-mbstring php7.4-zip \
+php7.4-curl php7.4-sqlite3 php7.4-xml php7.4-yaml \
+php7.4-decimal php7.4-http php7.4-imagick php7.4-bcmath \
+php7.4-raphf php7.4-xmlrpc 
+```
+

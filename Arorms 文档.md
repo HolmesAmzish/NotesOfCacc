@@ -14,21 +14,29 @@
 
 ## 网络开发
 
+[MySQL 基本操作](ComputerScience/WebDevelopment/MySQL.html)
+
+[PHP 基础](ComputerScience/WebDevelopment/PHP.html)
+
+[PHP 访问 MySQL 数据库](ComputerScience/WebDevelopment/PHP访问MySQL.html)
+
 [Visual Studio Code HTML快捷键](ComputerScience/WebDevelopment/HTML-VSC快捷键.html)
 
 [CSS 选择器](ComputerScience/WebDevelopment/CSS选择器.html)
 
+[SQLMap 说明](ComputerScience/WebDevelopment/sqlmap.html)
+
 ## 工具
 
-[Git 使用说明](ComputerScience/Git使用说明.html)
+[Git 使用说明](ComputerScience/Tools/Git使用说明.html)
 
-[Vim 使用说明](ComputerScience/Vim使用说明.html)
+[Vim 使用说明](ComputerScience/Tools/Vim使用说明.html)
 
-[Typora 使用说明](ComputerScience/Typora使用说明.html)
+[Typora 使用说明](ComputerScience/Tools/Typora使用说明.html)
 
-[Markdown 语法](ComputerScience/Markdown语法.html)
+[Markdown 语法](ComputerScience/Tools/Markdown语法.html)
 
-[Visual Studio Code 如何运行代码](ComputerScience/Visual Studio Code运行代码.html)
+[Visual Studio Code 如何运行代码](ComputerScience/Tools/Visual Studio Code运行代码.html)
 
 ## 编程笔记
 
