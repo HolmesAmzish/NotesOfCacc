@@ -12,21 +12,46 @@ exit
 # Exit from Server
 ```
 
-### 设置密码
+### 用户
+
+#### 修改本地root用户密码
 
 ```bash
 mysqladmin password <password>
 ```
 
-
-
-### 创建用户
+#### 创建用户
 
 ```mysql
-create user
+CREATE USER 'new_username'@'%' IDENTIFIED BY 'new_password';
+# '%' 表示允许从任何主机连接
+```
+
+#### 设置密码
+
+```mysql
+SET PASSWORD FOR 'username'@'localhost' = PASSWORD('new_password');
 ```
 
 
+
+#### 授予权限
+
+```mysql
+GRANT ALL PRIVILEGES ON *.* TO 'username'@'%' WITH GRANT OPTION;
+```
+
+#### 删除用户
+
+```mysql
+DROP USER 'username'@'%';
+```
+
+#### 刷新权限
+
+```mysql
+FLUSH PRIVILEGES;
+```
 
 ### 查看MySQL储存引擎
 
@@ -36,15 +61,7 @@ show engines;
 
 
 
-
-
 ## 数据库
-
-```bash
-grant all on *.* to 'dvwa'@'localhost';
-
-set password for 'dvwa'@'localhost' = password('dvwa');
-```
 
 ### 创建数据库
 
@@ -54,8 +71,6 @@ CREATE DATABASE <db_name> [[default] character set character_name];
 CREATE DATABASE phpTutorio character set gbk;
 # 使用命令在MySQL创建一个名为phpTutorial的数据库并设置器字符集为gbk。
 ```
-
-
 
 ### 查看数据库
 
@@ -74,23 +89,17 @@ SHOW CREATE DATABASE <db_name>;
 SHOW CREATE DATABASE <db_name> \G
 ```
 
-
-
 ### 删除数据库
 
 ```mysql
 DROP DATABASE <db_name>;
 ```
 
-
-
 ### 选择数据库
 
 ```mysql
 USE <db_name>;
 ```
-
-
 
 ### 查询当前数据库
 
@@ -109,12 +118,10 @@ SELECT DATABASE();
 | 类型      | 取值范围（无符号） | 字段长度 | 说明       |
 | --------- | ------------------ | -------- | ---------- |
 | TINYINT   | 0~2^8              | 一字节   | 极小整数   |
-| SMALLINT  | 0~2^16             | 二字节   | 小型证书   |
+| SMALLINT  | 0~2^16             | 二字节   | 小型整数   |
 | MEDIUMINT | 0~2^24             | 三字节   | 中等大整数 |
 | INT       | 0~2^32             | 四字节   | 普通大整数 |
 | BIGINT    | 0~2^64             | 八字节   | 大整数     |
-
-
 
 
 
@@ -155,9 +162,9 @@ CHAR 为固定长度字符串，储存时，如果字符数没有达到定义的
 
 
 
-### 创建和查看表
+### 数据表操作
 
-#### 查看本数据库中的所有表
+#### 查看本数据库中所有表
 
 ```mysql
 SHOW TABLES;
@@ -169,7 +176,7 @@ SHOW TABLES;
 DESCRIBE <table_name>;
 ```
 
-#### 在数据库中创建一个表
+#### 创建数据表
 
 ```mysql
 CREATE TABLE <table_name> (
@@ -194,17 +201,76 @@ CREATE TABLE employees (
 )
 ```
 
+#### 删除列
 
+```mysql
+ALTER TABLE table_name
+DROP COLUMN column_name;
+```
+
+#### 增加列
+
+```mysql
+ALTER TABLE table_name
+ADD COLUMN new_column_name datatype;
+```
+
+#### 更改列的顺序
+
+1. 创建新表
+
+   ```mysql
+   CREATE TABLE new_table (
+   	column1 datatype,
+       column2 datatype,
+   )
+   ```
+
+2. 复制数据到新表
+
+   ```mysql
+   INSERT INTO new_table (column1, column2)
+   SELECT column1, column2
+   FROM old_table;
+   ```
+
+3. 删除旧表
+
+   ```mysql
+   DROP TABLE old_table;
+   ```
 
 #### 主键约束
 
 创建一个id为主键的列，且自动从1开始自增。
 
 ```mysql
-id AUTO_INCREMENT PRIMARY KEY,
+id INT AUTO_INCREMENT PRIMARY KEY,
 ```
 
+### 数据操作
 
+#### 插入数据
 
-### 插入和修改语句
+```mysql
+INSERT INTO table_name (column1, column2, column3)
+VALUES
+(value1, value2, value3),
+(value1, value2, value3);
+```
+
+#### 修改数据
+
+```mysql
+UPDATE table_name
+SET column1 = value1, column2 = value2
+WHERE condition;
+```
+
+#### 删除数据
+
+```mysql
+DELETE FROM table_name
+WHERE condition;
+```
 

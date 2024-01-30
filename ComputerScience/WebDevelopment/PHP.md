@@ -235,3 +235,43 @@ foreach遍历$hobby数组，并将$hobby数组中的键值赋予$key，每个键
 
 当表单被提交时，表单中具有name属性的表单元素会将用户填写的内容提交给服务器，PHP会将表单数据保存在`$_POST`数组中。他是一个关联数组，数组的键名对应表单元素的name属性，值是用户填写的内容。
 
+```php+HTML
+<form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+Username: <input type="text" name="username">
+Passowrd: <input type="password" name="password">
+<input type="submit" value="Login">
+</form>
+<?php
+if (isset($_POST['username']) && isset($_POST['password'])) {
+    $username = $_POST['username'];
+    $password = $_POST['password'];
+    echo "Your username is".$username.'<br>';
+    echo "Your password is".$password;
+}
+?>
+```
+
+其中form的action属性设置为`<?php echo $_SERVER['PHP_SELF'];?>`，也就是将表单提交给自己处理，还可以将其设置成`action=""`或者不设置action属性，使其默认提交给自己。而method属性赋予post，就是以post方式将表单信息提交，如果不填，那么默认属性将是get方式。
+
+### $_GET
+
+```PHP+HTML
+<form>
+Username: <input type="text" name="username">
+Passowrd: <input type="password" name="password">
+<input type="submit" value="Login">
+</form>
+<?php
+if (isset($_GET['username']) && isset($_GET['password'])) {
+    $username = $_GET['username'];
+    $password = $_GET['password'];
+    echo "Your username is".$username.'<br>';
+    echo "Your password is".$password;
+}
+?>
+```
+
+其中，GET传参会显示在URL中，使得传输的数据可见，其次长度也有限制，所以一般适合一些小型且不敏感的数据传输。
+
+
+

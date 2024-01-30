@@ -8,6 +8,12 @@
 mysqli_connect(host, username, password, db_name, port, socket);
 ```
 
+除了使用mysqli_connect函数之外，还有面向对象的写法
+
+```php
+$conn = new mysqli($servername, $username, $password, $dbname);
+```
+
 | 参数     | 描述                         |
 | -------- | ---------------------------- |
 | host     | 主机名或IP地址               |
@@ -31,6 +37,16 @@ if ($conn -> connect_error) {
     echo "Connect database [ ".$db_name." ] success<br>";
 } // Build the connection between php and MySQL server
 ```
+
+检查是否连接成功
+
+```php
+if ($conn->connect_error) {
+    die("Connection failed: ". $conn->connect_error);
+}
+```
+
+
 
 ## 执行数据库操作
 

@@ -16,6 +16,8 @@
 
 [MySQL 基本操作](ComputerScience/WebDevelopment/MySQL.html)
 
+[远程访问 MariaDB 数据库](ComputerScience/WebDevelopment/MariaDB远程登录.html)
+
 [PHP 基础](ComputerScience/WebDevelopment/PHP.html)
 
 [PHP 访问 MySQL 数据库](ComputerScience/WebDevelopment/PHP访问MySQL.html)
