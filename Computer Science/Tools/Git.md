@@ -23,7 +23,7 @@ git config --list
 
 在你需要创建仓库的文件夹根目录按住shift右键，打开命令行，或Git Bash。随后输入`git init`即可在本文件夹中创建仓库，可以看见本文夹多出了.git 这个文件夹，这就是本地仓库所在的位置。
 
-![本地仓库](/img/3.png)
+![本地仓库](../../img/3.png)
 
 创建完成后，会默认进入主分支也就是**master**，有些版本可能主分支叫做**main**。现在将文件全部添加至暂存区中然后保存至仓库。
 
@@ -188,7 +188,7 @@ alias "gitlog"="git log --pretty=oneline --abbrev-commit --all --graph"
 
 ## 开发流程
 
-![git](/img/15.jpg)
+![git](../../img/15.jpg)
 
 ## 附录 指令速查
 
