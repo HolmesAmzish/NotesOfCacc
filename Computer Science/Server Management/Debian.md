@@ -1,4 +1,28 @@
+# 守护进程
+
+`/usr/lib/systemd/system`
+
+```ini
+[Unit]
+Description=StarryFrp Service
+After=network.target
+
+[Service]
+Type=idle
+User=nobody
+Restart=on-failure
+RestartSec=60s
+ExecStart=/usr/local/bin/frpc -f c3867d3c81ee8403eeed309304ae192a:98285
+
+[Install]
+WantedBy=multi-user.target
+
+```
+
+
+
 # SSH
+
 ## 安装 SSH 服务器
 
 Debian 默认安装了SSH服务器，如果发现系统没有安装过SSH，可以手动下载。
@@ -125,13 +149,13 @@ systemctl enable --now nginx
 首先安装PHP
 
 ```bash
-apt install php7.4
+apt install php
 ```
 
 在安装PHP同时，还要安装好必要包。
 
 ```bash
-apt install php7.4-fpm php7.4-cgi php7.4-curl php7.4-gd php7.4-xml php7.4-xmlrpc php7.4-mysql php7.4-bz2
+apt install php libapache2-mod-php php-mysql
 ```
 
 然后配置PHP环境，到/etc/nginx/sites-available/文件夹中，修改default。这是nginx的主配置文件，如果一台服务器包含了多个网站，则配置文件需要去conf文件夹修改。此处修改主要是将php服务的内容注释给去掉，使php生效
@@ -258,6 +282,77 @@ systemctl enable --now code-server@root
 
 
 
+# MySQL
+
+## 创建远程登陆用户
+
+一般MariaDB不允许远程直接登录root账户，因此需要在本地创建一个账户用于登录远程MariaDB服务器。使用以下指令创建用户并授予权限，从而进行远程登陆。
+
+```mysql
+CREATE USER 'new_username'@'%' IDENTIFIED BY 'new_password';
+# 创建用户，'%'表示允许从任何主机连接
+
+GRANT ALL PRIVILEGES ON *.* TO 'new_username'@'%' WITH GRANT OPTION;
+# 授予所有数据库的权限，*.*就是所有数据库，如果是某个数据库，则是"db_name.*"
+
+FLUSH PRIVILEGES;
+# 刷新权限
+```
+
+## 允许远程连接
+
+- 允许从其他主机连接
+
+MariaDB默认不允许远程连接，需要修改其设置文件才能进行远程连接。打开MariaDB的配置文件`my.cnf`，在Linux系统下通常位于`/etc/mysql/my.cnf`或者`/etc/my.cnf`。在设置文件中，找到`bind-address`一行，如果不存在，则可以手动添加一行。
+
+```ini
+bind-address = 0.0.0.0
+```
+
+
+其中0.0.0.0是广播IP，也就是允许其他所有主机连接至数据库。如果有需要可以自行更改。重启MariaDB服务使更改生效
+	
+
+```bash
+systemctl restart mariadb
+```
+
+确保`bind-address`作为一个单独的选项，如果遇到报错，则需要将其放在[mysqld]之内。
+	
+
+```bash
+root@Purgatory:/etc/mysql# mysql 
+mysql: unknown variable 'bind-address=0.0.0.0
+```
+
+重新修改设置文件
+	
+
+```ini
+[mysqld]
+bind-address = 0.0.0.0
+```
+
+- 打开防火墙
+
+允许从其他主机连接还需要打开相应的端口，MariaDB默认端口为3306，下面是利用`ufw`将其开启，如果没有相应防火墙设置可以跳过
+
+```bash
+ufw allow 3306
+```
+
+## 远程登录
+
+在远程登录的设备终端，进行登录。
+
+```bash
+mysql -h <ip_address> -u <username> -p
+```
+
+然后会让你输入密码，确认后即登录到其数据库。
+
+
+
 # FTP
 
 ## 下载vsftpd
@@ -323,5 +418,59 @@ ftp ftp_user@localhost
 
 
 
-# SMTP
+# 内网穿透
+
+下载软件
+
+`/usr/local/bin/frpc`
+
+守护进程配置文件
+
+`/usr/lib/systemd/system/`
+
+```ini
+[Unit]
+Description=StarryFrp Service
+After=network.target
+
+[Service]
+Type=idle
+User=nobody
+Restart=on-failure
+RestartSec=60s
+ExecStart=/usr/local/bin/frpc -f %i
+
+[Install]
+WantedBy=multi-user.target
+```
+
+
+
+
+
+# MSTSC
+
+## 安装
+
+```bash
+apt update
+# 更新软件列表
+
+apt install x-window-system-core gnome-core
+# 安装gnome图形相关软件
+
+apt install xrdp
+# 安装xrdp
+```
+
+## 配置
+
+1. `/etc/gdm3/daemon.conf`中，在`[security]`下增加一行`AllowRoot = true`
+2. 修改`/etc/pam.d/gdm-password`文件，注释掉`auth required pam_succeed_if.so user != root quiet_success`
+
+## 启动
+
+```bash
+init 6
+```
 

@@ -103,3 +103,19 @@ tac file
 
 
 
+## 禁止休眠
+
+1. 查看休眠状态
+
+   ```bash
+   systemctl status sleep.target
+   ```
+
+2. 设置禁止休眠
+
+   ```php
+   systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+   ```
+
+   
+
