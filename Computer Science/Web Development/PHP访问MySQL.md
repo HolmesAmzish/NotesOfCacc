@@ -103,7 +103,7 @@ if ($conn -> query($sql)) {
 
 ## MySQL错误信息
 
-在应用MySQL错误信息查看之前，需要在服务器环境上开启报错，因为报错可以用作SQL注入，默认是关闭的。如果要开启，则前往`/etc/php/8.2/apache2/php.ini`修改，然后重启apache2即可。
+在应用MySQL错误信息查看之前，需要在服务器环境上开启报错，默认是关闭的。如果要开启，则前往`/etc/php/8.2/apache2/php.ini`修改，然后重启apache2即可。
 
 ```ini
 error_reporting = E_ALL & ~E_DEPRECATED & ~E_STRICT
