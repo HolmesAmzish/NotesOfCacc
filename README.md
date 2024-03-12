@@ -1,7 +1,8 @@
 - ComputerScience 用于记录计算机科学相关文档
-  - ProgrammingLanguage 编程语言
-  - ServerManagement 服务器运维
-  - WebDevelopment 网络开发
+  - Programming Language 编程
+  - Web Development 网络开发
   - Tools 计算机工具
+  - System& Server 系统和服务器操作
 - Notification 用于记录公告
+- Uncategorized 暂时未分类
 - img 存放图片

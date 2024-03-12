@@ -1,4 +1,4 @@
-# Debian 系统命令
+# 文件和目录操作类
 
 ## ls 查看本目录
 
@@ -19,59 +19,19 @@ ls
 - -F 在列出的文件名称后添加某个符号
 - -R 递归显示目录中所有文件和子目录
 
-## systemctl 服务
-
-```bash
-systemctl status service
-# 查看服务状态
-
-systemctl start service
-# 启用服务
-
-systemctl enable --now service
-# 设置服务开机自启动，并且现在生效
-
-systemctl stop service
-# 停止服务
-```
-
 ## cat 查看文件
 
 ```bash
 cat file
-# 查看file的内容
+# 查看文件
 
 tac file
-# 倒过来查看file的内容
+# 倒过来查看文件
 ```
 
-## apt 下载
 
-```bash
-apt update
-# 更新列表
 
-apt upgrade
-# 更新软件
-
-apt install application
-# 安装软件
-
-apt remove application
-# 卸载软件
-```
-
-## ssh SSH连接
-
-```bash
-ssh username@hostname
-# 以username的身份连接到hostname
-
-ssh username@hostname -p port
-# 以port端口号连接
-```
-
-## 编辑和查看文件
+## vim 编辑和查看文件
 
 使用Vim来编辑文件。Vim是在Vi只能在Unix系统上运行而为Linux而写的编辑软件，功能强大，为命令行模式提供一个高效的操作界面。
 
@@ -93,29 +53,65 @@ nano file
 
 查看文件，使用cat来查看文件。
 
-```bash
-cat file
-# 查看文件
 
-tac file
-# 倒过来查看文件
+
+## find 查找文件
+
+```bash
+find /path -name "filename"
 ```
 
 
 
-## 禁止休眠
 
-1. 查看休眠状态
 
-   ```bash
-   systemctl status sleep.target
-   ```
 
-2. 设置禁止休眠
+# 软件和服务类
 
-   ```php
-   systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
-   ```
+## apt 下载
 
-   
+```bash
+apt update
+# 更新列表
 
+apt upgrade
+# 更新软件
+
+apt install application
+# 安装软件
+
+apt remove application
+# 卸载软件
+```
+
+
+
+## systemctl 服务
+
+```bash
+systemctl status service
+# 查看服务状态
+
+systemctl start service
+# 启用服务
+
+systemctl enable --now service
+# 设置服务开机自启动，并且现在生效
+
+systemctl stop service
+# 停止服务
+```
+
+
+
+# 开发程序类
+
+## ssh SSH连接
+
+```bash
+ssh username@hostname
+# 以username的身份连接到hostname
+
+ssh username@hostname -p port
+# 以port端口号连接
+```
