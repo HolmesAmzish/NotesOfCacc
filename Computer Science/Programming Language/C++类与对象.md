@@ -123,4 +123,20 @@ cp -> DisplayTime();
 delete Cp;
 ```
 
+### this指针
+
+this指针是一个系统预定义的特殊指针，指向当前对象，表示当前对象的地址
+
+```cpp
+void Clock::SetTime(int h, int m, int s) {
+    H = h, M = m, S = s;
+    this->H = h, this->M = m, this->S = s;
+    // this指向当前对象。
+}
+```
+
+
+
+
+
 ## 静态成员

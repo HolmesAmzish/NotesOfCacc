@@ -134,7 +134,7 @@ SSH 服务的默认端口为 22，如果你想要修改 SSH 服务的端口，�
 
 # Web服务器
 
-(LAMP环境)[LAMP.md]
+[LAMP.md](LAMP.md)
 
 
 
