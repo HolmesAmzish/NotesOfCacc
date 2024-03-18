@@ -104,6 +104,14 @@ systemctl stop service
 
 
 
+## gz 本地安装
+
+```bash
+tar -zxvf filename.gz
+```
+
+
+
 # 开发程序类
 
 ## ssh SSH连接

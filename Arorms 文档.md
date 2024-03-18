@@ -2,6 +2,8 @@
 
 [2024年初计算机设计大赛项目计划](Notification/2024年设计比赛项目计划.html)
 
+[VPN](/Blog/VPN.html)
+
 # 计算机科学
 
 ## 运维
