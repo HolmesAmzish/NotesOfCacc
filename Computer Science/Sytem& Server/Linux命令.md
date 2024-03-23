@@ -112,6 +112,17 @@ tar -zxvf filename.gz
 
 
 
+## screen 窗口
+
+```bash
+screen -S screenName # 创建一个名为screenName的窗口
+screen -r screenName # 回到screenName窗口
+```
+
+`crtl + a + d`返回主终端
+
+
+
 # 开发程序类
 
 ## ssh SSH连接

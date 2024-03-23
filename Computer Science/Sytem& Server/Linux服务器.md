@@ -135,7 +135,144 @@ SSH 服务的默认端口为 22，如果你想要修改 SSH 服务的端口，�
 
 # Web服务器
 
-[LAMP.md](LAMP.md)
+LAMP即Linux，Apache，Mysql，php
+
+## Linux
+
+安装Linux服务器以提供服务。可以使用公有云平台进行服务器部署，也可以在物理机上安装内网穿透。
+
+## Apache
+
+### 安装apache2
+
+```bash
+apt update
+apt install nginx
+```
+
+通过systemctl查看apache是否运行，也可以通过第二行手动设置开机自启动
+
+```bash
+systemctl status nginx
+systemctl enable --now nginx
+```
+
+### 配置子网站
+
+设置文件`/etc/apache2/sites-avaliable/xxx.conf
+
+```ini
+<VirtualHost *:80>
+        ServerName dev.val.arorms.cn
+        ServerAdmin webmaster@localhost
+        DocumentRoot /var/www/val.arorms.cn
+        ErrorLog ${APACHE_LOG_DIR}/error.log
+        CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+```
+
+然后启动虚拟机
+
+```bash
+a2ensite xxx.conf
+
+# 如果a2ensite没有添加到PATH，可以指定位置
+/usr/sbin/a2ensite xxx.conf
+```
+
+然后重新加载apache2服务
+
+```bash
+systemctl reload apache2
+```
+
+
+
+
+
+## PHP
+
+首先安装PHP
+
+```bash
+apt install php
+```
+
+在安装PHP同时，还要安装好必要包。
+
+```bash
+apt install php libapache2-mod-php php-mysql
+```
+
+
+
+apache的默认网站根目录在/var/www/html
+使用命令ls可以看到主页文件是index.html
+在本文件夹touch创建一个文件phpinfo.php
+文件内容如下：
+
+```php
+<?php
+	phpinfo();
+?>
+```
+
+随后在浏览器访问这个文件 xxx.xxx.xxx.xxx/phpinfo.php
+如果本页面显示了php的信息，那么说明php已经安装成功
+
+
+
+## MariaDB(MySQL)
+
+Debian默认软件源并不包含MySQL软件包，取而代之的是MariaDB。这个具体原因是因为MySQL遭到了阉割，而MariaDB是原作者重新创建的，具体原因自行搜索
+
+```bash
+apt install mariadb-server
+
+systemctl status mariadb
+#查看mariaDB是否运行，而也可以通过下面指令手动改为开机自启动
+
+systemctl enable --now mariadb
+```
+
+登录命令
+
+```bash
+mysql -uroot -p
+# root是数据库用户，没有密码-p后不带参数
+```
+
+
+
+## *强制安装PHP7.4版本*
+
+现在大多数系统安装源已经不支持7.4版本，但是众多软件与应用仍然以7.4为基础，为此，可以强制给系统安装PHP7.4环境，这样与原来的版本并不影响。首先要解决下载源的问题，按照下列指令添加下载源。
+
+```bash
+# 先更新软件源并升级
+apt update && apt upgrade -y
+
+# 安装software-properties-common软件管理器（这一步不是必须，有些发行版本已经安装好了）
+apt install software-properties-common
+
+# 增加 ondrej/php PPA，提供了多个 PHP 版本
+add-apt-repository ppa:ondrej/php
+
+# 再次更新
+apt update
+```
+
+然后安装`php7.4`以及相关的扩展
+
+```bash
+apt install -y php7.4-fpm php7.4-mysql php7.4-dev \
+php7.4-redis php7.4-gd php7.4-mbstring php7.4-zip \
+php7.4-curl php7.4-sqlite3 php7.4-xml php7.4-yaml \
+php7.4-decimal php7.4-http php7.4-imagick php7.4-bcmath \
+php7.4-raphf php7.4-xmlrpc 
+```
+
+
 
 
 
@@ -188,6 +325,14 @@ systemctl enable --now code-server@root
 
 
 # MariaDB（MySQL）
+
+## 安装和配置
+
+```bash
+apt install mariadb-server
+```
+
+
 
 ## 创建远程登陆用户
 
@@ -320,9 +465,61 @@ ftp ftp_user@localhost
 # 连接至本地的FTP服务器
 ```
 
+# FRP
+
+## 配置frp服务器
+
+```toml
+# 绑定端口
+bindPort = 7000
+
+# 配置dashboard界面
+webServer.addr = "0.0.0.0"
+webServer.port = 7500
+webServer.user = "admin"
+webServer.password = "admin"
+```
 
 
-# 内网穿透
+
+## 配置frp客户端
+
+`frpc.toml`文件
+
+```toml
+serverAddr = "frp.arorms.cn"
+serverPort = 7000
+includes = ["./confd/*.toml"]
+```
+
+`confd`中两个文件
+
+```toml
+[[proxies]]
+name = "cs2_tcp"
+type = "tcp"
+localIP = "127.0.0.1"
+localPort = 27015
+remotePort = 27015
+```
+
+```toml
+[[proxies]]
+name = "cs2_udp"
+type = "udp"
+localIP = "127.0.0.1"
+localPort = 27015
+remotePort = 27015
+
+```
+
+> [!CAUTION]
+>
+> 需要关闭服务器防火墙的绑定端口和隧道的远程端口，注意UDP和TCP模式。
+
+
+
+## *StarryFrp*
 
 下载软件
 
