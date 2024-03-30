@@ -12,8 +12,14 @@
 - Visual Studio 开发编译器，支持C++，C#
 - HTTPtrack 网站镜像复制
 - nmap 主机扫描
+
+## C/C++开发
+
 - Cygwin 集成编译器
 - MinGW 集成编译器
+- cmake https://cmake.org/
+- make
+- gcc/g++
 
 ## 数据库
 

@@ -153,3 +153,133 @@ int main() {
 | wb+ 读写     |                                        | 建立新文件         |
 | ab+ 读写     |                                        | 出错               |
 
+# C++文件操作
+
+C++ 中的文件操作是处理文件的基本操作之一，它允许你从文件中读取数据、向文件中写入数据以及进行文件的其他操作。在 C++ 中进行文件操作通常需要包含 `<fstream>` 头文件。下面是关于 C++ 文件操作的详细示例和说明：
+
+## 文件的打开和关闭
+
+```cpp
+cppCopy code#include <iostream>
+#include <fstream>
+
+int main() {
+    std::ofstream outputFile; // 文件输出流对象
+    std::ifstream inputFile;  // 文件输入流对象
+
+    // 打开文件以写入数据
+    outputFile.open("output.txt");
+
+    // 写入数据到文件
+    outputFile << "Hello, File!\n";
+
+    // 关闭输出文件
+    outputFile.close();
+
+    // 打开文件以读取数据
+    inputFile.open("output.txt");
+
+    // 读取数据
+    std::string line;
+    while (std::getline(inputFile, line)) {
+        std::cout << line << '\n';
+    }
+
+    // 关闭输入文件
+    inputFile.close();
+
+    return 0;
+}
+```
+
+## 写入文件
+
+```cpp
+cppCopy code#include <iostream>
+#include <fstream>
+
+int main() {
+    std::ofstream outputFile("output.txt"); // 创建文件输出流对象并打开文件
+
+    if (outputFile.is_open()) {
+        outputFile << "This is a line.\n";
+        outputFile << "This is another line.\n";
+        outputFile.close(); // 关闭文件
+    } else {
+        std::cerr << "Failed to open the file!\n";
+    }
+
+    return 0;
+}
+```
+
+## 读取文件
+
+```cc
+cppCopy code#include <iostream>
+#include <fstream>
+#include <string>
+
+int main() {
+    std::ifstream inputFile("input.txt"); // 创建文件输入流对象并打开文件
+    std::string line;
+
+    if (inputFile.is_open()) {
+        while (std::getline(inputFile, line)) {
+            std::cout << line << '\n';
+        }
+        inputFile.close(); // 关闭文件
+    } else {
+        std::cerr << "Failed to open the file!\n";
+    }
+
+    return 0;
+}
+```
+
+## 二进制文件读写
+
+```cc
+cppCopy code#include <iostream>
+#include <fstream>
+
+struct Person {
+    char name[50];
+    int age;
+    double salary;
+};
+
+int main() {
+    Person p1 = {"John", 25, 50000.0};
+
+    // 写入二进制文件
+    std::ofstream outputFile("person.bin", std::ios::binary);
+    if (outputFile.is_open()) {
+        outputFile.write(reinterpret_cast<char*>(&p1), sizeof(Person));
+        outputFile.close();
+    } else {
+        std::cerr << "Failed to open the file!\n";
+        return 1;
+    }
+
+    // 读取二进制文件
+    Person p2;
+    std::ifstream inputFile("person.bin", std::ios::binary);
+    if (inputFile.is_open()) {
+        inputFile.read(reinterpret_cast<char*>(&p2), sizeof(Person));
+        inputFile.close();
+
+        // 输出读取的数据
+        std::cout << "Name: " << p2.name << std::endl;
+        std::cout << "Age: " << p2.age << std::endl;
+        std::cout << "Salary: " << p2.salary << std::endl;
+    } else {
+        std::cerr << "Failed to open the file!\n";
+        return 1;
+    }
+
+    return 0;
+}
+```
+
+这些示例涵盖了 C++ 中常见的文件操作，包括打开、读取、写入和关闭文件，以及对二进制文件的读写。使用这些基本操作，你可以处理各种文件操作需求。
