@@ -44,4 +44,3 @@ int* y = new int(10);
 delete y;
 delete []x;
 ```
-

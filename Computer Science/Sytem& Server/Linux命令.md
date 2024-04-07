@@ -29,8 +29,6 @@ tac file
 # 倒过来查看文件
 ```
 
-
-
 ## vim 编辑和查看文件
 
 使用Vim来编辑文件。Vim是在Vi只能在Unix系统上运行而为Linux而写的编辑软件，功能强大，为命令行模式提供一个高效的操作界面。
@@ -53,18 +51,18 @@ nano file
 
 查看文件，使用cat来查看文件。
 
-
-
 ## find 查找文件
 
 ```bash
 find /path -name "filename"
 ```
 
+## grep 筛选信息
 
-
-
-
+```bash
+ls | grep 2024
+# 筛选含有字符串，2024的信息。
+```
 
 # 软件和服务类
 
@@ -84,8 +82,6 @@ apt remove application
 # 卸载软件
 ```
 
-
-
 ## systemctl 服务
 
 ```bash
@@ -102,15 +98,11 @@ systemctl stop service
 # 停止服务
 ```
 
-
-
 ## gz 本地安装
 
 ```bash
 tar -zxvf filename.gz
 ```
-
-
 
 ## screen 窗口
 
@@ -120,8 +112,6 @@ screen -r screenName # 回到screenName窗口
 ```
 
 `crtl + a + d`返回主终端
-
-
 
 # 开发程序类
 

