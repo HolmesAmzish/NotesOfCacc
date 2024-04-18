@@ -67,7 +67,11 @@ service frpc_ssh start
 ```bash
 service frpc_ssh enable
 ```
-=======
+
+## 自动启动
+
+将脚本写入/etc/rc.local或者/etc/rc.d/文件夹内
+
 # 用户
 
 ```sh
@@ -75,10 +79,7 @@ adduser
 ```
 
 - 设置默认shell：
-
+  
   ```sh
   sudo chsh -s /usr/sbin/nologin username
   ```
-
-  
-

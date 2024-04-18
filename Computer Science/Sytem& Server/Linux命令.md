@@ -124,3 +124,44 @@ ssh username@hostname
 ssh username@hostname -p port
 # 以port端口号连接
 ```
+
+# 网络
+
+## ping
+
+```bash
+ping target
+
+ping -s 1300 target
+# 向目标发送1300字节的数据包
+
+ping -s 1300 -f target
+# 
+```
+
+## hping3
+
+```bash
+hping3 -S -V --flood target
+# hitting the port 80 server of server
+```
+
+## nmap
+
+```bash
+nmap -O -Pn target
+# scan the OS of target
+
+nmap -A target
+# default script scanning from nmap and trace route
+```
+
+## iftop
+
+```bash
+iftop
+# 监测网卡流量
+
+iftop -i wlo1
+# 监测特定网卡的流量
+```

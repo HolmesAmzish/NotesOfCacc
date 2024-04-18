@@ -14,24 +14,24 @@ STL（Standard Template Library）标准模板库时泛型程序设计思想在C
 
 ### vector
 
-| 函数名      | 功能          |
-| ----------- | ------------- |
-| push_back() |               |
-| pop_back    |               |
-| insert      |               |
-| erase       |               |
-| clear       |               |
-| front       |               |
-| back        |               |
-| begin       |               |
-| end         |               |
-| rbegin      |               |
-| rend        |               |
-| max_size    |               |
-| size()      | 返回容器长度  |
-| empty       |               |
-| capacity    |               |
-| at(n)       | 返回第n个元素 |
-| swap(x)     |               |
-| operator[]  |               |
-
+| 函数名       	| 功能       	   		|
+| ----------- 	| ------------- 		|
+| push_back() 	| 向向量最后添加一个元素 	|
+| pop_back    	|             		  	|
+| insert      	|               |
+| erase       	|               |
+| clear       	|               |
+| front       	|               |
+| back        	|               |
+| begin       	|               |
+| end         	|               |
+| rbegin      	|               |
+| rend        	|               |
+| max_size    	|               |
+| size()      	| 返回容器长度  |
+| empty       	|               |
+| capacity    	|               |
+| at(n)       	| 返回第n个元素 			|
+| swap(x)     	|               |
+| operator[]  	|               |
+| emplace_back()| 直接向容器最后添加这个元素	|
