@@ -18,8 +18,6 @@ ExecStart=/usr/local/bin/frpc -f c3867d3c81ee8403eeed309304ae192a:98285
 
 [Install]
 WantedBy=multi-user.target
-
-
 ```
 
 ## 启动服务
@@ -27,8 +25,6 @@ WantedBy=multi-user.target
 ```bash
 systemctl enable --now ***.service
 ```
-
-
 
 # SSH
 
@@ -60,13 +56,13 @@ systemctl enable --now ssh
 system [option] ssh
 ```
 
-| 选项    | 操作              |
-| ------- | ----------------- |
-| start   | 启动SSH           |
-| stop    | 停止SSH           |
+| 选项      | 操作         |
+| ------- | ---------- |
+| start   | 启动SSH      |
+| stop    | 停止SSH      |
 | enable  | 开机允许SSH自启动 |
 | disable | 开机禁止SSH自启动 |
-| restart | 重启SSH服务       |
+| restart | 重启SSH服务    |
 
 *详情查看systemctl指令详细说明*
 
@@ -97,8 +93,6 @@ ssh username@ip-addr
 exit
 ```
 
-
-
 ## 启用远程 root 登录权限
 
 SSH远程连接时可能无法直接通过root账户登录，会显示权限不足（Permission denied, please try again.）要开启root账户远程登录，找到`/etc/ssh/sshd_config` 文件并修改其中的设置，需要找到这两个设置并将参数修改为`yes`。
@@ -115,6 +109,7 @@ PermitRootLogin yes
 PasswordAuthentication yes
 # 开启密码认证
 ```
+
 ![rootpermit](/img/13.png)
 
 然后重启ssh服务器，使其设置生效。
@@ -130,8 +125,6 @@ SSH 服务的默认端口为 22，如果你想要修改 SSH 服务的端口，�
 ![port](/img/14.png)
 
 最后重启 SSH 服务即可生效。
-
-
 
 # Web服务器
 
@@ -186,10 +179,6 @@ a2ensite xxx.conf
 systemctl reload apache2
 ```
 
-
-
-
-
 ## PHP
 
 首先安装PHP
@@ -204,8 +193,6 @@ apt install php
 apt install php libapache2-mod-php php-mysql
 ```
 
-
-
 apache的默认网站根目录在/var/www/html
 使用命令ls可以看到主页文件是index.html
 在本文件夹touch创建一个文件phpinfo.php
@@ -213,14 +200,12 @@ apache的默认网站根目录在/var/www/html
 
 ```php
 <?php
-	phpinfo();
+    phpinfo();
 ?>
 ```
 
 随后在浏览器访问这个文件 xxx.xxx.xxx.xxx/phpinfo.php
 如果本页面显示了php的信息，那么说明php已经安装成功
-
-
 
 ## MariaDB(MySQL)
 
@@ -241,8 +226,6 @@ systemctl enable --now mariadb
 mysql -uroot -p
 # root是数据库用户，没有密码-p后不带参数
 ```
-
-
 
 ## *强制安装PHP7.4版本*
 
@@ -271,10 +254,6 @@ php7.4-curl php7.4-sqlite3 php7.4-xml php7.4-yaml \
 php7.4-decimal php7.4-http php7.4-imagick php7.4-bcmath \
 php7.4-raphf php7.4-xmlrpc 
 ```
-
-
-
-
 
 # Code-Server
 
@@ -322,8 +301,6 @@ systemctl enable --now code-server@root
 
 这样，就开启了code-server服务。code-server服务器默认端口为8080，浏览器登录http:xxx.xxx.xxx.xxx:8080即可访问页面，输入密码即可进入code-server进行编辑。
 
-
-
 # MariaDB（MySQL）
 
 ## 安装和配置
@@ -331,8 +308,6 @@ systemctl enable --now code-server@root
 ```bash
 apt install mariadb-server
 ```
-
-
 
 ## 创建远程登陆用户
 
@@ -358,7 +333,6 @@ MariaDB默认不允许远程连接，需要修改其设置文件才能进行远�
 ```ini
 bind-address = 0.0.0.0
 ```
-
 
 其中0.0.0.0是广播IP，也就是允许其他所有主机连接至数据库。如果有需要可以自行更改。重启MariaDB服务使更改生效
 
@@ -388,8 +362,6 @@ bind-address = 0.0.0.0
 ufw allow 3306
 ```
 
-
-
 ## 远程登录
 
 在远程登录的设备终端，进行登录。
@@ -399,8 +371,6 @@ mysql -h <ip_address> -u <username> -p
 ```
 
 然后会让你输入密码，确认后即登录到其数据库。
-
-
 
 # FTP
 
@@ -424,7 +394,7 @@ passwd ftp_user
 ## 设置vsftpd
 
 - /etc/vsftpd.conf
-
+  
   ```ini
   listen=NO
   allow_writeable_chroot=YES
@@ -450,7 +420,7 @@ passwd ftp_user
   ```
 
 - /etc/vsftpd.chroot_list
-
+  
   ```ini
   ftp_user
   ```
@@ -480,8 +450,6 @@ webServer.user = "admin"
 webServer.password = "admin"
 ```
 
-
-
 ## 配置frp客户端
 
 `frpc.toml`文件
@@ -510,14 +478,11 @@ type = "udp"
 localIP = "127.0.0.1"
 localPort = 27015
 remotePort = 27015
-
 ```
 
 > [!CAUTION]
->
+> 
 > 需要关闭服务器防火墙的绑定端口和隧道的远程端口，注意UDP和TCP模式。
-
-
 
 ## *StarryFrp*
 
@@ -544,10 +509,6 @@ ExecStart=/usr/local/bin/frpc -f %i
 [Install]
 WantedBy=multi-user.target
 ```
-
-
-
-
 
 # MSTSC
 
@@ -580,15 +541,13 @@ init 6
 安装完图像操作系统后，系统会根据没有进行操作的时间而进入休眠以节省电源，常常导致各种服务和链接中断。
 
 1. 查看休眠状态
-
+   
    ```bash
    systemctl status sleep.target
    ```
 
 2. 设置禁止休眠
-
+   
    ```php
    systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
    ```
-
-   

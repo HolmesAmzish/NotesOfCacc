@@ -8,7 +8,6 @@ mp_restartgame 1
 
 ## 自定义地图
 
-
 ```hl2
 map de_inferno loopback=0; 
 game_type 0;game_mode 2 
@@ -20,30 +19,24 @@ game_type 0;game_mode 2
 | deathmatch | 1         | 2         |
 | competive  | 0         | 1         |
 
- ```cs2
- sv_cheats 1 //开启作弊
- sv_grenade_trajectory_prac_pipreview 1 // 道具落点查看
- ammo_grenade limit total 6 // 携带道具数量限制
- sv_infinite_ammo 1 // [开启]无限子弹、道具
- mp_buy_anywhere 1 // [开启]在任意处购买
- sv_grenade_trajectory_prac_trailtime 8 // 道具轨迹持续时间(s)
- bind j "noclip”//] 飞行bind n“sv_rethrow_last_grenade”// N 重丢上一个道具
- mp_warmuptime @ // 热身时间(s)
- bot_stop 1 // bot静止
- mp_freezetime  // 回合开始前冻结时间(s)
- mp_startmoney 16 // 初始金钱
- mp_buytime 99999 // 购买时间(s)
- mp_restartgame 1 // 重新开始游戏
- mp_respawn_on_death_ct 1;mp_respawn_on death_t 1 //无限复活
- sv_infinite ammo 1 //弹药道具无限
- mp_ignore_round_win_conditions 1 //回合不结束
- ```
-
-
-
-
-
-
+```cs2
+sv_cheats 1 //开启作弊
+sv_grenade_trajectory_prac_pipreview 1 // 道具落点查看
+ammo_grenade limit total 6 // 携带道具数量限制
+sv_infinite_ammo 1 // [开启]无限子弹、道具
+mp_buy_anywhere 1 // [开启]在任意处购买
+sv_grenade_trajectory_prac_trailtime 8 // 道具轨迹持续时间(s)
+bind j "noclip”//] 飞行bind n“sv_rethrow_last_grenade”// N 重丢上一个道具
+mp_warmuptime @ // 热身时间(s)
+bot_stop 1 // bot静止
+mp_freezetime  // 回合开始前冻结时间(s)
+mp_startmoney 16 // 初始金钱
+mp_buytime 99999 // 购买时间(s)
+mp_restartgame 1 // 重新开始游戏
+mp_respawn_on_death_ct 1;mp_respawn_on death_t 1 //无限复活
+sv_infinite ammo 1 //弹药道具无限
+mp_ignore_round_win_conditions 1 //回合不结束
+```
 
 sv_cheats true 
 
@@ -59,8 +52,6 @@ game_type 1;game_mode 1
 
 game_type 0;game_mode 0 
 
- 
-
 mp_warmup_end 
 
 mp_maxrounds 
@@ -73,17 +64,11 @@ mp_roundtime_defuse
 
 mp_damage_headshot_only 
 
- 
-
 game_type 0;game_mode 0;map de_dust 
 
 game_type 0;game_mode 0;map de_aztec 
 
- 
-
 mp_round_restart_delay 0.01; mp_freezetime 0.01; mp_roundtime_defuse0.06; mp_maxrounds 200 
-
- 
 
 mp_maxmoney 16000; 
 
@@ -118,8 +103,6 @@ mp_restartgame 1;
 bot_add ct; 
 
 bot_stop 1; 
-
- 
 
 bind "uparrow" "sv_rethrow_last_grenade 1"; 
 

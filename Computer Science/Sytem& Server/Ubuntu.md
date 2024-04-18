@@ -9,14 +9,17 @@
 - systemctl restart code-server@$USER 
 
 - firewall-cmd --zone=public --add-port=8080/tcp --permanent 
+
 - firewall-cmd --reload 
 
 # GCC
 
 - apt update 
+
 - apt install build-essential 
 
 - gcc --version 
+
 - g++ --version 
 
 \#check the version of gcc & g++ 
@@ -24,7 +27,9 @@
 # php
 
 - apt update 
+
 - apt install php-fpm 
+
 - systemctl status php7.4-fpm 
 
 - apt install php-mysql php-gd 
@@ -83,8 +88,4 @@ phpinfo();
 
 - man sqrt 
 
-\#查看sqrt库函数的手册 
-
- 
-
- 
+\#查看sqrt库函数的手册
