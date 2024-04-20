@@ -1,5 +1,19 @@
 # 系统管理
 
+## 软件
+
+### pkg包管理器
+
+```bash
+pkg install <package>
+# Download software
+
+pkg info <software>
+# Display the information
+```
+
+
+
 ## 服务
 
 编写启动脚本, 一般位于/usr/local/etc/rc.d/或者/etc/rc.d/, 后者一般是系统设定脚本. 脚本为无扩展名的文件, 格式为:
@@ -83,3 +97,6 @@ adduser
   ```sh
   sudo chsh -s /usr/sbin/nologin username
   ```
+
+
+
