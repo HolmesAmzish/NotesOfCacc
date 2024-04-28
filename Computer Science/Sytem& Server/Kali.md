@@ -1,8 +1,11 @@
 # msfconsole
 
-- msfconsole 
+```bash
+msfconsole
+# 进入控制台
+```
 
-- search ms17_010 
+search ms17_010 
 
 \#永恒之蓝漏洞模板 
 
@@ -84,3 +87,14 @@ show options
 - ufw status 
 
 \#check the port open 
+
+# arpspoof
+
+```bash
+apt install -y dsniff ssldump
+```
+
+```bash
+arpspoof -i eth0 -t target -r host
+```
+

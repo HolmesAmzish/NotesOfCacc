@@ -16,18 +16,12 @@ In programming, data type is an important concept. Variables can store data of d
 | Binary Types:   | `bytes`, `bytearray`, `memoryview` |
 | None Type:      | `NoneType`                         |
 
-
-
 ## Getting the Data Type
 
 ```python
 x = 5
 print(type(x))
 ```
-
-
-
-
 
 ## Type Conversion
 
@@ -306,3 +300,32 @@ Python has a set of build-in methods that you can use on strings
 | [translate()](https://www.w3schools.com/python/ref_string_translate.asp) | Returns a translated string                                  |
 | [upper()](https://www.w3schools.com/python/ref_string_upper.asp) | Converts a string into upper case                            |
 | [zfill()](https://www.w3schools.com/python/ref_string_zfill.asp) | Fills the string with a specified number of 0 values at the beginning |
+
+# List
+
+## Range of Indexes
+
+You can specify a range of indexes by specifying where to start and where to end the range.When specifying a range, the return value will be a new list with the specified items.
+
+Return the third, fourth, and fifth item:
+
+```python
+thislist = ["apple", "banana", "cherry", "orange", "kiwi", "melon", "mango"]
+print(thislist[2:5])
+```
+
+> [!NOTE]
+>
+> The search will start at index 2 (included) and end at index 5 (not included).
+
+### Check
+
+To determine if a specified item is present in a list use the `in` keyword:
+
+Check if "apple" is present in the list:
+
+```python
+thislist = ["apple", "banana", "cherry"]
+if "apple" in thislist:
+ print("Yes, 'apple' is in the fruits list")
+```

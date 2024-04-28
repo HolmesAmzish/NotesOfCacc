@@ -510,6 +510,33 @@ ExecStart=/usr/local/bin/frpc -f %i
 WantedBy=multi-user.target
 ```
 
+# firewall-cmd
+
+install firewalld
+
+```bash
+apt update
+apt install firewalld
+```
+
+开启80TCP端口
+
+```bash
+firewall-cmd --zone=public --add-port=80/tcp --permanent
+firewall-cmd --reload
+```
+
+查看防火墙状态
+
+```bash
+firewall-cmd --zone=public --list-ports
+firewall-cmd -- state
+```
+
+
+
+
+
 # MSTSC
 
 ## 安装
