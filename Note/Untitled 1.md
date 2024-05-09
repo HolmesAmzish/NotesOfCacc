@@ -1,0 +1,1 @@
+Linux如何自动开机和关机 https://blog.csdn.net/oqqSSH/article/details/78819264
