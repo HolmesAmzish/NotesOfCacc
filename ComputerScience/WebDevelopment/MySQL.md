@@ -277,3 +277,83 @@ DELETE FROM table_name
 WHERE condition;
 ```
 
+# 示例
+
+- mysqladmin -u<root> password '<password>' 
+
+\#set the password for user 
+
+ 
+
+- mysql -u<user> -p<password> 
+
+\#login to the database 
+
+ 
+
+- create database <database>; 
+- drop database <database>; 
+
+ 
+
+- use <database> 
+
+\#select one database 
+
+ 
+
+- show tables; 
+
+\#show all tables in the database 
+
+ 
+
+- create table user( 
+
+id int primary key auto_increment, 
+
+name varchar(255), 
+
+gender varchar(255), 
+
+hobby varchar(255) 
+
+)default char set utf8; 
+
+\#create a table and set columns 
+
+ 
+
+- select name,gender from user; 
+- select * from user where id=1; 
+- select * from user where id=1 and gender="male"; 
+
+ 
+
+- delete from user; 
+
+\#delete all data from user 
+
+ 
+
+- delete from user where id=1; 
+
+\#delete the data which id quals 1 
+
+ 
+
+- truncate user; 
+
+\#恢复user到初始状态 
+
+ 
+
+- update user set gender="female" where id=2; 
+
+\#update the data 
+
+ 
+
+- select * from <table> 
+
+\#show all data from particular table 

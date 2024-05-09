@@ -578,3 +578,20 @@ init 6
    ```php
    systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
    ```
+
+# ufw 防火墙
+
+```bash
+apt update 
+apt -y install ufw 
+#install ufw 
+
+ufw enable 
+# turn on ufw
+
+ufw allow 80 
+# open port 80 
+
+ufw status 
+# check the port open 
+```
