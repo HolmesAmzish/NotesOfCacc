@@ -176,3 +176,22 @@ aireplay-ng -0 0 -a <AP address> -c <client address> wlan0
 # 指定AP和客户端的地址，将其进行破解
 ```
 
+# hping3
+
+```bash
+hping3 -S -V --flood target
+# hitting the port 80 server of server
+```
+
+# nmap
+
+```bash
+nmap -O -Pn target
+# scan the OS of target
+
+nmap -A target
+# default script scanning from nmap and trace route
+
+nmap 192.168.0.1-255
+# scan a range of address
+```
