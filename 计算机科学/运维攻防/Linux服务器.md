@@ -126,6 +126,16 @@ SSH 服务的默认端口为 22，如果你想要修改 SSH 服务的端口，�
 
 最后重启 SSH 服务即可生效。
 
+# Shell
+
+## 更改默认shell
+
+```bash
+chsh -s /usr/bin/zsh
+```
+
+
+
 # Web服务器
 
 LAMP即Linux，Apache，Mysql，php
