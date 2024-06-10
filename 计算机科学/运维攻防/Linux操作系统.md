@@ -64,6 +64,10 @@ ls | grep 2024
 # 筛选含有字符串，2024的信息。
 ```
 
+
+
+
+
 # 软件和服务类
 
 ## apt 下载
@@ -119,7 +123,71 @@ screen -r screenName # 回到screenName窗口
 
 
 
-# 开发程序类
+# 系统管理
+
+## du 查看文件大小
+
+```bash
+du -sh
+# 查看本目录的大小
+
+du -sh *
+# 查看子目录大小
+```
+
+
+
+## lsusb 查看usb接口
+
+```bash
+lsusb
+```
+
+
+
+## lsblk 查看硬盘设备
+
+```bash
+lsblk
+```
+
+
+
+df 查看硬盘
+
+```bash
+df -h
+# 列出所有硬盘信息
+```
+
+
+
+## mount 挂载
+
+```bash
+mount /dev/sdx1 /mnt/usb
+# 将设备挂载到挂载点
+
+umount /mnt/usb
+# 取消挂载点的挂载
+```
+
+
+
+## hostname 主机名
+
+```bash
+hostname
+# 显示主机名
+
+hotnamectl
+# 显示主机名的详细信息
+
+hostnamectl set-hostname <name>
+# 更改主机名
+```
+
+
 
 ## ssh SSH连接
 

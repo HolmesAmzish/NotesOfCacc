@@ -32,6 +32,17 @@
 | operator[]     | 返回第n个元素，不带越界检查              |
 | emplace_back() | 在容器尾部直接构造元素                   |
 
+### iterator
+
+```c++
+// Using a for loop with iterators
+for (auto it = myVector.begin(); it != myVector.end(); ++it) {
+    std::cout << *it << " ";
+}
+```
+
+
+
 ### queue
 
 队列（queue）是一种先进先出（FIFO）的数据结构。STL中的queue是一个适配器容器，通常基于deque或list来实现。

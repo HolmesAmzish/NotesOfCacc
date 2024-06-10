@@ -445,6 +445,50 @@ ftp ftp_user@localhost
 # 连接至本地的FTP服务器
 ```
 
+
+
+# 添加新硬盘
+
+## 硬盘分区
+
+```bash
+fdisk -l
+# 查看硬盘
+
+fdisk /dev/sda
+# 进入硬盘操作选修
+```
+
+```bash
+n
+# 创建新磁盘
+# 然后根据系统提示创建分区
+```
+
+## 格式化磁盘
+
+```bash
+mkfs -t ext4 /dev/sda1
+```
+
+## 挂载磁盘
+
+```bash
+mount /data /dev/sda1
+```
+
+## 设置开机挂载
+
+编辑文件`/etc/fstab`
+
+```ini
+dev/sda1               /data           ext4     defaults        0 0
+```
+
+
+
+
+
 # FRP
 
 ## 配置frp服务器

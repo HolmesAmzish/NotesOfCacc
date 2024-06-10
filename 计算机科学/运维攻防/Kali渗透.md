@@ -192,6 +192,6 @@ nmap -O -Pn target
 nmap -A target
 # default script scanning from nmap and trace route
 
-nmap 192.168.0.1-255
+nmap -Ss 192.168.0.1-255
 # scan a range of address
 ```
