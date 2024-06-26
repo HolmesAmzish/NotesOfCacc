@@ -239,3 +239,12 @@ iftop
 iftop -i wlo1
 # 监测特定网卡的流量
 ```
+
+# 其他
+
+## alias 定义命令
+
+```bash
+alias short="command"
+```
+
