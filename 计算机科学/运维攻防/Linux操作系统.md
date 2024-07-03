@@ -66,6 +66,22 @@ ls | grep 2024
 
 
 
+# 下载和解压
+
+## tar 解压
+
+```bash
+tar -zxf /path/to/tar_file
+```
+
+## unzip 解压
+
+```bash
+unzip zip_file -d /path/to/destination/
+```
+
+
+
 
 
 # 软件和服务类
@@ -117,8 +133,6 @@ screen -r screenName # 回到screenName窗口
 ```
 
 `crtl + a + d`返回主终端
-
-<<<<<<< HEAD
 `crtl + d`删除当前窗口
 
 

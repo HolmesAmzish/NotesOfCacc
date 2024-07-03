@@ -33,6 +33,12 @@ CREATE USER 'new_username'@'%' IDENTIFIED BY 'new_password';
 SET PASSWORD FOR 'username'@'localhost' = PASSWORD('new_password');
 ```
 
+- 修改密码
+
+```sql
+ALTER USER 'root'@'localhost' IDENTIFIED BY 'new_password';
+```
+
 - 授予权限
 
 ```mysql
