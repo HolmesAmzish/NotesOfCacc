@@ -2,11 +2,7 @@
 
 ## 实验目的
 
-部署Wordpress和其他若干开源项目到虚拟机中。首先需要配置LNMP环境，在Linux系统下载并安装Nginx（Apache2）、MySQL（MariaDB）、PHP和相关插件。
-
-使用VMware Workstation Pro作为虚拟机软件，并安装了虚拟机系统Debian 12。还有部分操作在MobaXterm和Visual Studio Code上完成，分别作为SSH终端和文件编辑工具。
-
-对于实现公网访问的一些扩展内容，使用了frp内网穿透工具，以及阿里云提供的云服务器和域名解析。
+实验的主要目的是通过在虚拟机中部署WordPress及其他若干开源项目，掌握LNMP（Linux, Nginx, MySQL, PHP）环境的搭建和配置。在Linux系统中下载并安装Nginx（或Apache2）、MySQL（MariaDB）、PHP及相关插件，确保这些组件可以协同工作。此外，实验中还将使用VMware Workstation Pro作为虚拟机软件，部署Debian 12操作系统，借助MobaXterm和Visual Studio Code等工具进行SSH终端连接和文件编辑。
 
 ## 实验内容
 
@@ -120,7 +116,7 @@ systemctl reload nginx
 
 <center>图5 PHP信息页面</center>
 
-### 配置Wordpress
+### Wordpress
 
 #### 网站设置
 
@@ -233,99 +229,6 @@ EXIT;
 
 <center>图15 WordPress的帖子编辑页面</center>
 
-### Z-Blog
-
-#### 下载和创建网站
-
-首先下载网站，搜索后根据官方文档，下载压缩包https://www.zblogcn.com/program/zblogphp17/。移动到`/var/www/zblog`并解压。
-
-```bash
-unzip Z-BlogPHP_1_7_3_3290_Finch.zip -d /var/www/zblog
-```
-
-之后到nginx的配置文件中设置，编辑`/etc/nginx/sites-available/zblog.conf`设置如下
-
-```ini
-server {
-    listen 81;
-    server_name dev2.arorms.cn;
-
-    root /var/www/zblog;
-    index index.php index.html index.htm;
-
-    location / {
-        try_files $uri $uri/ /index.php?$query_string;
-    }
-
-    location ~ \.php$ {
-        include snippets/fastcgi-php.conf;
-        fastcgi_pass unix:/var/run/php/php8.2-fpm.sock;
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
-        include fastcgi_params;
-    }
-
-    location ~ /\.ht {
-        deny all;
-    }
-}
-```
-
-然后需要创建链接到sites-enabled以启用这个网站，随后重新加载nginx的设置。
-
-```bash
-ln -s /etc/nginx/sites-available/zblog.conf /etc/nginx/sites-enabled/
-nginx -t
-systemctl reload nginx
-```
-
-![image-20240702191721030](C:\Users\Holme\AppData\Roaming\Typora\typora-user-images\image-20240702191721030.png)
-
-<center>图16 Nginx设置和下载好的原代码</center>
-
-#### 网站的安装
-
-完成以上步骤后，浏览器访问相应url就可以看到刚刚部署的网站，根据我的设置，应该访问`http://dev2.arorms.cn:81`，可以看到进入安装程序。
-
-![image-20240702193352875](C:\Users\Holme\AppData\Roaming\Typora\typora-user-images\image-20240702193352875.png)
-
-<center>图17 Z-blog安装程序</center>
-
-检测好服务器系统环境之后，跳转到数据库建立与设置，这里也是首先手动建立数据库。
-
-```bash
-mysql -uroot -p123456
-```
-
-```sql
-CREATE DATABASE zblog;
-EXIT;
-```
-
-![image-20240702193714486](C:\Users\Holme\AppData\Roaming\Typora\typora-user-images\image-20240702193714486.png)
-
-<center>图18 创建数据库</center>
-
-![image-20240702193641379](C:\Users\Holme\AppData\Roaming\Typora\typora-user-images\image-20240702193641379.png)
-
-<center>图19 网站设置</center>
-
-随后继续下一步，发现安装程序出错，需要手动创建脚本，根据提示创建一个php脚本并将代码黏贴进去。
-
-![屏幕截图 2024-07-02 194010](C:\Users\Holme\Pictures\Screenshots\屏幕截图 2024-07-02 194010.png)
-
-<center>图20 网站手动设置脚本提示</center>
-
-保存后重新进入即可。其次可能还会显示编译文件不存在的错误，通过网络搜索找到了原因在于没有对`/zb_users/cache`文件夹的读写权限，通过修改权限即可解决问题。
-
-```bash
-chmod -R 777 /var/www/zblog/zb_users/cache
-# 修改cache的权限，并应用于子项
-```
-
-![image-20240702195338599](C:\Users\Holme\AppData\Roaming\Typora\typora-user-images\image-20240702195338599.png)
-
-<center>图21 部署完成</center>
-
 ### Typecho
 
 #### 设置网站
@@ -370,7 +273,7 @@ systemctl reload nginx
 
 ![image-20240703091557910](C:\Users\Holme\AppData\Roaming\Typora\typora-user-images\image-20240703091557910.png)
 
-<center>图22 nginx设置</center>
+<center>图16 nginx设置</center>
 
 #### 下载网站文件
 
@@ -385,7 +288,7 @@ git clone git@github.com:typecho/typecho.git
 
 ![image-20240703091931080](C:\Users\Holme\AppData\Roaming\Typora\typora-user-images\image-20240703091931080.png)
 
-<center>图23 无法连接至github</center>
+<center>图17 无法连接至github</center>
 
 ```bash
 cd ~/.ssh
@@ -397,17 +300,17 @@ ssh-keygen
 
 ![image-20240703092051709](C:\Users\Holme\AppData\Roaming\Typora\typora-user-images\image-20240703092051709.png)
 
-<center>图24 创建好的密钥对</center>
+<center>图18 创建好的密钥对</center>
 
 ![image-20240703092310374](C:\Users\Holme\AppData\Roaming\Typora\typora-user-images\image-20240703092310374.png)
 
-<center>图25 添加好的公钥</center>
+<center>图19 添加好的公钥</center>
 
 然后下载完毕
 
 ![image-20240703092403329](C:\Users\Holme\AppData\Roaming\Typora\typora-user-images\image-20240703092403329.png)
 
-<center>图26 下载好的网站文件</center>
+<center>图20 下载好的网站文件</center>
 
 #### 设置网站
 
@@ -415,7 +318,7 @@ ssh-keygen
 
 ![image-20240703092605314](C:\Users\Holme\AppData\Roaming\Typora\typora-user-images\image-20240703092605314.png)
 
-<center>图27 网站安装页面</center>
+<center>图21 网站安装页面</center>
 
 对于图中问题，前往网站根目录，在/usr文件夹中创建uploads文件夹并调整权限。
 
@@ -437,11 +340,11 @@ EXIT;
 
 ![image-20240703092941043](C:\Users\Holme\AppData\Roaming\Typora\typora-user-images\image-20240703092941043.png)
 
-<center>图28 创建数据库</center>
+<center>图22 创建数据库</center>
 
 ![image-20240703093103884](C:\Users\Holme\AppData\Roaming\Typora\typora-user-images\image-20240703093103884.png)
 
-<center>图29 数据库信息填写和脚本创建</center>
+<center>图23 数据库信息填写和脚本创建</center>
 
 ```bash
 touch /var/www/typecho/config.inc.php
@@ -452,13 +355,13 @@ touch /var/www/typecho/config.inc.php
 
 ![image-20240703093526215](C:\Users\Holme\AppData\Roaming\Typora\typora-user-images\image-20240703093526215.png)
 
-<center>图30 基本设置</center>
+<center>图24 基本设置</center>
 
 然后访问发现部署成功
 
 ![image-20240703093553076](C:\Users\Holme\AppData\Roaming\Typora\typora-user-images\image-20240703093553076.png)
 
-<center>图31 部署成功</center>
+<center>图25 部署成功</center>
 
 ### FRP内网穿透
 
@@ -470,11 +373,11 @@ IPv4地址在2019年已分配完毕，今天的个人设备很难拥有一个IPv
 
 ![image-20240702201811927](C:\Users\Holme\AppData\Roaming\Typora\typora-user-images\image-20240702201811927.png)
 
-<center> 图32 云服务器信息</center>
+<center> 图26 云服务器信息</center>
 
 ![image-20240702200750999](C:\Users\Holme\AppData\Roaming\Typora\typora-user-images\image-20240702200750999.png)
 
-<center>图33 下载好的服务端</center>
+<center>图27 下载好的服务端</center>
 
 其中，要编辑frp服务端的设置。
 
@@ -544,7 +447,7 @@ service frp start
 
 ![image-20240702204107781](C:\Users\Holme\AppData\Roaming\Typora\typora-user-images\image-20240702204107781.png)
 
-<center>图34 下载好的客户端</center>
+<center>图28 下载好的客户端</center>
 
 然后编辑frpc.toml，这是客户端的设置文件
 
@@ -586,13 +489,13 @@ systemctl status frp
 
 ![image-20240702205134204](C:\Users\Holme\AppData\Roaming\Typora\typora-user-images\image-20240702205134204.png)
 
-<center>图35 运行成功</center>
+<center>图29 运行成功</center>
 
 这里我设置的是根据域名转发，所以需要前往域名解析修改，将域名解析指向代理的云服务器。
 
 ![image-20240702205356186](C:\Users\Holme\AppData\Roaming\Typora\typora-user-images\image-20240702205356186.png)
 
-<center>图36 域名解析修改</center>
+<center>图30 域名解析修改</center>
 
 这里已经将wordpress.arorms.cn解析到了云服务器的地方，浏览器访问`http://wordpress.arorms.cn`并且是公网访问，已经可以访问到。
 
@@ -600,7 +503,18 @@ systemctl status frp
 
 
 
-<center>图37 公网访问成功</center>
+<center>图31 公网访问成功</center>
 
 ## 实验总结
 
+通过本次实验，我在虚拟机中成功部署了WordPress及其他若干开源项目，并完成了LNMP（Linux, Nginx, MySQL, PHP）环境的搭建和配置任务。本实验不仅仅是对LNMP环境搭建的实践，更是对Linux系统操作、服务器配置以及网络访问的一次全面学习和深入探索。
+
+首先，我选择了VMware Workstation Pro作为虚拟机软件，并安装了Debian 12操作系统。在实验的初期，我通过MobaXterm和Visual Studio Code进行SSH连接和文件编辑，这些工具大大提升了远程操作的效率和便捷性。配置过程中，我依次安装了Nginx、MariaDB和PHP，并确保这些组件可以正常协同工作。特别是对于Nginx的配置，我详细设置了相关的启动项和服务状态，确保其在系统启动时自动加载并运行稳定。
+
+在安装MariaDB数据库时，我不仅设置了数据库的基本配置，还手动创建了所需的数据库和用户，授予了相应的权限，以确保WordPress能够正确连接和操作数据库。在PHP的安装过程中，我安装了多个必要的扩展插件，并测试了PHP的可用性，确保Web服务器能够正确解析和执行PHP脚本。
+
+由于大多数个人设备无法获得独立的IPv4地址，我通过使用frp内网穿透工具解决了这一问题。通过配置frp服务端和客户端，实现了虚拟机内项目的公网访问。这部分内容不仅包括了对frp的安装和配置，还涉及了阿里云服务器的使用和域名解析的设置。通过这些操作，我成功地将虚拟机中的项目部署到了互联网上，使其能够被外界访问。
+
+此外，在实验中我还部署了Typecho等其他开源项目，并进行了类似的配置和测试，进一步巩固了对LNMP环境的掌握。在配置过程中，遇到的一些问题也让我对Linux系统和网络配置有了更深的理解，例如如何处理权限问题、如何设置文件路径及如何进行网络端口的配置等。
+
+通过本次实验，我不仅掌握了LNMP环境的搭建和配置技能，还学会了如何在实际操作中排查和解决问题。这些实践经验对于今后进一步学习和工作具有重要的指导意义。同时，本次实验也让我认识到，服务器配置和网络访问是一个系统性的工程，需要综合运用多方面的知识和技能。总体而言，这次实验为我提供了一个全面而深入的学习平台，使我对Linux服务器管理和Web应用部署有了更深刻的理解和更强的实践能力。
