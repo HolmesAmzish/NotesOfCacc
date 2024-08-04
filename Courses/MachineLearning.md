@@ -49,3 +49,16 @@ $$
 f_{\vec w,b}(\vec x) = P(y = 1 | \vec x; \vec w, b) \\
 P(y = 0)+P(y = 1) = 1
 $$
+
+## Decision bountry
+
+`g(z)` is the Sigmoid function
+$$
+z=\vec{w}\cdot\vec{x}+b\\
+f_{\vec{w},b}(\vec{x})=g(z)=\frac{1}{1+e^{-z}}
+$$
+Finally the result of the formule is the probability that `y` is equal to 1.
+$$
+f_{\vec{w},b}(\vec{x})=P(y=1|x;\vec{w},b)
+$$
+Set a threshold above which you predic y is one and below wich you might say y is going to be equal to zero.

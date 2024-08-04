@@ -56,11 +56,11 @@ git commit --amend -m "new_message"
 
 登录[Github主页](https://github.com/)并找到你的代码仓库页面，点击New创建新的代码仓库
 
-![github](/img/7.png)
+![github](../../img/7.png)
 
 之后找到刚创建的git仓库的地址，此处有两个URL地址，分别是HTTPS协议和SSH协议的地址，是远程仓库的链接。这里推荐使用SSH连接，更加安全。
 
-![github](/img/8.png)
+![github](../../img/8.png)
 
 ## 配置SSH密钥并连接
 
@@ -79,15 +79,15 @@ ssh-keygen
 
 在这里会让你输入文件的名称，如果没有创建过SSH密钥可以直接回车使用默认文件名，随后需要你设置密码并重复，如果不输入则设置为没有密码。
 
-![sshkey](/img/9.png)
+![sshkey](../../img/9.png)
 
 然后输入 ls 查看.ssh文件夹的文件，会看到一个以.pub扩展名结尾的SSH公钥文件，通过`cat filename.pub` 查看这个文件并将整个文件的内容复制下来
 
-![sshkey](/img/11.png)
+![sshkey](../../img/11.png)
 
 将这个SSH公钥填入你的Github账号中。重新回到Github主页，点击头像并找到设置的选项，来到设置页面后可以在菜单栏里找到SSH密钥的设置（SSH and GPG keys）
 
-![sshkey](/img/10.png)
+![sshkey](../../img/10.png)
 
 点击 New SSH key新建一个SSH密钥配置，名字自定，建议写机器的名字用于区分，下面内容填入刚刚复制过来的SSH公钥。
 
@@ -102,7 +102,7 @@ git remote -v
 # 检查仓库关联的情况
 ```
 
-![remote](/img/12.png)
+![remote](../../img/12.png)
 
 ## 推送和拉取仓库
 
