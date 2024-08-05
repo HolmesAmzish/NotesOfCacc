@@ -10,13 +10,13 @@
 
 ### 模型
 
-首先设一个线性回归的模型，而\theta为参数向量。
+首先设一个线性回归的模型，而`\theta`为参数向量。
 $$
 z=\theta^Tx
 $$
 逻辑函数，也叫Sigmoid函数，可以构建一个逻辑回归的模型，由于这个函数的特征，可以良好的表示分类问题。
 
-![](../../img/29.png)
+![](../img/29.png)
 $$
 h_\theta(x)=g(z)=\frac{1}{1+e^{-z}}\\
 z=\theta^Tx
@@ -42,7 +42,7 @@ L(h_\theta(x_i),y_i)=\begin{cases}
 -log(1-h_\theta(x_i))\quad y_i=0
 \end{cases}
 $$
-![](../../img/30.png)
+![](../img/30.png)
 
 首先这里以`y_i`等于1的情况下举例。根据他的趋势就可以看出，距离1越近，损失越小，越远则趋向无穷。得到损失函数后，定义逻辑回归模型中的代价函数。
 $$
@@ -68,3 +68,80 @@ $$
 $$
 \theta_j=\theta_j-\alpha\frac{\partial}{\partial\theta_j}J(\theta)
 $$
+
+## 练习
+
+题目：给定两次模拟考试的分数，判断本条数据的学生是否会被大学录取。给予训练样本画出决策边界。
+
+首先导入库，并读取数据
+
+```python
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import scipy.optimize as opt
+
+path = 'ex2data1.txt'
+data = pd.read_csv(path, names=['exam1', 'exam2', 'admitted'])
+
+print(data.head())
+print(data.describe())
+
+# 根据是否录取分开两类的散点用于绘制
+positive = data[data['admitted'].isin([1])]
+negative = data[data['admitted'].isin([0])]
+
+fig, ax = plt.subplots(figsize=(12, 8))
+ax.scatter(positive['exam1'], positive['exam2'], s=50, c='b', alpha=0.5, label='Admitted')
+ax.scatter(negative['exam1'], negative['exam2'], s=50, c='r', alpha=0.5, label='Not Admitted')
+ax.legend()
+ax.set_xlabel('Exam 1 Score')
+ax.set_ylabel('Exam 2 Score')
+plt.show()
+```
+
+![](../img/31.png)
+
+然后定义函数
+
+```python
+def sigmoid(z):
+    return 1 / (1 + np.exp(-z))
+
+def cost(theta, X, Y):
+    first = Y * np.log(sigmoid(X @ theta.T))
+    second = (1 - Y) * np.log(1 - sigmoid(X @ theta.T))
+    return -1 * np.mean(first + second)
+
+def gradient(theta, X, Y):
+    return (1 / len(X) * X.T @ (sigmoid(X @ theta.T) - Y))
+```
+
+```python
+# 添加常数1
+data.insert(0, 'Ones', 1)
+X = data.iloc[:, 0: -1].values
+Y = data.iloc[:, -1].values
+theta = np.zeros(3)
+
+# 优化参数，参数为theta，根据函数cost去优化到最小的情况
+result = opt.fmin_tnc(func=cost, x0=theta, fprime=gradient, args=(X, Y))
+res = opt.minimize(fun=cost, x0=np.array(theta), args=(X, np.array(Y)), method='Newton-CG', jac=gradient)
+print(res)
+
+# 绘制决策边界
+coef = -res.x / res.x[2]
+x = np.arange(30, 100, 0.5)
+y = coef[0] + coef[1] * x
+
+fig, ax = plt.subplots(figsize=(12, 8))
+ax.scatter(positive['exam1'], positive['exam2'], s=50, c='b', alpha=0.5, label='Admitted')
+ax.scatter(negative['exam1'], negative['exam2'], s=50, c='r', alpha=0.5, label='Not Admitted')
+ax.plot(x, y, label='Decision Boundary', c='grey')
+ax.legend()
+ax.set_xlabel('Exam 1 Score')
+ax.set_ylabel('Exam 2 Score')
+plt.show()
+```
+
+![](../img/32.png)
