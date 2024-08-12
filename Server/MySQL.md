@@ -283,7 +283,29 @@ DELETE FROM table_name
 WHERE condition;
 ```
 
+
+
 # 示例
+
+```sql
+CREATE DATABASE test_data;
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    gender CHAR
+);
+
+INSERT INTO users (username, password, gender) VALUES 
+('alice', 'password1', 'F'),
+('bob', 'password2', 'M'),
+('charlie', 'password3', NULL),
+('david', 'password4', 'M'),
+('eve', 'password5', 'F');
+```
+
+
 
 - mysqladmin -u<root> password '<password>' 
 

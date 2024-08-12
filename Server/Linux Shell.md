@@ -68,10 +68,16 @@ ls | grep 2024
 
 # 下载和解压
 
-## tar 解压
+## tar 归档
+
+```bash
+tar -cvf file.tar /path/to/folder
+# 压缩
+```
 
 ```bash
 tar -zxf /path/to/tar_file
+# 解压
 ```
 
 ## unzip 解压

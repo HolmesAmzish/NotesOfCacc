@@ -68,7 +68,43 @@ def login_view(request):
     return render(request, 'form.html')
 ```
 
-路由系统
 
-正则表达式
+
+app数据库（model）模型同步到服务器数据库
+
+首先将Django的MySQLDB换成pymysql，在项目下`__init__.py`
+
+```python
+import pymysql
+
+pymysql.install_as_MySQLdb()
+```
+
+
+
+在setting中设置数据库
+
+```python
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'django_learning',
+        'USER': 'root',
+        'PASSWORD': 'password',
+        'HOST': 'localhost',
+        'PORT': 3306
+    }
+}
+```
+
+
+
+生成同步文件并同步
+
+```bash
+python3 manage.py makemigrations
+# Create migration files
+python3 manage.py migrate
+# Migrate
+```
 

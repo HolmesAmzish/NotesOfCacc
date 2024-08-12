@@ -463,18 +463,21 @@ fdisk /dev/sda
 n
 # 创建新磁盘
 # 然后根据系统提示创建分区
+w
+# 写入操作并结束
 ```
 
 ## 格式化磁盘
 
 ```bash
-mkfs -t ext4 /dev/sda1
+mkfs -t ext4 /dev/sdxn
+# 转换文件系统
 ```
 
 ## 挂载磁盘
 
 ```bash
-mount /data /dev/sda1
+mount /dev/sdxn /path/to/mount_point
 ```
 
 ## 设置开机挂载
@@ -482,7 +485,7 @@ mount /data /dev/sda1
 编辑文件`/etc/fstab`
 
 ```ini
-dev/sda1               /data           ext4     defaults        0 0
+dev/sdxn               /data           ext4     defaults        0 0
 ```
 
 
