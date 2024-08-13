@@ -86,6 +86,12 @@ tar -zxf /path/to/tar_file
 unzip zip_file -d /path/to/destination/
 ```
 
+## gz
+
+```bash
+gzip -d /path/to/gz_file
+```
+
 
 
 

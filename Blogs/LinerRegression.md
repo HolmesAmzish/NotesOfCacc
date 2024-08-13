@@ -58,7 +58,7 @@ plt.title("Scatter plot of training data")
 plt.show()
 ```
 
-![image-20240731212643839](../../img/25.png)
+![image-20240731212643839](../img/25.png)
 
 ### 计算代价
 
@@ -134,7 +134,7 @@ plt.title("Predicted Profit in different city")
 plt.show()
 ```
 
-![](../../img/26.png)
+![](../img/26.png)
 
 ### 代价趋势
 
@@ -150,4 +150,4 @@ plt.plot(np.arange(iters), cost, 'r')
 plt.show()
 ```
 
-![](../../img/27.png)
+![](../img/27.png)
