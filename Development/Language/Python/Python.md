@@ -1,3 +1,18 @@
+# Python操作
+
+## pip 工具
+
+查看当前安装的Python包
+
+```bash
+pip list
+
+pip list --outdated
+# 查看过时的包
+```
+
+
+
 # Data Types
 
 ------
@@ -159,6 +174,16 @@ print(b[2:5])
 
 print(b[2:])
 # Slice to the end
+```
+
+字符串类型
+
+```python
+msg = 'he is pReparing you'
+msg.upper()			# 全部大写
+msg.lower()			# 全部小写
+msg.capitalize()	# 首字母大写
+msg.title()			# 每个单词首字母大写
 ```
 
 
