@@ -126,6 +126,157 @@ SSH 服务的默认端口为 22，如果你想要修改 SSH 服务的端口，�
 
 最后重启 SSH 服务即可生效。
 
+# Mount 挂载存储设备
+
+## 查看当前存储设备
+
+```bash
+lsblk
+```
+
+```
+cacc@talos:~$ lsblk
+NAME                      MAJ:MIN RM   SIZE RO TYPE MOUNTPOINTS
+loop0                       7:0    0  63.9M  1 loop /snap/core20/2105
+loop1                       7:1    0    87M  1 loop /snap/lxd/27037
+loop2                       7:2    0  40.4M  1 loop /snap/snapd/20671
+sda                         8:0    0 465.8G  0 disk
+└─sda1                      8:1    0 465.8G  0 part
+sdb                         8:16   0 465.8G  0 disk
+└─sdb1                      8:17   0 465.8G  0 part
+nvme0n1                   259:0    0 119.2G  0 disk
+├─nvme0n1p1               259:1    0     1G  0 part /boot/efi
+├─nvme0n1p2               259:2    0     2G  0 part /boot
+└─nvme0n1p3               259:3    0 116.2G  0 part
+  └─ubuntu--vg-ubuntu--lv 253:0    0  58.1G  0 lvm  /
+```
+
+## 添加U盘
+
+通过lsblk获取U盘的名称，然后进行挂载
+
+### 挂载
+
+```bash
+sudo mkdir /mount/udisk
+mount /dev/sdc1 /mount/udisk
+```
+
+### 取消挂载
+
+```bash
+umount /dev/sdc1
+# umount /mount/udisk
+```
+
+
+
+## 添加新硬盘
+
+### 硬盘分区
+
+```bash
+fdisk /dev/sda
+# 进入硬盘操作选修
+```
+
+```bash
+n
+# 创建新磁盘
+# 然后根据系统提示创建分区
+w
+# 写入操作并结束
+```
+
+### 格式化磁盘
+
+```bash
+mkfs -t ext4 /dev/sdxn
+# 转换文件系统
+```
+
+### 挂载磁盘
+
+```bash
+mount /dev/sdxn /path/to/mount_point
+```
+
+### 设置开机挂载
+
+编辑文件`/etc/fstab`
+
+```ini
+/dev/sdxn               /data           ext4     defaults        0 0
+```
+
+# Samba 文件共享服务
+
+```bash
+sudo apt update
+sudo apt install samba
+```
+
+编辑`/etc/samba/smb.conf`文件
+
+```ini
+[global]
+        workgroup = SAMBA           #设定 Samba Server 所要加入的工作组或者域。
+        security = user             #设置用户访问Samba Server的验证方式，一共有四种验证方式
+        passdb backend = tdbsam
+        printing = cups
+        printcap name = cups
+        load printers = yes
+        cups options = raw
+[myshare]
+        comment = share myshare      #这个是共享文件的描述
+        path = /path/to/share        #设置共享文件夹的路径
+        public = no                  #设置是否允许匿名访问
+        writable = yes
+        browseable = yes
+        create mask = 0755
+        directory mask = 0755
+```
+
+创建Samba登录用户
+
+```bash
+useradd <username>
+smbpasswd -a <username>
+
+chmod -R 775 /path/to/share
+```
+
+访问共享文件
+
+在Windows资源管理器中输入`\\address`即可访问对应的Samba服务器。
+
+Linux访问Samba服务器
+
+```bash
+smbclient //192.168.0.102/myshare
+```
+
+
+
+# iperf3 网络测试
+
+```bash
+iperf3 -s
+# 开启测试服务器
+```
+
+```cmd
+iperf3 -c <address>
+# 测试下载速度
+
+iperf3 -c <address> -R
+# 测试上行速度
+```
+
+
+
+
+
 # Shell
 
 ## 更改默认shell
@@ -443,49 +594,6 @@ systemctl restart vsftpd
 
 ftp ftp_user@localhost
 # 连接至本地的FTP服务器
-```
-
-
-
-# 添加新硬盘
-
-## 硬盘分区
-
-```bash
-fdisk -l
-# 查看硬盘
-
-fdisk /dev/sda
-# 进入硬盘操作选修
-```
-
-```bash
-n
-# 创建新磁盘
-# 然后根据系统提示创建分区
-w
-# 写入操作并结束
-```
-
-## 格式化磁盘
-
-```bash
-mkfs -t ext4 /dev/sdxn
-# 转换文件系统
-```
-
-## 挂载磁盘
-
-```bash
-mount /dev/sdxn /path/to/mount_point
-```
-
-## 设置开机挂载
-
-编辑文件`/etc/fstab`
-
-```ini
-dev/sdxn               /data           ext4     defaults        0 0
 ```
 
 
