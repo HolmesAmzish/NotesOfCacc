@@ -86,3 +86,64 @@ resources\mapper\flightMapper.xml
 
 
 
+## resultMap
+
+```xml
+    <select id="getByFlightAll" resultType="cn.arorms.entity.FlightEntity">
+        SELECT id,
+               flight_id as flightId,
+               company,
+               departure_airport as departureAirport,
+               arrive_airport as arrivalAirport,
+               departure_time as departureTime,
+               arrive_time as arrivalTime,
+               model,
+               is_delete as isDelete
+        FROM flight;
+    </select>
+```
+
+
+
+定义数据库表中字段名称与类中成员属性名称，创建关联映射。
+
+src\main\resources\mapper\flightMapper.xml
+
+```xml
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.arorms.mapper.FlightMapper">
+    <!-- SQL语句更改 -->
+    <resultMap id="flightEntityMap" type="cn.arorms.entity.FlightEntity">
+    	<id column="id" property="id"></id>
+        <result column="flight_id" property="flightId"></result>
+        <result column="company" property="company"></result>
+        <result column="departure_airport" property="departureAirport"></result>
+        <result column="arrive_airport" property="arrivalAirport"></result>
+        <result column="departure_time" property="departureTime"></result>
+        <result column="arrive_time" property="arrivalTime"></result>
+        <result column="model" property="model"></result>
+        <result column="is_delete" property="isDelete"></result>
+    </resultMap>
+    <!-- 创建关系映射 -->
+    <select id="getByFlightAll" resultType="cn.arorms.entity.FlightEntity">
+        SELECT id,
+               flight_id as flightId,
+               company,
+               departure_airport as departureAirport,
+               arrive_airport as arrivalAirport,
+               departure_time as departureTime,
+               arrive_time as arrivalTime,
+               model,
+               is_delete as isDelete
+        FROM flight;
+    </select>
+    
+    <select id="getByFlightAll" resultMap="flightEntityMap">
+        SELECT * FROM flight;
+    </select>
+</mapper>
+```
+
