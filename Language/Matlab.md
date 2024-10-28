@@ -1,9 +1,11 @@
+## 基本操作
+
 退出Matlab后，工作区的变量不会保留，此时可以使用`save`来保存数据。使用`load`来加载数据。
 
 ```matlab
-save filename.mat
+save filename
 
-load filename.mat
+load filename
 ```
 
 
@@ -35,9 +37,50 @@ Matlab系统预定义变量及其含义
 | inf          | 无穷大             |
 | i或j         | 虚数标志           |
 
+# Matlab 函数
 
+## 运算
 
-### `subplot` 的基本语法
+### `find` 元素位置
+
+```matlab
+A = [0 1 2 3 4 5 6 7 8]
+find(A > 4)
+```
+
+```
+ans =
+6 7 8 9
+```
+
+### `size` 矩阵大小
+
+```matlab
+[r, c] = size(A);
+% r和c是矩阵A的行和列数
+
+s = size(A);
+% s是一个向量，包含r和c
+
+r = size(A, 1);
+c = size(A, 2);
+% 指定获取行或列
+```
+
+另外，`length()=max(size())`
+
+## 绘图
+
+### `hist`直方图
+
+```matlab
+y = randn(10000, 1);
+hist(y);
+```
+
+![hist](../img/hist.png)
+
+### `subplot` 子图
 
 `subplot` 是 MATLAB 中用于在同一图形窗口中创建多个子图的函数。它允许你在同一图形窗口中分割多个区域，每个区域可以单独绘制不同的图形。这在需要比较多个数据集或不同图形时非常有用。
 
