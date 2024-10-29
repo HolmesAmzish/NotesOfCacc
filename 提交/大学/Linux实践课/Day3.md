@@ -406,7 +406,7 @@
    mkdir /etc/nginx/ssl
    cd /etc/nginx/ssl
    openssl genrsa -out selfsigned.key 2048
-   openssl req -new -x509 -key selfsigned.key -out
+   openssl req -new -x509 -key selfsigned.key -out selfsigned.crt -days 365
    ```
 
    ![image-20240627163538359](C:\Users\Holme\AppData\Roaming\Typora\typora-user-images\image-20240627163538359.png)
@@ -435,7 +435,7 @@
        ssl_ciphers "ECDHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES128-GCM-SHA256:AES256+EECDH:AES256+EDH";
    
        root /var/www/html;
-       index index.html index.htm;
+       index index.html index.htm;:
    
        location / {
            try_files $uri $uri/ =404;
