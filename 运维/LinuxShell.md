@@ -266,6 +266,14 @@ iftop -i wlo1
 # 监测特定网卡的流量
 ```
 
+## curl HTTP请求
+
+```
+curl http://localhost/weather/getB
+```
+
+
+
 # 其他
 
 ## alias 定义命令

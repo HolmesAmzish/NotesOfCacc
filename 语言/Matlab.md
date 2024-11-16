@@ -43,6 +43,12 @@ save filename
 load filename
 ```
 
+```matlab
+A = rand(5)
+B = magic(10)
+save('example.mat', 'A', 'B')
+```
+
 
 
 | 扩展名 | 文件类型   |
