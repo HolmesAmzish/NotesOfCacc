@@ -19,3 +19,12 @@ netstat -a
 netstat -ano | findstr /i listening
 ```
 
+# 文件
+
+## 子项目
+
+```powershell
+Get-ChildItem . -File | Where-Object { $_.Extension -eq ".html" }
+tree /f | Select-String "html"
+```
+

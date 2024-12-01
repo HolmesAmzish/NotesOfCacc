@@ -23,6 +23,8 @@
   lst.remove(2)        # 删除首次出现的值
   lst.sort()           # 排序
   lst.reverse()        # 反转列表
+  
+  lst.extend(iterable) # 拼接可迭代对象
   ```
 
 ------
@@ -211,3 +213,8 @@
 | **Heap (heapq)**        | `std::priority_queue`                 | `PriorityQueue`        | 最小堆/最大堆，支持优先队列操作。            |
 | **String**              | `std::string`                         | `String`               | 不可变字符序列，支持丰富的字符串操作。       |
 | **Array (numpy)**       | 原始数组（`std::array` 或 C风格数组） | 原始数组（`int[]` 等） | 数值计算，支持高效的矩阵和向量运算。         |
+
+# 基础算法
+
+### 归并排序
+

@@ -277,12 +277,66 @@ iperf3 -c <address> -R
 
 
 
-# Shell
+# Zsh
 
-## 更改默认shell
+## 下载并更改默认shell
 
 ```bash
+sudo apt install zsh
 chsh -s /usr/bin/zsh
+```
+
+## 更换主题
+
+使用Oh My Zsh主题，首先需要利用git下载文件
+
+```bash
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)"
+
+sh -c "$(curl -fsSL https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install.sh)"
+# Gitee 镜像
+```
+
+下载到本地之后，需要修改配置文件，一般都在个人用户文件夹下，编辑`~/.zshrc`文件。
+
+```ini
+# Set the ZSH theme (you can choose others, e.g., "agnoster", "powerlevel10k/powerlevel10k", etc.)
+ZSH_THEME="jonathan"
+
+# Path to your oh-my-zsh installation.
+export ZSH="$HOME/.oh-my-zsh"
+
+# Enable plugins (plugins can be found in ~/.oh-my-zsh/plugins/)
+plugins=(git)
+
+# Source oh-my-zsh
+source $ZSH/oh-my-zsh.sh
+
+# Aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+# Customize the command prompt
+export PATH="$HOME/bin:/usr/local/bin:$PATH"
+
+# Add any additional customizations below
+# Example: Add Python virtualenv prompt
+if command -v pyenv &> /dev/null; then
+  eval "$(pyenv init --path)"
+  eval "$(pyenv virtualenv-init -)"
+fi
+
+# Set a custom editor
+export EDITOR="vim"
+
+# Add your custom aliases and functions below this line
+```
+
+这里就是zsh的配置文件，可以通过编辑`ZSH_THEME`来编辑主题。主题样式可以访问官方的文档https://github.com/ohmyzsh/ohmyzsh/wiki/Themes。编辑完之后重新加载。
+
+```bash
+source .zshrc
 ```
 
 

@@ -5,6 +5,9 @@
 ### pkg包管理器
 
 ```bash
+pkg update
+# update repository
+
 pkg install <package>
 # Download software
 
