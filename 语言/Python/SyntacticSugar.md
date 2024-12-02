@@ -1,3 +1,11 @@
+# 数字
+
+## 随机数
+
+
+
+# 字符串
+
 ## 2.5 单字符串函数
 
 ```python
@@ -64,3 +72,13 @@ n = franl_str.count('doo')	# n = 3
 ```
 
 p48
+
+# 标准库
+
+## random
+
+```python
+ls = [random.randint(10, 99) for _ in range(10)] # Generate 10 random number from 10 to 99
+sorted_ls = sorted(ls, reverse=True)
+```
+
