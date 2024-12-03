@@ -118,6 +118,8 @@ autoload -U promptinit; promptinit
 prompt agnoster
 ```
 
+对于想要更改主题的，可以参考官方网站：https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
+
 #### 2. 安装插件
 
 1. **自动建议插件 (zsh-autosuggestions)**：
