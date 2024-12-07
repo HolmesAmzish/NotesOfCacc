@@ -276,6 +276,14 @@ curl http://localhost/weather/getB
 
 # 其他
 
+## history
+
+```bash
+history # 查看历史命令
+```
+
+
+
 ## alias 定义命令
 
 ```bash
