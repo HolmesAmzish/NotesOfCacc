@@ -187,3 +187,22 @@ plt.grid(True)
 plt.show()
 ```
 
+## sine function
+
+```python
+import numpy as np
+import matplotlib.pyplot as plt
+
+x = np.linspace(0, 6 * np.pi, 100)
+y = np.sin(x)
+
+plt.figure(figsize=(8, 6))
+plt.plot(x, y, label='sin(x)', color='blue', linewidth=2)
+plt.title("Sine Function")
+plt.xlabel("x (radians)")
+plt.ylabel("sin(x)")
+plt.grid(True, linestyle='--', alpha=0.6)
+
+plt.show()
+```
+
