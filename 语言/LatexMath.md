@@ -32,12 +32,18 @@
 
 ## 上下标
 
-| 类型   | 符号             | LaTex        |
-| ------ | ---------------- | ------------ |
-| 上标   | $$a^2$$          | a^2          |
-| 下标   | $$a_i$$          | a_i          |
-| 上横线 | $$\overline{a}$$ | \overline{a} |
-| 波浪   | $$\tilde{a}$$    | \tilde{a}    |
+| 类型   | 符号                                  | LaTex                               |
+| ------ | ------------------------------------- | ----------------------------------- |
+| 上标   | $$a^2$$                               | `a^2`                               |
+| 下标   | $$a_i$$                               | `a_i`                               |
+| 上划线 | $$\bar{a}$$                           | `\bar{a}`                           |
+| 上横线 | $$\overline{a}$$                      | `\overline{a}`                      |
+|        |                                       |                                     |
+| 波浪   | $$\tilde{a}$$                         | `\tilde{a}`                         |
+| 向量   | $$\vec{a}$$                           | `\vec{a}`                           |
+|        | $$\hat{a}$$                           | `\hat{a}`                           |
+| 上括号 | $$\overbrace{1+2+\cdots+100}^{5050}$$ | `\overbrace{1+2+\cdots+100}^{5050}` |
+| 下括号 | $$\underbrace{ a+b+\cdots+z }_{26}$$  | `\underbrace{ a+b+\cdots+z }_{26}`  |
 
 ## 大型运算符
 
@@ -50,6 +56,27 @@
 | 交集 | $$\bigcap$$   | `\bigcap`   |
 | 析取 | $$\bigvee$$   | `\bigvee`   |
 | 合取 | $$\bigwedge$$ | `\bigwedge` |
+
+## 积分
+
+| 类型     | 符号       | LaTex    |
+| -------- | ---------- | -------- |
+| 积分     | $$\int$$   | `\int`   |
+| 双重积分 | $$\iint$$  | `\iint`  |
+| 三重积分 | $$\iiint$$ | `\iiint` |
+| 环路积分 | $$\oint$$  | `\oint`  |
+
+
+
+## 逻辑符号
+
+| 符号           | LaTex        |
+| -------------- | ------------ |
+| $$\forall$$    | `\forall`    |
+| $$\exists$$    | `\exsits`    |
+| $$\nexists$$   | `\nexsits`   |
+| $$\therefore$$ | `\therefore` |
+| $$\because$$   | `\because`   |
 
 ## 方程与方程组
 
@@ -136,4 +163,17 @@ n & a & b & c \\
 3 & -20 & 2000 & 1+10i
 \end{array}
 $$
+
+## 括号
+
+常用的`()`、`[]`、`{}`括号符号可以在 `LaTeX` 环境当中直接进行使用，但是如果处于较大的符号当中，就应该配合`\left` 和`\right` 命令来使用：
+
+| 类型         | 符号                                         | LaTex                                      |
+| ------------ | -------------------------------------------- | ------------------------------------------ |
+| 小括号       | $$\left ( \frac{a}{b} \right )$$             | `\left ( \frac{a}{b} \right )`             |
+| 中括号       | $$\left [ \frac{a}{b} \right ]$$             | `\left [ \frac{a}{b} \right ]`             |
+| 大括号       | $$\left \{ \frac{a}{b} \right \}$$           | `\left \{ \frac{a}{b} \right \}`           |
+| 尖括号       | $$\left \langle \frac{a}{b} \right \rangle$$ | `\left \langle \frac{a}{b} \right \rangle` |
+| 绝对值       | $$\left \vert \frac{a}{b} \right \vert$$     | `\left \vert \frac{a}{b} \right \vert`     |
+| 双竖线、范数 | $$\left \Vert \frac{a}{b} \right \Vert$$     | `\left \Vert \frac{a}{b} \right \Vert`     |
 
