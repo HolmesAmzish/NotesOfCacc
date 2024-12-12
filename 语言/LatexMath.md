@@ -30,6 +30,40 @@
 |  ω  |  `\omega`  |  Ω  |  `\Omega`  | /oʊˈmeɪɡə/  |
 |  ϝ  | `\digamma` |            |            | /daɪ'gæmə/  |
 
+## 二元符号
+
+### 二元关系符
+
+| 符号        | LaTex   |
+| ----------- | ------- |
+| $$=$$       | =       |
+| $$\ne$$     | \ne     |
+| $$\sim$$    | \sim    |
+| $$\approx$$ | \approx |
+| $$\propto$$ | \propto |
+| $$\le$$     | \le     |
+| $$\ge$$     | \ge     |
+
+
+
+### 二元运算符
+
+| 符号       | LaTex  |
+| ---------- | ------ |
+| $$\times$$ | \times |
+| $$\div$$   | \div   |
+| $$\pm$$    | \pm    |
+| $$\mp$$    | \mp    |
+| $$\cdot$$  | \cdot  |
+| $$\ast$$   | \ast   |
+| $$\cup$$   | \cup   |
+| $$\cap$$   | \cap   |
+| $$\vee$$   | \vee   |
+| $$\wedge$$ | \wedge |
+| $$\oplus$$ | \oplus |
+
+
+
 ## 上下标
 
 | 类型   | 符号                                  | LaTex                               |
@@ -38,7 +72,7 @@
 | 下标   | $$a_i$$                               | `a_i`                               |
 | 上划线 | $$\bar{a}$$                           | `\bar{a}`                           |
 | 上横线 | $$\overline{a}$$                      | `\overline{a}`                      |
-|        |                                       |                                     |
+|        | $$\underset{i, j}{max}$$              | `\underset{i, j}{max}`              |
 | 波浪   | $$\tilde{a}$$                         | `\tilde{a}`                         |
 | 向量   | $$\vec{a}$$                           | `\vec{a}`                           |
 |        | $$\hat{a}$$                           | `\hat{a}`                           |
@@ -176,4 +210,28 @@ $$
 | 尖括号       | $$\left \langle \frac{a}{b} \right \rangle$$ | `\left \langle \frac{a}{b} \right \rangle` |
 | 绝对值       | $$\left \vert \frac{a}{b} \right \vert$$     | `\left \vert \frac{a}{b} \right \vert`     |
 | 双竖线、范数 | $$\left \Vert \frac{a}{b} \right \Vert$$     | `\left \Vert \frac{a}{b} \right \Vert`     |
+
+
+
+## 颜色
+
+**字体颜色**
+
+```latex
+\color{red}{a^2 + 2b + c}
+```
+
+$$
+\color{red}{a^2 + 2b + c}
+$$
+
+**背景颜色**
+
+```latex
+\colorbox{red}{a^2 + 2b + c}
+```
+
+$$
+\colorbox{red}{a + b + c}
+$$
 

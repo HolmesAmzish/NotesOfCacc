@@ -206,3 +206,53 @@ plt.grid(True, linestyle='--', alpha=0.6)
 plt.show()
 ```
 
+## Poisson distribution
+
+```python
+"""
+plot picture of poisson distribution
+and long tail distribution
+author: cacc
+date: 2024-12-13
+"""
+
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import poisson
+
+np.random.seed(0)
+
+# --------- Poisson distribution ---------
+lambda_poisson = np.array([1, 4, 10])  # λ values
+x_poisson = np.arange(0, 30)  # x-axis values for Poisson
+
+# --------- Long tail distribution ---------
+alpha = 2.5
+x_power_law = np.linspace(1, 50, 1000)  # x values for Power-law
+y_power_law = x_power_law ** (-alpha)  # Power-law distribution
+
+# Create subplots
+fig, ax = plt.subplots(1, 2, figsize=(14, 6))
+
+# Plot Poisson distribution for different lambda values
+for lambda_val in lambda_poisson:
+    y_poisson = poisson.pmf(x_poisson, lambda_val)
+    ax[0].plot(x_poisson, y_poisson, label=f'λ={lambda_val}')
+
+ax[0].set_title('Poisson Distribution')
+ax[0].set_xlabel('x')
+ax[0].set_ylabel('P(X=x)')
+ax[0].legend(title="λ Values")
+
+# Plot Power-law distribution
+ax[1].plot(x_power_law, y_power_law, color='red', label=f'Power Law (α={alpha})')
+ax[1].set_title('Power Law Distribution')
+ax[1].set_xlabel('x')
+ax[1].set_ylabel('P(X=x)')
+ax[1].set_ylim(0, max(y_power_law)*1.1)
+
+# Show the plot
+plt.tight_layout()
+plt.show()
+```
+
