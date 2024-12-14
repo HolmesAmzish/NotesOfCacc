@@ -1,3 +1,29 @@
+# 安装与基本设置
+
+## 设置字体
+
+```python
+plt.rcParams['font.sans-serif'] = ['SimHei']
+plt.rcParams['axes.unicode_minus'] = False
+```
+
+
+
+```python
+import matplotlib
+print(matplotlib.matplotlib_fname())
+```
+
+```ini
+# 设置字体
+font.family: sans-serif
+font.sans-serif: SimHei  # 使用黑体（可换成其他支持中文的字体）
+
+axes.unicode_minus: False
+```
+
+
+
 # Plotting
 
 ## Default X-Points
