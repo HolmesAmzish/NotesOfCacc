@@ -30,6 +30,17 @@
 |  ω  |  `\omega`  |  Ω  |  `\Omega`  | /oʊˈmeɪɡə/  |
 |  ϝ  | `\digamma` |            |            | /daɪ'gæmə/  |
 
+## 集合符号
+
+| 符号            | LaTex       |
+| --------------- | ----------- |
+| $$\varnothing$$ | \varnothing |
+| $$\emptyset$$   | \emptyset   |
+| $$\in$$         | \in         |
+| $$\notin$$      | \notin      |
+
+
+
 ## 二元符号
 
 ### 二元关系符
@@ -43,6 +54,8 @@
 | $$\propto$$ | \propto |
 | $$\le$$     | \le     |
 | $$\ge$$     | \ge     |
+| $$\ll$$     | \ll     |
+| $$\gg$$     | \gg     |
 
 
 
@@ -210,6 +223,15 @@ $$
 | 尖括号       | $$\left \langle \frac{a}{b} \right \rangle$$ | `\left \langle \frac{a}{b} \right \rangle` |
 | 绝对值       | $$\left \vert \frac{a}{b} \right \vert$$     | `\left \vert \frac{a}{b} \right \vert`     |
 | 双竖线、范数 | $$\left \Vert \frac{a}{b} \right \Vert$$     | `\left \Vert \frac{a}{b} \right \Vert`     |
+
+## 空格
+
+| 类型   | 符号           | LaTex      |
+| ------ | -------------- | ---------- |
+| 双空格 | $$a \qquad b$$ | a \qquad b |
+| 单空格 | $$a \quad b$$  | a \quad b  |
+
+
 
 
 
