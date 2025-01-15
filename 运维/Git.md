@@ -188,7 +188,13 @@ alias "gitlog"="git log --pretty=oneline --abbrev-commit --all --graph"
 
 ## 开发流程
 
-![git](../../img/15.jpg)
+![git](../img/15.jpg)
+
+## 常用操作
+
+### 换基
+
+
 
 ## 附录 指令速查
 
