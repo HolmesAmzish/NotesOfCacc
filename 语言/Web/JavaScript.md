@@ -191,11 +191,62 @@ link.href = "https://developer.mozilla.org";
 
 ### 创建并放置新的节点
 
+首先获取 `<section>` 元素的引用
+
+```js
+const sect = document.querySelector("section");
+```
+
+使用 document 对象的方法创建一个新的段落
+
+```js
+const para = document.createElement("p");
+para.textContent = "We hope you enjoyed the ride.";
+```
+
+在父元素的引用添加新的孩子结点
+
+```js
+sect.appendChild(para);
+```
+
+### 操作样式
+
+通过更改选中的对象的属性来更改样式
+
+```js
+para.style.color = "white";
+para.style.backgroundColor = "black";
+para.style.padding = "10px";
+para.style.width = "250px";
+para.style.textAlign = "center";
+```
+
+或者通过更改类
+
+```html
+<style>
+  .highlight {
+    color: white;
+    background-color: black;
+    padding: 10px;
+    width: 250px;
+    text-align: center;
+  }
+</style>
+```
+
+```js
+para.setAttribute("class", "highlight");
+```
+
 
 
 
 
 ## 表单操作
+
+
 
 ## 浏览器 API
 
@@ -203,11 +254,30 @@ link.href = "https://developer.mozilla.org";
 
 ## HTTP 基础
 
+
+
 ## 使用 Fetch API
+
+`fetch`的基本语法
+
+```js
+fetch(apiUrl)
+	.then(response => response.json())
+	.then(data => console.log(data))
+	.catch(error => consol.error('Error:', error));
+```
+
+`fetch`首先发起请求然后返回一个`response`对象。第二个`then`将`response`对象解析成json数据并返回一个新的 Promise，第二个`then`接收`.json()`方法返回的解析结果并赋值给`data`，然后通过控制台打印出来。最后是异常处理。
+
+
 
 ## 跨域与 CORS
 
+
+
 ## WebSocket 简介
+
+
 
 ## 前端调用后端 API
 
@@ -215,6 +285,10 @@ link.href = "https://developer.mozilla.org";
 
 ## ES 模块化
 
+
+
 ## 常用工具库
+
+
 
 ## 构建工具的简单了解

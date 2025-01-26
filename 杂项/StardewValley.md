@@ -1,5 +1,53 @@
 # Buildings
 
+### Silo
+
+- 100g
+- 100 Stone
+- 10 Clay
+- 10 Copper Bar
+
+
+
+### Stable
+
+- 10000g
+- 100 Hardwood
+- 5 Iron Bar
+
+
+
+### Shipping Bin
+
+- 250g
+- 150 Wood
+
+
+
+### Coop
+
+- 4000g
+- 100 Wood
+- 100 Stone
+
+
+
+### Barn
+
+- 6000g
+- 350 Wood
+- 150 Stone
+
+
+
+### Well
+
+- 1000g
+
+- 75 Stone
+
+
+
 # Community
 
 Wiki page: https://stardewvalleywiki.com/Bundles

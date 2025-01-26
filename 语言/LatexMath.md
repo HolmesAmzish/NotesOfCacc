@@ -1,4 +1,10 @@
-# LaTex 数学
+---
+title: Latex 数学描述语言
+date: 2025-01-26
+tages: ['language', 'math']
+---
+
+
 
 ## 希腊字母
 
@@ -74,6 +80,15 @@
 | $$\vee$$   | \vee   |
 | $$\wedge$$ | \wedge |
 | $$\oplus$$ | \oplus |
+
+## 箭头
+
+| 符号          | LaTex       |
+| ------------- | ----------- |
+| $\Leftarrow$  | \Leftarrow  |
+| $\Rightarrow$ | \Rightarrow |
+| $\larr$       | \larr       |
+| $\rarr$       | \rarr       |
 
 
 
@@ -233,6 +248,19 @@ $$
 
 
 
+## 文字
+
+标识符等非变量应该使用文字来区分
+
+```latex
+\mathrm{regular Roman font}
+\text{normal text}
+```
+
+
+$$
+\mathrm{Cost}(h_\theta(x), y) = -\log(h_\theta(x)) & \text{if } y = 1 \\
+$$
 
 
 ## 颜色

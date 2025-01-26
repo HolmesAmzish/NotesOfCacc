@@ -1,0 +1,1 @@
+本地存档路径：`%appdata%\Factorio\`
