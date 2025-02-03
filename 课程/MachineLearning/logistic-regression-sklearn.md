@@ -16,7 +16,7 @@ g(z) = \frac{1}{1 + e^{-z}}
 $$
 这里函数 $g(z)$ 将任何实数映射到了 $(0, 1)$ 区间中，从而将任何值函数转换为适合分类的函数。这里我们将线性回归模型函数插入到这个函数中形成新的逻辑回归模型。
 
-<img src="../../../img/sigmoid-function.png" width=90%>
+<img src="../../img/sigmoid-function.png" width=90%>
 
 <center> 图 1 Sigmoid 函数</center>
 
@@ -26,8 +26,8 @@ $$
 
 决策边界（Decision boundary）即为输出的分界点。二分类问题的输出是离散的零一分类，也就是说：
 $$
-h_\theta(x) \ge 0.5 \rarr y = 1 \\
-h_\theta(x) < 0.5 \rarr y = 0
+h_\theta(x) \ge 0.5 \rightarrow y = 1 \\
+h_\theta(x) < 0.5 \rightarrow y = 0
 $$
 那么此处由 Sigmoid 函数的性质可以得到：
 $$
@@ -54,14 +54,16 @@ $$
 根据模型的代价函数（Cost function）即可根据对当前参数的评估最后找到最优解，逻辑回归的代价函数定义为：
 $$
 J(\theta) = \frac{1}{m}\sum^m_{i = 1}\mathrm{Cost}(h_\theta(x^{(i)}), y^{(i)}) \\
-\mathrm{Cost}(h_\theta(x), y) = -\log(h_\theta(x)) & \text{if } y = 1 \\
-\mathrm{Cost}(h_\theta(x), y) = -\log(1 - h_\theta(x)) & \text{if } y = 0 \\
+\begin{align}
+&\mathrm{Cost}(h_\theta(x), y) = -\log(h_\theta(x)) & \text{if } y = 1 \\
+&\mathrm{Cost}(h_\theta(x), y) = -\log(1 - h_\theta(x)) & \text{if } y = 0 \\
+\end{align}
 $$
-<img src="../../../img/cost-funtion-of-sigmoid.png">
+<img src="../../img/cost-funtion-of-sigmoid.png">
 
 <center>图 2 Sigmoid 的损失函数</center>
 
-这里可以看出，当 $y = 1 \text{ and } h_\theta(x) \rarr 0$ 时，损失函数的值会趋向于无穷，可以直观看到损失函数对模型预测与实际值的差距评估。机器学习的主要目标就是要将损失函数降到最低，以求得最优模型。
+这里可以看出，当 $y = 1 \text{ and } h_\theta(x) \rightarrow 0$ 时，损失函数的值会趋向于无穷，可以直观看到损失函数对模型预测与实际值的差距评估。机器学习的主要目标就是要将损失函数降到最低，以求得最优模型。
 
 ## 梯度下降
 
@@ -111,7 +113,7 @@ plt.show()
 4  79.032736  75.344376         1
 ```
 
-<img src="../../../img/collage_commition_1.png" width=80%>
+<img src="../../img/collage_commition_1.png" width=80%>
 
 <center>图 3 数据预览</center>
 
@@ -162,6 +164,6 @@ plt.show()
 
 最后可以看出决策边界较好的分割了两类点集。
 
-<img src="../../../img/collage-commition-2.png" width=80%>
+<img src="../../img/collage-commition-2.png" width=80%>
 
 <center>图 4 决策边界</center>

@@ -24,7 +24,7 @@ $$
 $$
 每次跟新都会根据代价函数来更改参数，代价函数在这里反应了与最优解的差距。而式中 $\alpha$ 为学习率，也就是每次更新的幅度。学习率过大会导致下降可能会跳过最优解甚至导致当前值与最优解越来越远，太小会导致循环次数过多靠近最优解的速度太慢。
 
-![cost_function](../../../img/cost_function.png)
+![cost_function](../../img/cost_function.png)
 
 <center>图 1 代建函数与两个参数的关系</center>
 
@@ -102,7 +102,7 @@ plt.legend()
 plt.show()
 ```
 
-<img src="../../../img/linear_regression_1.png" width=70%>
+<img src="../../img/linear_regression_1.png" width=70%>
 
 <center>图 2 线性回归模型的拟合效果</center>
 
@@ -178,6 +178,6 @@ ax.legend()
 plt.show()
 ```
 
-<img src="../../../img/linear_regression_2.png" width=80%>
+<img src="../../img/linear_regression_2.png" width=80%>
 
 <center> 图 3 多变量模型的拟合效果</center>
