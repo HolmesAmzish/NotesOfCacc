@@ -215,3 +215,4 @@ alias "gitlog"="git log --pretty=oneline --abbrev-commit --all --graph"
 - git clone <remote address> 克隆仓库
 - git pull 拉取仓库的修改并合并
 - git push [--set-upstream] origin <branch name> 推送本地仓库修改到远程分支
+- git push origin --delete feature-

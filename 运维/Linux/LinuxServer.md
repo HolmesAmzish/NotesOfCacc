@@ -814,3 +814,12 @@ ufw allow 80
 ufw status 
 # check the port open 
 ```
+
+# qBittorrent
+
+```bash
+apt install qbittorrent qbittorrent-nox
+```
+
+# Jellyfin
+

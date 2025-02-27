@@ -1,4 +1,18 @@
+---
+title: Matplotlib
+date: 2025-02-07 18:02
+tags: ['python']
+---
+
+
+
 # 安装与基本设置
+
+```bash
+pip install matplotlib
+```
+
+
 
 ## 设置字体
 
@@ -19,6 +33,26 @@ print(matplotlib.matplotlib_fname())
 font.family: sans-serif
 font.sans-serif: SimHei  # 使用黑体（可换成其他支持中文的字体）
 
+axes.unicode_minus: False
+```
+
+## 全局设置
+
+找到设置文件位置
+
+```python
+import matplotlib
+print(matplotlib.matplotlib_fname())
+```
+
+常见设置
+
+```ini
+# Set font
+font.family: sans-serif
+font.sans-serif: SimHei
+
+# 
 axes.unicode_minus: False
 ```
 

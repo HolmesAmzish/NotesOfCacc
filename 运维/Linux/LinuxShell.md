@@ -157,7 +157,7 @@ screen -r screenName # 回到screenName窗口
 du -sh
 # 查看本目录的大小
 
-du -sh *
+du * -sh
 # 查看子目录大小
 ```
 
