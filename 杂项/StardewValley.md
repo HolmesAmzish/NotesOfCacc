@@ -87,7 +87,11 @@ Brige Repair
 - Shad, 9 am. to 2 am., Spring, Summer, and Fall. Only when raining.
 - Tiger Trout, 6 am. to 7 pm., Fall and Winter. Can be found in any weather.
 
+### Crab Port Bundle
 
+- Lobster
+- Crayfish
+- Crab
 
 # Villagers
 
