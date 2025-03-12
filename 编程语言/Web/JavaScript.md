@@ -1,4 +1,4 @@
-# JS 基础
+# JavaScript 基础
 
 ## 基本语法
 
@@ -129,6 +129,42 @@ now;
 ```
 
 ## 异步编程基础
+
+
+
+# JS 的运行环境
+
+## Node.js
+
+使用包管理器安装，nodejs 和 npm （包管理工具）。
+
+```bash
+sudo apt update
+sudo apt install nodejs npm
+```
+
+测试是否安装完成
+
+```bash
+node -v
+npm -v
+```
+
+测试程序，输入 `node` 进入 node 控制台，然后编辑脚本：
+
+```js
+console.log("Hello, Node.js!");
+```
+
+## npm 包管理
+
+```bash
+npm install <package>
+```
+
+
+
+
 
 # JS 与浏览器
 
@@ -273,13 +309,62 @@ fetch(apiUrl)
 
 ## 跨域与 CORS
 
+**跨域（Cross-Origin）** 指的是浏览器出于安全策略（同源策略），限制不同域之间的请求。
 
+**CORS（跨域资源共享，Cross-Origin Resource Sharing）** 是一种允许服务器声明哪些来源可以访问其资源的机制。
+
+服务器需要在 HTTP 响应头中添加 `Access-Control-Allow-Origin` 允许特定来源跨域访问：
+
+```
+Access-Control-Allow-Origin: *
+```
+
+或指定某个域名：
+
+```
+Access-Control-Allow-Origin: https://example.com
+```
 
 ## WebSocket 简介
 
+WebSocket 允许在客户端和服务器之间建立持久连接，实现实时通信。
 
+示例：
+
+**服务器端（Node.js）**
+
+```js
+const WebSocket = require("ws");
+const wss = new WebSocket.Server({ port: 8080 });
+
+wss.on("connection", (ws) => {
+  ws.send("欢迎连接 WebSocket 服务器");
+  ws.on("message", (message) => {
+    console.log(`收到消息: ${message}`);
+  });
+});
+```
+
+**客户端**
+
+```js
+const socket = new WebSocket("ws://localhost:8080");
+
+socket.onmessage = (event) => {
+  console.log("收到消息: ", event.data);
+};
+```
 
 ## 前端调用后端 API
+
+```js
+fetch("https://api.example.com/data")
+  .then((response) => response.json())
+  .then((data) => console.log(data))
+  .catch((error) => console.error("Error:", error));
+```
+
+
 
 # 模块化与工具
 
@@ -292,3 +377,6 @@ fetch(apiUrl)
 
 
 ## 构建工具的简单了解
+
+
+

@@ -147,3 +147,20 @@ src\main\resources\mapper\flightMapper.xml
 </mapper>
 ```
 
+
+
+# Spring Boot Starter MyBatis
+
+设置项目数据库
+
+```properties
+spring.datasource.url=jdbc:mysql://localhost:3306/database_name
+spring.datasource.username=username
+spring.datasource.password=password
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.hibernate.ddl-auto=update
+spring.jpa.database-platform=org.hibernate.dialect.MySQL5InnoDBDialect
+```
+
+
+
