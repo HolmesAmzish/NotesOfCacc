@@ -162,5 +162,9 @@ spring.jpa.hibernate.ddl-auto=update
 spring.jpa.database-platform=org.hibernate.dialect.MySQL5InnoDBDialect
 ```
 
+## 实体类
 
+```java
+@
+```
 

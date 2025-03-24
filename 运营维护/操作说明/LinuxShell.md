@@ -173,6 +173,8 @@ lsusb
 
 ## lsblk 查看硬盘设备
 
+List block
+
 ```bash
 lsblk
 ```
