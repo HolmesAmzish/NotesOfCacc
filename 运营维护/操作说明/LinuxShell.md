@@ -114,6 +114,26 @@ apt remove application
 # 卸载软件
 ```
 
+## dpkg
+
+```bash
+# 安装软件包
+dpkg -i package.deb
+
+# 列出所有软件包
+dpkg -l
+
+# 移除软件
+dpkg -r package_name
+
+# 彻底删除软件，包括设置
+dpkg --purge package_name
+```
+
+
+
+
+
 ## systemctl 服务
 
 ```bash
@@ -125,6 +145,8 @@ systemctl start service
 
 systemctl enable --now service
 # 设置服务开机自启动，并且现在生效
+
+systemctl disable --now serivce
 
 systemctl stop service
 # 停止服务
