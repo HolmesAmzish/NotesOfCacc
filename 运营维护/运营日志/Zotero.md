@@ -1,8 +1,22 @@
-以下是使用 Zotero + WebDAV 的完整操作流程，包括 Apache2 设置 WebDAV、通过 frp 将 HTTP 转为 HTTPS，并使用 Certbot 生成证书的详细笔记。这份笔记将帮助你从头到尾配置一个可用于 Zotero（包括 iOS 版）的 WebDAV 服务。
-
+---
+title: Zotero + WebDav 配置
+author: Holmes Amzish
+date: 2025-03-25
 ---
 
-# Zotero + WebDAV 配置完整笔记
+
+
+# Zotero
+
+Zotero 是一款支持刮削论文的资源管理软件，通过上传论文源文件，Zotero 会自动从联网信息中爬取本篇论文的信息并标注整理。
+
+Zotero 主要支持 PDF 文件整理，主要的刮削来源可以满足各种预印本和期刊的信息。
+
+同时 Zotero 还支持 WebDav 文件管理，也就是说，可以上传文件到云端实现多平台多设备访问论文资源。通过调整 **编辑** -> **设置** -> **同步** 选项页，首先注册并登陆 Zotero 账户，这会同步你的软件设置，然后设置同步方式从 Zotero（自带网盘，限制空间 300MB）为 WebDav。填写相应服务器地址和用户名密码，即可启用。点击验证服务器，就可以同步服务器内的所有内容。
+
+# WebDAV
+
+国内很少有网盘支持 WebDav，其中有坚果云支持但每个月有一个月上传流量限制。也可以通过 Alist 挂载其他不同网盘来实现转 WebDav，但是稳定性将会大打折扣。这里推荐有服务器者自建 WebDav 服务器来使用。
 
 ## 目标
 - 在本地服务器上通过 Apache2 配置 WebDAV 服务。
