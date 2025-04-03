@@ -18,16 +18,12 @@ Zotero 主要支持 PDF 文件整理，主要的刮削来源可以满足各种�
 
 国内很少有网盘支持 WebDav，其中有坚果云支持但每个月有一个月上传流量限制。也可以通过 Alist 挂载其他不同网盘来实现转 WebDav，但是稳定性将会大打折扣。这里推荐有服务器者自建 WebDav 服务器来使用。
 
-## 目标
-- 在本地服务器上通过 Apache2 配置 WebDAV 服务。
-- 使用 frp 将本地 HTTP WebDAV 转换为 HTTPS，暴露到公网。
-- 使用 Certbot 生成受信任的 SSL 证书，确保 Zotero iOS 支持。
-- 配置 Zotero（桌面版和 iOS 版）以同步文件。
+### 环境
 
-## 前提条件
+首先来看
+
 - 一台 Linux 服务器（例如 Ubuntu），有公网 IP 或通过 frp 映射。
 - 一个域名（例如 `yourdomain.com`），已解析到服务器 IP。
-- Zotero 桌面版和 iOS 版已安装。
 
 ---
 
