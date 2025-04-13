@@ -1,3 +1,30 @@
+颜色
+
+```css
+text-white
+text-black
+text-green-600
+```
+
+背景颜色
+
+```css
+bg-white
+bg-black
+```
+
+位置
+
+```css
+text-center
+```
+
+
+
+
+
+
+
 mx-4 左右边距
 
 mb-4 margin-bottom 下边距
