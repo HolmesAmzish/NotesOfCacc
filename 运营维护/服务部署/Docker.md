@@ -1,3 +1,13 @@
+## 安装docker
+
+```bash
+sudo apt install docker docker-compose
+```
+
+
+
+
+
 # Docker 使用说明
 
 通过指令检查docker是否安装成功

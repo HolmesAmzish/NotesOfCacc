@@ -6,6 +6,28 @@
 
 # 字符串
 
+## 用字典对字符串字母计数
+
+```python
+def count_letters(text):
+    letter_count = {}  # Create a new dict
+    for char in text.lower():
+        letter_count[char] = letter_count.get(char, 0) + 1
+    return letter_count
+```
+
+## 字符串排序
+
+```python
+string = input()
+sorted_string = ''.join(sorted(string))  # sorted() return a list of char
+print(sorted_string)
+```
+
+
+
+
+
 ## 2.5 单字符串函数
 
 ```python
