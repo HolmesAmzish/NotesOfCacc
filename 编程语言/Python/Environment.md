@@ -178,6 +178,14 @@ conda update <package>
 conda config --set auto_activate_base false
 ```
 
+### 删除 Conda 环境
+
+```bash
+conda env remove --name <env_name
+```
+
+
+
 ------
 
 ## 4. **Miniconda：轻量版 Anaconda**
