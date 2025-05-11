@@ -126,3 +126,14 @@ ChatResponse chatResponse = chatClient.prompt()
     .chatResponse();
 ```
 
+### Streaming Responses
+
+The `stream()` method lets you get an asynchronous response as shown below:
+
+```java
+Flux<String> output = chatClient.prompt()
+    .user("Hello!")
+    .stream()
+    .content();
+```
+
