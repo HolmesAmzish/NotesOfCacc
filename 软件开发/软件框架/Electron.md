@@ -295,7 +295,7 @@ Electron 继承了来自 Chromium 的多进程架构，这使得此框架在架�
 
 
 
-<img src="https://www.electronjs.org/zh/assets/images/chrome-processes-0506d3984ec81aa39985a95e7a29fbb8.png" width=80%>
+<img src="https://www.electronjs.org/zh/assets/images/chrome-processes-0506d3984ec81aa39985a95e7a29fbb8.png" width=60%>
 
 Electron 应用程序的结构非常相似。 作为应用开发者，你将控制两种类型的进程：[主进程](https://www.electronjs.org/zh/docs/latest/tutorial/process-model#the-main-process) 和 [渲染器进程](https://www.electronjs.org/zh/docs/latest/tutorial/process-model#the-renderer-process)。 这类似于上文所述的 Chrome 的浏览器和渲染器进程。
 

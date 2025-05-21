@@ -162,6 +162,31 @@ console.log("Hello, Node.js!");
 npm install <package>
 ```
 
+Node Version Manager (nvm) 安装
+
+```bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.7/install.sh | bash
+```
+
+设置当前配置文件（默认已经添加）
+
+```bash
+export NVM_DIR="$HOME/.nvm"
+[ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"
+```
+
+加载文件
+
+```bash
+source ~/.zshrc
+```
+
+验证
+
+```bash
+nvm --version
+```
+
 
 
 
