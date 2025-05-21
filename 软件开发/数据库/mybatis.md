@@ -1,3 +1,19 @@
+---
+title: Java 数据库
+date: 2025-05-17
+author: Holmes Amzish
+---
+
+# Java 数据库概览
+
+## Jdbc
+
+## MyBatis
+
+
+
+
+
 创建项目mybatis项目，首先需要使用maven导入mybatis库
 
 poml.xml
