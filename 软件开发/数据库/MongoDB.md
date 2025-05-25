@@ -5,3 +5,8 @@ author: Cacc
 ---
 
 # MongoDB 数据库操作
+
+```shell
+db.<collection_name>.find({"name":""})
+```
+
