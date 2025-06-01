@@ -719,19 +719,3 @@ public class DemoApplication {
 
 3. **防止 SQL 注入**：
    - `Provider` 中只拼接 SQL 结构，参数仍用 `#{}` 绑定，避免直接拼接值。
-
----
-
-### **四、笔记总结**
-- **依赖和配置**：不变。
-- **新增**：
-  - `UserSqlProvider`：动态生成 SQL。
-  - Mapper：用 `@SelectProvider` 调用 Provider。
-  - Service 和 Controller：增加搜索方法。
-- **测试**：验证动态条件生效。
-
-**优点**：
-- 灵活性接近 XML，但保持注解方式。
-- 适合复杂查询，又不失代码可控性。
-
-如果需要更复杂的例子（比如嵌套查询、分页），告诉我，我可以进一步扩展！
