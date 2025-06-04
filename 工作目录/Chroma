@@ -1,0 +1,198 @@
+## Chroma 向量存储设置指南
+
+本节将引导您配置 **Chroma VectorStore**，以存储文档嵌入向量并执行相似度搜索。
+
+### 什么是 Chroma？
+
+Chroma 是一个开源的嵌入数据库，允许您存储文档嵌入向量、原始内容和元数据，并支持基于嵌入和元数据的高效搜索。
+
+------
+
+### 前提条件
+
+1. **访问 ChromaDB**
+    请参阅“附录：本地使用 Docker 设置 ChromaDB”的内容来本地运行数据库。
+2. **EmbeddingModel 实例**
+    用于计算文档的嵌入向量，可使用如 OpenAI 的嵌入模型或其他支持的模型。
+3. **API Key**（如有必要）
+    如果所用的嵌入模型（如 OpenAI）需要授权，则需提供 API Key。
+4. **集合自动创建**
+    启动时，如果指定的集合未存在，ChromaVectorStore 会自动创建它。
+
+------
+
+## 自动配置（Auto-configuration）
+
+Spring AI 提供了对 Chroma Vector Store 的 Spring Boot 自动配置支持。
+
+在 `pom.xml` 中添加如下依赖：
+
+```xml
+<dependency>
+    <groupId>org.springframework.ai</groupId>
+    <artifactId>spring-ai-starter-vector-store-chroma</artifactId>
+</dependency>
+```
+
+Gradle 中添加：
+
+```groovy
+dependencies {
+    implementation 'org.springframework.ai:spring-ai-starter-vector-store-chroma'
+}
+```
+
+### 注意事项：
+
+- 必须添加 Spring AI 的 BOM（依赖版本管理）。
+- 添加 Maven Central 仓库。
+- 从 Spring AI 的新版本起，**initializeSchema 不再默认开启**，需显式设置。
+
+------
+
+### Embedding 模型配置
+
+示例 Bean：
+
+```java
+@Bean
+public EmbeddingModel embeddingModel() {
+    return new OpenAiEmbeddingModel(OpenAiApi.builder()
+        .apiKey(System.getenv("OPENAI_API_KEY"))
+        .build());
+}
+```
+
+------
+
+### application.properties 示例配置：
+
+```properties
+# Chroma 连接配置
+spring.ai.vectorstore.chroma.client.host=localhost
+spring.ai.vectorstore.chroma.client.port=8000
+spring.ai.vectorstore.chroma.client.key-token=
+spring.ai.vectorstore.chroma.client.username=
+spring.ai.vectorstore.chroma.client.password=
+
+# Chroma 集合配置
+spring.ai.vectorstore.chroma.initialize-schema=true
+spring.ai.vectorstore.chroma.collection-name=TestCollection
+
+# OpenAI 配置（如使用 OpenAI 嵌入模型）
+spring.ai.openai.api.key=your-openai-api-key
+```
+
+------
+
+### 使用方式示例：
+
+注入并使用 `VectorStore`：
+
+```java
+@Autowired
+VectorStore vectorStore;
+
+// 添加文档
+List<Document> documents = List.of(
+    new Document("Spring AI rocks!!", Map.of("meta1", "meta1")),
+    new Document("The World is Big and Salvation Lurks Around the Corner"),
+    new Document("You walk forward facing the past...", Map.of("meta2", "meta2"))
+);
+vectorStore.add(documents);
+
+// 相似度搜索
+List<Document> results = vectorStore.similaritySearch(
+    SearchRequest.builder().query("Spring").topK(5).build());
+```
+
+------
+
+## 元数据过滤（Metadata Filtering）
+
+支持文本表达式过滤器：
+
+```java
+vectorStore.similaritySearch(SearchRequest.builder()
+    .query("The World")
+    .topK(5)
+    .similarityThreshold(0.8)
+    .filterExpression("author in ['john', 'jill'] && article_type == 'blog'")
+    .build());
+```
+
+或使用 DSL 构建器方式：
+
+```java
+FilterExpressionBuilder b = new FilterExpressionBuilder();
+vectorStore.similaritySearch(SearchRequest.builder()
+    .query("The World")
+    .topK(5)
+    .similarityThreshold(0.8)
+    .filterExpression(b.and(
+        b.in("author", "john", "jill"),
+        b.eq("article_type", "blog")).build())
+    .build());
+```
+
+最终会被转换为 Chroma 专用过滤器 JSON 格式：
+
+```json
+{
+  "$and": [
+    {"author": {"$in": ["john", "jill"]}},
+    {"article_type": {"$eq": "blog"}}
+  ]
+}
+```
+
+------
+
+## 手动配置方式（可选）
+
+### 添加依赖：
+
+```xml
+<dependency>
+  <groupId>org.springframework.ai</groupId>
+  <artifactId>spring-ai-chroma-store</artifactId>
+</dependency>
+<dependency>
+  <groupId>org.springframework.ai</groupId>
+  <artifactId>spring-ai-starter-model-openai</artifactId>
+</dependency>
+```
+
+### 配置 Bean：
+
+```java
+@Bean
+public RestClient.Builder builder() {
+    return RestClient.builder().requestFactory(new SimpleClientHttpRequestFactory());
+}
+
+@Bean
+public ChromaApi chromaApi(RestClient.Builder restClientBuilder) {
+    return new ChromaApi("http://localhost:8000", restClientBuilder);
+}
+
+@Bean
+public VectorStore chromaVectorStore(EmbeddingModel embeddingModel, ChromaApi chromaApi) {
+    return ChromaVectorStore.builder(chromaApi, embeddingModel)
+        .collectionName("TestCollection")
+        .initializeSchema(true)
+        .build();
+}
+```
+
+------
+
+## 本地运行 ChromaDB
+
+通过 Docker 快速启动本地 Chroma 服务：
+
+```bash
+docker run -it --rm --name chroma -p 8000:8000 ghcr.io/chroma-core/chroma:1.0.0
+```
+
+服务地址为 `http://localhost:8000/api/v1`
