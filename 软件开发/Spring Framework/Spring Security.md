@@ -4,11 +4,21 @@ author: Cacc
 date: 2025-06-15
 ---
 
-# Basic 认证
+# HTTP Basic
 
-![image-20250615220924338](/home/cacc/Documents/NotesOfCacc/软件开发/Spring Framework/assets/image-20250615220924338.png)
+## 基本介绍
 
-Basic 认证是
+![image-20250615220924338](assets/image-20250615220924338.png)
+
+HTTP Basic Authentication 是最简单的一种认证方式，客户端在每次请求时通过 HTTP 头部的 Authorization 字段将用户名和密码发送给服务器。
+
+```http
+Authorization: Basic YWRtaW46YWRtaW4=
+```
+
+其中 Basic 是认证类型，而后面是 Base64 编码后的用户名和密码。
+
+## Spring 实现
 
 session 进行会话保存和用户管理
 
@@ -65,3 +75,18 @@ public class SecurityConfig {
 }
 ```
 
+流程图
+
+```
+客户端发送请求 → 服务端返回 401 Unauthorized（要求认证）
+           ↘
+    客户端附加 Authorization: Basic 认证头
+           ↘
+     服务端验证用户名和密码是否正确
+           ↘
+   如果通过：返回数据；否则：继续返回 401
+```
+
+## Session
+
+虽然 Basic 认证每次都会传用用户名和密码，但 Spring Security 默认使用 Session 记录认证状态，Http Basic 本身是无状态的，是 Spring 自动管理。
