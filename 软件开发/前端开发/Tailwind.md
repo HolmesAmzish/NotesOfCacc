@@ -1,3 +1,13 @@
+# Tailwind 使用
+
+通过 CDN 引用
+
+```html
+<script src="https://cdn.tailwindcss.com"></script>
+```
+
+
+
 颜色
 
 ```css

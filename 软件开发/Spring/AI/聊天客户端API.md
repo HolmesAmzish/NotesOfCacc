@@ -97,7 +97,7 @@ public class ChatClientConfig {
     public ChatClient anthropicChatClient(AnthropicChatModel chatModel) {
         return ChatClient.create(chatModel);
     }
-}Copied!
+}
 ```
 
 然后，您可以使用`@Qualifier`注解：

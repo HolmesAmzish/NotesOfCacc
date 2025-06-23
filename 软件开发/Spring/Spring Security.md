@@ -4,9 +4,11 @@ author: Cacc
 date: 2025-06-15
 ---
 
-# HTTP Basic
+# 认证方式
 
-## 基本介绍
+## HTTP Basic
+
+### 基本介绍
 
 ![image-20250615220924338](assets/image-20250615220924338.png)
 
@@ -18,7 +20,7 @@ Authorization: Basic YWRtaW46YWRtaW4=
 
 其中 Basic 是认证类型，而后面是 Base64 编码后的用户名和密码。
 
-## Spring 实现
+### Spring 实现
 
 session 进行会话保存和用户管理
 
@@ -87,6 +89,13 @@ public class SecurityConfig {
    如果通过：返回数据；否则：继续返回 401
 ```
 
-## Session
+### Session
 
 虽然 Basic 认证每次都会传用用户名和密码，但 Spring Security 默认使用 Session 记录认证状态，Http Basic 本身是无状态的，是 Spring 自动管理。
+
+
+
+
+
+# 权限管理
+
