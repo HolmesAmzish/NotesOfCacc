@@ -178,3 +178,25 @@ chmod +x ~/Desktop/my_folder.desktop
 ## 6. **结论**
 
 通过 `.desktop` 文件，你可以轻松地在 Ubuntu 创建应用、脚本和文件夹的快捷方式，使操作更加便捷。
+
+
+
+```
+vim ~/.local/share/applications/pycharm.desktop
+```
+
+
+
+```ini
+[Desktop Entry]
+Version=1.0
+Type=Application
+Name=PyCharm 2024.1
+Icon=home/cacc/Applications/pycharm-2024.1.7/bin/pycharm.png
+Exec="home/cacc/Applications/pycharm-2024.1.7/bin/pycharm.sh" %f
+Comment=Python IDE for Professional Developers
+Categories=Development;IDE;
+Terminal=false
+StartupWMClass=jetbrains-pycharm
+```
+
