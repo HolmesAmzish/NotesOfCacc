@@ -18,9 +18,9 @@ docker version
 # 出现server则说明正在运行 
 ```
 
-## 创建Dockerfile
+## 镜像管理
 
-写入
+通过Dockerfile 构建镜像，写入
 
 ```dock
 FROM node:14-alpine
@@ -35,5 +35,35 @@ CMD node /index.js
 docker build -t HelloDocker .
 ```
 
+```bash
+docker images  # List local images of docker
+docker rmi <imgage>  # Delete local image
+docker pull <image>  # Pull remote image
+docker push <image>  # Push local image
+```
 
+
+
+## 容器管理
+
+```bash
+docker run <image>
+docker run -it <image> /bin/bash  # Run docker image interactively and enter terminal
+docker run -d -p 80:80 <image>  # Port
+docker ps
+docker ps -a
+docker stop <container>
+docker start <container>
+docker restart <container>
+docker rm <container>
+docker exec -it <container> /bin/bash
+docker logs <container>
+```
+
+```bash
+docker system prune
+docker volume prune
+docker image prune
+docker container prune
+```
 

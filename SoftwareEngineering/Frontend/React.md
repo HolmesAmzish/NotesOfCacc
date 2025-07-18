@@ -121,3 +121,89 @@ function MyButton() {
 ```
 
 React 将再次调用你的组件函数。第一次 `count` 变成 `1`。接着点击会变成 `2`。继续点击会逐步递增。
+
+## Hook
+
+### useState
+
+useState 是一个 React Hook，在官方文档中被称为 State Hook，允许向组件添加一个状态变量。
+
+```react
+const [state, setSate] = useState(initialState)
+```
+
+**例子**
+
+```react
+import { useState } from 'react';
+function MyConmponent() {
+    const [age, setAge] = useState(42);
+    // ...
+}
+```
+
+其中 age 为当前状态，42 为初始化值，set 函数允许在响应交互时修改 state
+
+计数器
+
+```react
+import { useState } from 'react';
+
+function Counter() {
+  const [count, setCount] = useState(0); // 初始值为 0
+
+  return (
+    <div>
+      <p>当前计数：{count}</p>
+      <button onClick={() => setCount(count + 1)}>增加</button>
+    </div>
+  );
+}
+```
+
+加载动画
+
+```react
+useEffect(() => {
+  const fetchData = async () => {
+    setLoading(true); // 开始加载
+    const data = await fetch("/api/...");
+    // 处理数据...
+    setLoading(false); // 加载完成
+  };
+
+  fetchData();
+}, []);
+```
+
+
+
+### useEffect
+
+Effect 允许组件连接到外部系统并与之同步，包括处理网络、浏览器、DOM
+
+```react
+useEffect(setup, dependencies?)
+```
+
+**连接到外部系统**
+
+```react
+import { useState, useEffect } from 'react';
+import { createConnection } from './chat.js';
+
+function ChatRoom({ roomId}) {
+    const [serverUrl, setServerUrl] = useState('http://localhost:1234');
+    
+    useEffect(() => {
+        const connection = createConnection(serverUrl, roomId);
+        connection.connect();
+        return () => {
+            connection.disconnect();
+        };
+    }, [serverUrl, roomId]);
+    // ...
+}
+```
+
+useEffect 需要传递两个参数，一个 setup 函数，用于连接到改系统，并返回一个清理函数 (cleanup)，用于断开连接，还有一个依赖项列表，当依赖项被修改就会触发。

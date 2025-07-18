@@ -28,3 +28,7 @@ dotnet run
 
 
 
+```bash
+dotnet aspnet-codegenerator razorpage -m Movie -dc RazorPagesMovie.Data.RazorPagesMovieContext -udl -outDir Pages/Movies --referenceScriptLibraries --databaseProvider sqlite
+```
+

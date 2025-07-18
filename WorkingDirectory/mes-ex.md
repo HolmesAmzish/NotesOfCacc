@@ -1,29 +1,88 @@
-# 数据库表类分析
+## 基础资料维护
 
-| 表名          | 用途         |
-| ------------- | ------------ |
-| JC_Process    | 主流程定义表 |
-| JC_ICMO       | 工单生产管理 |
-| JC_DataSource | 数据源配置   |
-| JC_Dispose    |              |
+**离职原因添加**
+
+```sql
+CREATE PROCEDURE P_JC_Termination_Save
+    @FNumber NVARCHAR(100),
+    @FName NVARCHAR(100),
+    @FDeleted INT,
+    @FUser NVARCHAR(50)
+AS
+BEGIN
+    SET NOCOUNT ON;
+
+    IF @FNumber = ''
+    BEGIN
+        SELECT 0 AS FIsOk, '代码不能为空' AS FStrValue;
+        RETURN;
+    END
+
+    IF @FName = ''
+    BEGIN
+        SELECT 0 AS FIsOk, '名称不能为空' AS FStrValue;
+        RETURN;
+    END
+
+    IF EXISTS (SELECT 1 FROM JC_Termination WHERE FNumber = @FNumber)
+    BEGIN
+        SELECT 0 AS FIsOk, '代码已存在' AS FStrValue;
+        RETURN;
+    END
+
+    IF EXISTS (SELECT 1 FROM JC_Termination WHERE FName = @FName)
+    BEGIN
+        SELECT 0 AS FIsOk, '名称已存在' AS FStrValue;
+        RETURN;
+    END
+
+    -- 事务处理
+    BEGIN TRY
+        BEGIN TRANSACTION;
+        
+        INSERT INTO JC_Termination (FNumber, FName, FDeleted)
+        VALUES (@FNumber, @FName, ISNULL(@FDeleted, 0));
+        
+        DECLARE @FEvent NVARCHAR(200);
+        SET @FEvent = '代码:' + @FNumber + ';名称:' + @FName;
+        EXEC dbo.[P_SysWorkLog_Save] @FUser, '操作工', '新增', @FEvent, '成功';
+        
+        COMMIT TRANSACTION;
+        
+        SELECT 1 AS FIsOk, '保存成功' AS FStrValue;
+    END TRY
+    BEGIN CATCH
+        IF @@TRANCOUNT > 0
+            ROLLBACK TRANSACTION;
+            
+        SELECT 0 AS FIsOk, ERROR_MESSAGE() AS FStrValue;
+        RETURN;
+    END CATCH;
+END;
+go
 
 
+```
+
+
+
+## 员工入职记录
 
 
 
 员工入职记录
 
-| 字段      | 数据类型      |
-| --------- | ------------- |
-| FID       | INT           |
-| FEmpNo    | VARCHAR(20)   |
-| FName     | NVARCHAT(50)  |
-| FIdNumber | VARCHAR(18)   |
-| FAddress  | NVARCHAR(100) |
-| FJoinDate | DATETIME      |
-| FDept     | NVARCHAR      |
-| FPhone    | VARCHAR(50)   |
-| FStatus   | TINYINT       |
+| 字段      | 数据类型      | 解释                       |
+| --------- | ------------- | -------------------------- |
+| FID       | INT           | 数据ID                     |
+| FNumber   | VARCHAR(20)   | 工号                       |
+| FName     | NVARCHAT(50)  | 姓名                       |
+| FIdNumber | VARCHAR(18)   | 身份证                     |
+| FAddress  | NVARCHAR(100) | 地址                       |
+| FJoinDate | DATETIME      | 入职日期                   |
+| FDept     | NVARCHAR      | 所属部门                   |
+| FPhone    | VARCHAR(50)   | 电话                       |
+| FStatus   | TINYINT       | 状态（审核中、入职、离职） |
 
 
 
@@ -31,7 +90,6 @@
 CREATE TABLE JC_Emp_Join (
     FID INT IDENTITY(1,1) PRIMARY KEY,
     FNumber VARCHAR(20) NOT NULL,
-    FEmpNo VARCHAR(20) NOT NULL,
     FName NVARCHAR(50) NOT NULL,
     FIdNumber VARCHAR(18) NOT NULL,
     FAddress NVARCHAR(100),
@@ -39,97 +97,56 @@ CREATE TABLE JC_Emp_Join (
     FDept NVARCHAR(50),
     FPhone VARCHAR(20),
     FStatus TINYINT DEFAULT 0,
-    -- 约束
-    CONSTRAINT UK_EmpNo UNIQUE (FEmpNo),     
+    -- Constraints
+    CONSTRAINT UK_Number UNIQUE (FNumber),     
     CONSTRAINT UK_IdNumber UNIQUE (FIdNumber),
-    -- 索引
-    INDEX IDX_Dept (FDept),
-    INDEX IDX_Status (FStatus)                
+    -- Indexes
+    INDEX IDX_Number (FNumber)                
 );
 ```
 
 功能有新增、修改、删除、审核、反审、打印、查询
 
 ```sql
-CREATE PROCEDURE sp_JC_Emp_Join_Insert
+CREATE PROCEDURE P_JC_Emp_Join_Save
     @FNumber VARCHAR(20),
-    @FEmpNo VARCHAR(20),
     @FName NVARCHAR(50),
     @FIdNumber VARCHAR(18),
-    @FAddress NVARCHAR(100) = NULL,
+    @FAddress NVARCHAR(100),
     @FJoinDate DATETIME,
-    @FDept NVARCHAR(50) = NULL,
-    @FPhone VARCHAR(20) = NULL,
-    @FStatus TINYINT = 0,
-    @NewID INT OUTPUT,
-    @ResultCode INT OUTPUT,
-    @ResultMsg NVARCHAR(100) OUTPUT
+    @FDept NVARCHAR(50),
+    @FPhone VARCHAR(20)
 AS
 BEGIN
     SET NOCOUNT ON;
-    
     BEGIN TRY
-        BEGIN TRANSACTION;
-        
-        -- 检查员工工号是否已存在
-        IF EXISTS (SELECT 1 FROM JC_Emp_Join WHERE FEmpNo = @FEmpNo)
-        BEGIN
-            SET @ResultCode = -1;
-            SET @ResultMsg = '员工工号已存在';
-            ROLLBACK TRANSACTION;
-            RETURN;
-        END
-        
-        -- 检查身份证号是否已存在
-        IF EXISTS (SELECT 1 FROM JC_Emp_Join WHERE FIdNumber = @FIdNumber)
-        BEGIN
-            SET @ResultCode = -2;
-            SET @ResultMsg = '身份证号已存在';
-            ROLLBACK TRANSACTION;
-            RETURN;
-        END
-        
-        -- 插入新记录
+        BEGIN TRANSACTION
         INSERT INTO JC_Emp_Join (
-            FNumber,
-            FEmpNo,
-            FName,
-            FIdNumber,
-            FAddress,
-            FJoinDate,
-            FDept,
-            FPhone,
-            FStatus
+            FNumber, FName, FIdNumber, FAddress, FJoinDate, FDept, FPhone
         )
         VALUES (
-            @FNumber,
-            @FEmpNo,
-            @FName,
-            @FIdNumber,
-            @FAddress,
-            @FJoinDate,
-            @FDept,
-            @FPhone,
-            @FStatus
-        );
-        
-        -- 获取新插入记录的ID
-        SET @NewID = SCOPE_IDENTITY();
-        
-        -- 设置成功返回码
-        SET @ResultCode = 0;
-        SET @ResultMsg = '入职记录添加成功';
-        
-        COMMIT TRANSACTION;
+            @FNumber, @FName, @FIdNumber, @FAddress, @FJoinDate, @FDept, @FPhone
+        )
+        COMMIT TRANSACTION
+        SELECT 1 AS FIsOk, '保存成功' AS FStrValue;
     END TRY
     BEGIN CATCH
         IF @@TRANCOUNT > 0
-            ROLLBACK TRANSACTION;
-            
-        SET @ResultCode = -99;
-        SET @ResultMsg = ERROR_MESSAGE();
+            ROLLBACK TRANSACTION
+  
+        IF ERROR_NUMBER() IN (2601, 2627)
+        BEGIN
+            SELECT 0 AS FIsOk, '工号或身份证重复' AS FStrValue;
+        END
+        ELSE
+        BEGIN
+            DECLARE @ErrorMessage NVARCHAR(4000) = ERROR_MESSAGE();
+            DECLARE @ErrorSeverity INT = ERROR_SEVERITY();
+            DECLARE @ErrorState INT = ERROR_STATE();
+            RAISERROR (@ErrorMessage, @ErrorSeverity, @ErrorState);
+        END
     END CATCH
-END;
+END
 ```
 
 ```sql
