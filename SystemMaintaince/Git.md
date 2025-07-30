@@ -1,3 +1,9 @@
+---
+title: Git
+date: 2025-07-20
+author: Cacc
+---
+
 # Git
 
 Git 是一个版本控制系统，它可以帮你保管你提交的各种版本以供在你需要的时候回溯旧版。与此同时他还能提供远程仓库同步从而使多个机器的仓库同步。
@@ -50,28 +56,35 @@ git commit --amend -m "new_message"
 
 
 
+## 特殊文件
+
+Git 带有一些特殊文件用于更好地控制行为
+
+1. `.gitignore`
+
+   用于自动忽略某些文件，在使用 git add . 指令时这些文件不会被添加到暂存区和仓库中
+
+   ```bash
+   keys.properties  # Ignore keys
+   *.log			 # Ignore all log files
+   src/**/*.log
+   build/			 # Ignore build directory
+   !.env			 # Expect the environment directory
+   ```
+
+2. `.gitkeep`
+
+   git 默认不追踪空文件夹，在空文件夹下面放上这个即可保证追踪
+
+
+
 ## 建立远程仓库
 
 登录[Github主页](https://github.com/)并找到你的代码仓库页面，点击New创建新的代码仓库
 
 之后找到刚创建的git仓库的地址，此处有两个URL地址，分别是HTTPS协议和SSH协议的地址，是远程仓库的链接。这里推荐使用SSH连接，更加安全
 
-### 配置SSH密钥并连接
-
-现在需要将本地仓库连接到远程仓库，将本地仓库通过SSH连接的方式连接到远程仓库需要配置SSH密钥。通过命令行进行配置和获取SSH密钥。
-
-```powershell
-cd ~
-# 直接转移到用户根目录的地址，“~”是在cd到用户根目录时常用快捷的方法
-
-cd .ssh
-# 进入SSH设置文件夹
-
-ssh-keygen
-# 生成SSH密钥
-```
-
-在这里会让你输入文件的名称，如果没有创建过SSH密钥可以直接回车使用默认文件名，随后需要你设置密码并重复，如果不输入则设置为没有密码。
+需要将本地仓库连接到远程仓库，将本地仓库通过SSH连接的方式连接到远程仓库需要配置SSH密钥。通过命令行进行配置和获取SSH密钥。
 
 然后输入 ls 查看.ssh文件夹的文件，会看到一个以.pub扩展名结尾的SSH公钥文件，通过`cat filename.pub` 查看这个文件并将整个文件的内容复制下来
 
@@ -90,9 +103,7 @@ git remote -v
 # 检查仓库关联的情况
 ```
 
-![remote](../../img/12.png)
-
-### 克隆和推送仓库
+**克隆和推送仓库**
 
 在本地完成操作并提交给本地仓库后，若需要同远程仓库同步，则需要推送仓库。
 
@@ -111,19 +122,12 @@ git clone --depth 1 <repostories_url>
 # 只克隆一层
 ```
 
-
-
 抓取与拉取
 
 ```bash
 git fetch
 # 抓取远程仓库但不进行分支
 
-git merge origin/master
-# 将远程仓库的主分支合并到本地主分支上
-```
-
-```bash
 git pull
 # 拉取远程仓库并直接合并
 ```
@@ -131,6 +135,8 @@ git pull
 
 
 ## 创建与合并分支
+
+![git](assets/15.jpg)
 
 ```bash
 git branch
@@ -159,6 +165,11 @@ git branch -D <branch name>
 # 强制删除分支
 ```
 
+```bash
+git rebase <branch_name>
+# 以指定分支为换基
+```
+
 
 
 ## 查看和回溯历史提交
@@ -179,19 +190,6 @@ alias "gitlog"="git log --pretty=oneline --abbrev-commit --all --graph"
 # 将gitlog赋予后面一段命令的含义，查询时可直接用gitlog代替
 ```
 
-## 开发流程
-
-![git](../img/15.jpg)
-
-## 常用操作
-
-### 换基
-
-```bash
-git rebase <branch_name>
-# 以指定分支为换基
-```
-
 
 
 ## 附录 指令速查
@@ -199,7 +197,7 @@ git rebase <branch_name>
 \- 基本操作
 
 - git init 初始化仓库
-- gitlog 显示提交记录
+- gitl og 显示提交记录
 - git add <filename> 添加文件到暂存区
 - git commit -m 'commit message' 提交更变
 

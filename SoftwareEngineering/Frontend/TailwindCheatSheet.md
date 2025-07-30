@@ -14,7 +14,15 @@
 | 溢出处理  | `overflow-auto`  `overflow-hidden`                           | 控制溢出行为               |
 | 层级      | `z-10`  `z-50`                                               | z-index                    |
 
-------
+居中
+
+```html
+<div class="flex items-center justify-center h-screen">
+    item
+</div>
+```
+
+
 
 ## 2. 间距 Spacing
 
