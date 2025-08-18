@@ -1,4 +1,57 @@
-# Tailwind 使用
+# TailwindCSS
+
+https://tailwindcss.com/docs/installation/using-vite
+
+## Installation
+
+### Using PostCSS
+
+1. Install Tailwind CSS and PostCSS via npm
+
+   ```bash
+   npm install tailwindcss @tailwindcss/postcss postcss
+   ```
+
+2. Add Tailwind to PostCSS configuration in `/postcss.config.js`
+
+   ```js
+   export default {
+     plugins: {
+       "@tailwindcss/postcss": {},
+     }
+   }
+   ```
+
+3. Config tailwind css, this will enable IntelliSense of your IDE.
+
+   ```js
+   export default {
+       content: [
+           "./index.html",
+           "./src/**/*.{js,ts,jsx,tsx}",
+       ],
+       theme: {
+           extend: {},
+       },
+       plugins: [],
+   }
+   ```
+
+4. Import Tailwind CSS in any place you like, here I choose `/src/index.css`
+
+   ```css
+   @import "tailwindcss";
+   ```
+
+5. Import in `/src/main.js`
+
+   ```js
+   import 'index.css'
+   ```
+
+   
+
+
 
 通过 CDN 引用
 
