@@ -131,3 +131,201 @@ mongoimport --version
 ------
 
 如需我帮你写一个导入导出的完整脚本，或你用的是 MongoDB Atlas、Docker、GUI 工具（如 Compass），也可以告诉我，我来补充。
+
+## **MongoDB Cheat Sheet**
+
+### **1. Basic Commands**
+
+```
+# Start Mongo shell
+mongo
+
+# Show databases
+show dbs
+
+# Use a database (creates if not exists)
+use myDatabase
+
+# Show collections in the current DB
+show collections
+
+# Drop a database
+db.dropDatabase()
+
+# Drop a collection
+db.collectionName.drop()
+```
+
+------
+
+### **2. CRUD Operations**
+
+#### **Create**
+
+```
+// Insert a single document
+db.users.insertOne({ name: "Alice", age: 25 })
+
+// Insert multiple documents
+db.users.insertMany([
+  { name: "Bob", age: 30 },
+  { name: "Charlie", age: 28 }
+])
+```
+
+#### **Read**
+
+```
+// Find all documents
+db.users.find()
+
+// Pretty print
+db.users.find().pretty()
+
+// Find with condition
+db.users.find({ age: { $gt: 25 } })
+
+// Find one document
+db.users.findOne({ name: "Alice" })
+
+// Count documents
+db.users.countDocuments({ age: { $gt: 25 } })
+```
+
+#### **Update**
+
+```
+// Update one document
+db.users.updateOne(
+  { name: "Alice" }, 
+  { $set: { age: 26 } }
+)
+
+// Update multiple documents
+db.users.updateMany(
+  { age: { $lt: 30 } }, 
+  { $inc: { age: 1 } }   // Increment age by 1
+)
+
+// Replace a document
+db.users.replaceOne({ name: "Alice" }, { name: "Alice", age: 27 })
+```
+
+#### **Delete**
+
+```
+// Delete one document
+db.users.deleteOne({ name: "Bob" })
+
+// Delete multiple documents
+db.users.deleteMany({ age: { $lt: 30 } })
+```
+
+------
+
+### **3. Query Operators**
+
+#### **Comparison**
+
+```
+$eq      // equal
+$ne      // not equal
+$gt      // greater than
+$gte     // greater than or equal
+$lt      // less than
+$lte     // less than or equal
+$in      // in array
+$nin     // not in array
+```
+
+#### **Logical**
+
+```
+$and
+$or
+$not
+$nor
+```
+
+#### **Element**
+
+```
+$exists  // field exists
+$type    // field type
+```
+
+#### **Array**
+
+```
+$size      // array length
+$all       // match all elements
+$elemMatch // match array of documents
+$push      // add element
+$pop       // remove first/last element
+```
+
+------
+
+### **4. Aggregation**
+
+```
+// Basic aggregation pipeline
+db.orders.aggregate([
+  { $match: { status: "shipped" } },
+  { $group: { _id: "$customerId", total: { $sum: "$amount" } } },
+  { $sort: { total: -1 } }
+])
+
+// Count documents using aggregation
+db.orders.aggregate([
+  { $group: { _id: null, count: { $sum: 1 } } }
+])
+```
+
+------
+
+### **5. Indexing**
+
+```
+// Create an index
+db.users.createIndex({ name: 1 })       // ascending
+db.users.createIndex({ age: -1 })       // descending
+
+// Create a compound index
+db.users.createIndex({ name: 1, age: -1 })
+
+// Drop an index
+db.users.dropIndex("name_1")
+```
+
+------
+
+### **6. Useful Commands**
+
+```
+// Show indexes
+db.users.getIndexes()
+
+// Explain query plan
+db.users.find({ age: { $gt: 25 } }).explain()
+
+// Count all documents in a collection
+db.users.estimatedDocumentCount()
+
+// Distinct values
+db.users.distinct("name")
+```
+
+------
+
+### **7. Data Types**
+
+- **String**: `"hello"`
+- **Integer**: `42`
+- **Double**: `3.14`
+- **Boolean**: `true / false`
+- **Array**: `[1, 2, 3]`
+- **Object**: `{ key: value }`
+- **Date**: `ISODate("2025-08-23T12:00:00Z")`
+- **Null**: `null`
+- **ObjectId**: `ObjectId("507f191e810c19729de860ea")`

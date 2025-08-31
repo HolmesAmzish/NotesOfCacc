@@ -12,10 +12,30 @@ sudo apt install postgresql postgresql-contrib
 
 This installs the PostgreSQL server and some useful utilities. The service starts automatically
 
+Then you need to login postgres user to do operations
+
+```bash
+sudo -i -u postgres  # This will switch you into postgres user
+```
+
+Then enter the postgresql shell
+
+```bash
+psql
+```
+
+Here's basic operation commands.
+
 Change password
 
 ```postgresql
 \password postgres
+```
+
+*You can also change password by sql command*
+
+```sql
+ALTER USER postgres PASSWORD 'your_secure_password';
 ```
 
 Database command

@@ -6,6 +6,13 @@ Official site: https://redis.io/
 sudo apt install redis-server
 ```
 
+```bash
+sudo systemctl start redis-server
+sudo systemctl disable redis-server  # Disable auto launch in development
+```
+
+
+
 **Usage**
 
 ```bash
