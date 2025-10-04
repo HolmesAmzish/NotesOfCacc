@@ -16,6 +16,28 @@ npm create vite
 
 vite.config.ts
 
+### Permit all connection
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+
+export default defineConfig({
+  server: {
+    host: '0.0.0.0', // allows connections from any IP
+    port: 5173,      // optional: choose your port
+    strictPort: true // optional: fail if port is already in use
+  }
+})
+
+```
+
+
+
+
+
+### API Proxy
+
 前端修改代理，通过将
 
 ```ts

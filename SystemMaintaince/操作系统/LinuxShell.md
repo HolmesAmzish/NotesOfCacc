@@ -66,6 +66,38 @@ ls | grep 2024
 
 
 
+## xargs 参数输出
+
+```bash
+cat example.txt | xargs
+
+cat example.txt | xargs -n 3
+
+# Split by "X"
+cat example.txt | xargs -d X
+```
+
+## tr 转换
+
+```bash
+# Transform uppercase to lowercass
+echo "HELLO WORLD!" | tr 'A-Z' 'a-z'
+
+# Transform tab to space
+tr '\t' ' ' < file.txt
+
+# Delete all number
+echo "Hello 123 world 456" | tr -d '0-9'
+```
+
+
+
+# 流处理
+
+
+
+
+
 # 下载和解压
 
 ## tar 归档
@@ -90,6 +122,53 @@ unzip zip_file -d /path/to/destination/
 
 ```bash
 gzip -d /path/to/gz_file
+```
+
+
+
+# 信息安全
+
+## 单向散列算法
+
+```bash
+# Calculate the md5 code
+md5sum filename > file_sum.md5
+
+sha1sum filename
+```
+
+http://codahale.com/how-to-saftylystore-a-password/
+
+## crypt
+
+```bash
+# Encrypt file
+crypt < input_file > output_file
+
+crypt PASSPHRASE < input_file > encrypted_file
+
+# Decrypt file
+crypt PASSPHRASE -d < encrypted_file > output_file
+```
+
+
+
+## gpg
+
+```bash
+gpg -c filename
+
+gpg filename.gpg
+```
+
+
+
+## base64
+
+```bash
+base64 filename > outputfile
+
+base64 -d file > outputfile
 ```
 
 
@@ -299,6 +378,20 @@ curl http://localhost/weather/getB
 
 
 # 其他
+
+## script
+
+```bash
+script -t 2> timing.log -a output.session
+
+type some commands...
+
+exit
+```
+
+
+
+
 
 ## history
 

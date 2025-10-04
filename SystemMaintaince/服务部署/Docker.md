@@ -67,3 +67,8 @@ docker image prune
 docker container prune
 ```
 
+```bash
+docker compose -f pwd.yml up -d
+docker compose 
+```
+
