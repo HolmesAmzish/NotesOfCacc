@@ -8,8 +8,6 @@ tags: ['tool']
 
 `ctrl + shift + p` 选择 `Python: Select Interpreter` 选择注释器即可选择环境。
 
-
-
 # 个性化
 
 Vibrancy

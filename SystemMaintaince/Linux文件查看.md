@@ -169,8 +169,6 @@ grep -E "timeout|refused|unreachable" network.log
 - 使用 `--binary-files=text` 强制处理非文本日志
 - 管道前加 `stdbuf -oL` 实现实时流处理
 
-
-
 # 示例
 
 ```bash
@@ -179,5 +177,5 @@ sort give_data/4_give.txt | grep b'.+:.+:.+:.+:.+:.+:.+:.+' > 4_long.txt
 ```
 
 ```bash
-```
 
+```
