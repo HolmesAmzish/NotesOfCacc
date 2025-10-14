@@ -39,8 +39,6 @@ ollama run deepseek-r1:8b
 ollama list
 ```
 
-
-
 每次在终端打开并运行上面的命令即可，同时可以使用别名简化命令：
 
 ```bash
@@ -52,13 +50,13 @@ alias ds="ollama run deepseek-r1:8b"
 这个指令在每次启动终端都是需要重新加载的，可以通过修改终端的初始化文件来执行，类似于启动脚本。例如我使用的 Shell 是 zsh，操作步骤为：
 
 1. 编辑 `~/.zshrc` 文件，并添加如下行
-
+   
    ```bash
    ollama run deepseek-r1:8b
    ```
 
 2. 重新加载配置文件
-
+   
    ```bash
    source .zshrc
    ```
@@ -74,8 +72,6 @@ cacc@paradiso [05:54:27 PM] [~]
 
 Hello! How can I assist you today? 😊
 ```
-
-
 
 ## 使用 Web UI
 
@@ -255,10 +251,7 @@ curl http://localhost:11434/api/chat -X POST \
     "eval_count":63,
     "eval_duration":407203265
 }
-
 ```
-
-
 
 ### Java 调用
 
@@ -307,8 +300,6 @@ public class OllamaRequestTest {
     }
 }
 ```
-
-
 
 ```json
 Response code: 200
@@ -415,8 +406,6 @@ How about you? How’s your day going?
 Process finished with exit code 0
 ```
 
-
-
 ## Python 库
 
 ### 下载 Ollama 库
@@ -424,10 +413,6 @@ Process finished with exit code 0
 ```bash
 pip install ollama
 ```
-
-
-
-
 
 ```python
 import ollama
@@ -449,26 +434,23 @@ print("Chat Response:")
 print(chat_response.__dict__)
 ```
 
-
-
 ```json
 {
-	'model': 'gemma3:4b',
-	'created_at': '2025-04-21T07:25:22.62670021Z',
-	'done': True,
-	'done_reason': 'stop',
-	'total_duration': 767712251,
-	'load_duration': 30471886,
-	'prompt_eval_count': 16,
-	'prompt_eval_duration': 29000000,
-	'eval_count': 46,
-	'eval_duration': 706000000,
-	'message': Message(
-		role='assistant',
-		content="The capital of Peru is **Lima**. \n\nIt's a bustling metropolis and the country's political, economic, and cultural center. \n\nWould you like to know anything else about Lima or Peru in general?",
-		images=None,
-		tool_calls=None
-	)
+    'model': 'gemma3:4b',
+    'created_at': '2025-04-21T07:25:22.62670021Z',
+    'done': True,
+    'done_reason': 'stop',
+    'total_duration': 767712251,
+    'load_duration': 30471886,
+    'prompt_eval_count': 16,
+    'prompt_eval_duration': 29000000,
+    'eval_count': 46,
+    'eval_duration': 706000000,
+    'message': Message(
+        role='assistant',
+        content="The capital of Peru is **Lima**. \n\nIt's a bustling metropolis and the country's political, economic, and cultural center. \n\nWould you like to know anything else about Lima or Peru in general?",
+        images=None,
+        tool_calls=None
+    )
 }
 ```
-

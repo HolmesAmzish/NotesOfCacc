@@ -40,7 +40,7 @@ plt.imshow(train_images[0], cmap='binary')
 plt.show
 ```
 
-![train_images[0]](../../../img/43.png)
+![train_images[0]](../../assets/43.png)
 
 可以清晰的看到，这个手写数字图片由28*28个像素组成，并且每个像素深度在0-255之间，组成的像素表达了一个人眼可以分辨的数字5。然而机器无法直接读取出这个数字，而是通过读取每个像素的数据，根据训练好的模型才能给出结果。
 
@@ -108,7 +108,7 @@ print(predictions[0].argmax())
 print(test_labels[0])
 ```
 
-![12](../../../img/44.png)
+![12](../../assets/44.png)
 
 ```
 313/313 ━━━━━━━━━━━━━━━━━━━━ 0s 1ms/step  

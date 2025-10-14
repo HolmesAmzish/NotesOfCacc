@@ -147,7 +147,6 @@ coefficients = model.coef_
 intercept = model.intercept_
 
 print(f"Linear model equation: y = {coefficients[0]:.2f} * area + {coefficients[1]:.2f} * bedrooms + {intercept:.2f}")
-
 ```
 
 ```

@@ -13,6 +13,7 @@ tf 采用的是静态计算图。这意味着在执行任何计算之前，你�
 PyTorch 的设计目标是提供一个易于使用、灵活且高效的框架，所以采用的是动态图，特别适合研究人员和开发人员进行快速实验和原型设计。它强调灵活性和易用性，采用了动态图机制，使得代码更接近于 Python 原生风格，便于调试和修改。PyTorch 使用更加像原来的 Python 代码。
 
 总体来说，TensorFlow 更加容易上手，PyTorch 更加灵活且需要自己操作，例如 tf 提供了训练的方法，而 PyTorch 则需要手动训练：
+
 ```python
 # TensorFlow
 model.fit(train_images, train_labels, epochs=5, batch_size=128)
@@ -29,8 +30,6 @@ for t in range(epochs):
     test(test_dataloader, model, loss_fn)
 print("Done!")
 ```
-
-
 
 # 示例
 
@@ -87,7 +86,7 @@ class NeuralNetwork(nn.Module):
         x = nn.functional.relu(self.fc1(x)) # ReLU activation after first layer
         x = self.fc2(x)
         return x
-    
+
 print(model)
 ```
 
@@ -126,8 +125,6 @@ Epoch 5/5
 469/469 [==============================] - 2s 4ms/step - loss: 0.2930 - accuracy: 0.9774
 ```
 
-
-
 而在 PyTorch 中则更加复杂，需要自己定义训练函数和测试函数，并不断训练，框架只提供了一些基础的训练所需函数：
 
 ```python
@@ -153,7 +150,7 @@ def train(dataloader, model, loss_fn, optimizer):
         if batch % 100 == 0:
             loss, current = loss.item(), (batch + 1) * len(X)
             print(f"loss: {loss:>7f}  [{current:>5d}/{size:>5d}]")
-            
+
 def test(dataloader, model, loss_fn):
     size = len(dataloader.dataset)
     num_batches = len(dataloader)
@@ -168,7 +165,7 @@ def test(dataloader, model, loss_fn):
     test_loss /= num_batches
     correct /= size
     print(f"Test Error: \n Accuracy: {100*(correct):>0.1f}%, Avg loss: {test_loss:>8f}\n")
-    
+
 epochs = 5
 for t in range(epochs):
     print(f"Epoch {t+1}\n-------------------------------")
@@ -230,4 +227,3 @@ Test Error:
 
 Done!
 ```
-

@@ -1,4 +1,5 @@
 # Linear Regression
+
 Model
 $$
 f_{w,b}(x) = wx + b
@@ -18,8 +19,6 @@ w = w - \alpha \frac {1} {m} \sum _{i=1} ^m (f_{w,b}(x_i) - y_i)x_i
 $$
 $\alpha$ is learning rate.
 
-
-
 ## Multiple Linear Regression
 
 Multiple features:
@@ -29,7 +28,6 @@ $$
 f _{x,b} (x) = w_1x_1 + w_2x_2 + w_3x_3 + b \\
 f _{\vec{w},b} (\vec x) = \vec w \vec x + b
 $$
-
 
 # Logistic Regression
 

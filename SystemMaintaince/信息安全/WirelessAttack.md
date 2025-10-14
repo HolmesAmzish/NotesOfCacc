@@ -27,8 +27,6 @@ PHY     Interface       Driver          Chipset
 phy0    wlan0           88XXau          Realtek Semiconductor Corp. RTL8812AU 802.11a/b/g/n/ac 2T2R DB WLAN Adapter
 ```
 
-
-
 需要将无线网卡切换到监控模式。使用以下命令：
 
 ```bash
@@ -60,8 +58,6 @@ airmon-ng check kill
 # 关闭干扰进程
 ```
 
-
-
 ## 3. 监控网络流量
 
 使用 `airodump-ng` 监控附近的无线网络：
@@ -86,15 +82,13 @@ sudo airodump-ng <monitor_interface>
  00:4B:F3:8A:5F:63  -61        1        0    0  11  540   WPA2 CCMP   PSK  504
 ```
 
-| 符号   | 意义                                                   |
-| ------ | ------------------------------------------------------ |
-| BSSID  | AP端的MAC地址                                          |
-| PWR    | 信号强度，数字越小越好                                 |
+| 符号     | 意义                          |
+| ------ | --------------------------- |
+| BSSID  | AP端的MAC地址                   |
+| PWR    | 信号强度，数字越小越好                 |
 | \#Data | 对应的路由器的在线数据吞吐量，数字越大，数据上传量越大 |
-| CH     | 对应路由器的所在频道                                   |
-| ESSID  | 对应路由器的名称                                       |
-
-
+| CH     | 对应路由器的所在频道                  |
+| ESSID  | 对应路由器的名称                    |
 
 ## 4. 捕获数据包
 
@@ -111,11 +105,7 @@ sudo airodump-ng --bssid <target_bssid> -c <target_channel> -w <output_file> <mo
 - `<output_file>`：捕获数据包的文件名。
 - `<monitor_interface>`：你的监控接口名称。
 
-
-
 这里需要持续抓包，直到抓取到客户端与AP的握手包，也就是客户端与AP重新建立连接时发送的数据包，从中可以进行**离线爆破**并找到密码。
-
-
 
 ## 5. 进行攻击
 
@@ -151,7 +141,7 @@ sudo aircrack-ng -w <wordlist_file> <output_file>.cap
 
 # Arp欺骗
 
-##  arpspoof
+## arpspoof
 
 `arpspoof` 是 `dsniff` 工具包中的一个实用工具。它可以轻松地进行 ARP 欺骗。
 
@@ -167,39 +157,39 @@ sudo apt install dsniff
 ### 使用 `arpspoof`
 
 1. **启用 IP 转发**
-
+   
    在进行 ARP 欺骗之前，需要启用 IP 转发，以便将流量转发到受害者：
-
+   
    ```
    echo 1 | sudo tee /proc/sys/net/ipv4/ip_forward
    # 1 为启用转发，0为禁止转发，会导致断网
    ```
 
 2. **选择目标和网关**
-
+   
    确定你要欺骗的目标 IP 和网关 IP。例如，目标 IP 为 `192.168.1.10`，网关 IP 为 `192.168.1.1`。
 
 3. **开始 ARP 欺骗**
-
+   
    打开两个终端，分别执行以下命令：
-
+   
    - 在第一个终端中，将网关欺骗目标：
-
+     
      ```bash
      sudo arpspoof -i <你的网络接口> -t 192.168.1.10 192.168.1.1
      ```
-
+   
    - 在第二个终端中，将目标欺骗网关：
-
+     
      ```
      sudo arpspoof -i <你的网络接口> -t 192.168.1.1 192.168.1.10
      ```
 
 4. **停止 ARP 欺骗**
-
+   
    使用 `Ctrl+C` 停止命令。
 
-##  ettercap
+## ettercap
 
 `ettercap` 是一个功能强大的网络嗅探和中间人攻击工具。
 
@@ -215,33 +205,33 @@ sudo apt install ettercap-gtk
 ### 使用 `ettercap`
 
 1. **启动 `ettercap`**
-
+   
    打开 `ettercap` GUI：
-
+   
    ```
    sudo ettercap -G
    ```
 
 2. **选择网络接口**
-
+   
    在 `ettercap` 界面中，选择你要使用的网络接口。
 
 3. **扫描网络**
-
+   
    选择 **Hosts** > **Scan for hosts**，扫描网络中的设备。
 
 4. **添加目标**
-
+   
    选择 **Hosts** > **Host List**，找到目标和网关 IP，选中后点击 **Add to Target 1** 和 **Add to Target 2**。
 
 5. **开始 ARP 欺骗**
-
+   
    在菜单中选择 **Mitm** > **ARP poisoning**，勾选 **Sniff remote connections**，然后点击 **OK**。
 
 6. **开始嗅探**
-
+   
    点击工具栏中的 **Start Sniffing** 按钮，开始嗅探流量。
 
 7. **停止 ARP 欺骗**
-
+   
    关闭 `ettercap` 或使用菜单中的选项停止嗅探

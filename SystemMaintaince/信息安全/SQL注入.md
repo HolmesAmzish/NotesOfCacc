@@ -125,7 +125,7 @@ sqlmap -u "<url>" --cookie="<cookie_value>" -D <Database> -T <table> -C <column1
 为了防止 SQL 注入攻击，应采用以下措施：
 
 - 使用预处理语句（Prepared Statements）
-
+  
   ```python
   import pymysql
   conn = pymysql.connect(host='localhost', user='root', password='password', database='test')

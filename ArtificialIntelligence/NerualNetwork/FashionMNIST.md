@@ -54,7 +54,6 @@ test_data = datasets.FashionMNIST(root='data', train=False, download=True, trans
 
 train_loader = DataLoader(train_data, batch_size=64, shuffle=True)
 test_loader = DataLoader(test_data, batch_size=64, shuffle=False)
-
 ```
 
 ## 神经网络
@@ -123,8 +122,6 @@ NeuralNetwork(
 )
 Using cuda device
 ```
-
-
 
 ## 训练
 
@@ -303,8 +300,6 @@ plt.imshow(x.squeeze().cpu(), cmap="gray")
 plt.title(f"Predicted: {classes[predicted_class]}, Actual: {classes[y]}")
 plt.show()
 ```
-
-
 
 ## 参考
 
