@@ -64,8 +64,6 @@ ls | grep 2024
 # 筛选含有字符串，2024的信息。
 ```
 
-
-
 ## xargs 参数输出
 
 ```bash
@@ -90,13 +88,7 @@ tr '\t' ' ' < file.txt
 echo "Hello 123 world 456" | tr -d '0-9'
 ```
 
-
-
 # 流处理
-
-
-
-
 
 # 下载和解压
 
@@ -124,8 +116,6 @@ unzip zip_file -d /path/to/destination/
 gzip -d /path/to/gz_file
 ```
 
-
-
 # 信息安全
 
 ## 单向散列算法
@@ -151,8 +141,6 @@ crypt PASSPHRASE < input_file > encrypted_file
 crypt PASSPHRASE -d < encrypted_file > output_file
 ```
 
-
-
 ## gpg
 
 ```bash
@@ -161,8 +149,6 @@ gpg -c filename
 gpg filename.gpg
 ```
 
-
-
 ## base64
 
 ```bash
@@ -170,10 +156,6 @@ base64 filename > outputfile
 
 base64 -d file > outputfile
 ```
-
-
-
-
 
 # 软件和服务类
 
@@ -208,10 +190,6 @@ dpkg -r package_name
 # 彻底删除软件，包括设置
 dpkg --purge package_name
 ```
-
-
-
-
 
 ## systemctl 服务
 
@@ -248,8 +226,6 @@ screen -r screenName # 回到screenName窗口
 `crtl + a + d`返回主终端
 `crtl + d`删除当前窗口
 
-
-
 # 系统管理
 
 ## du 查看文件大小
@@ -262,15 +238,11 @@ du * -sh
 # 查看子目录大小
 ```
 
-
-
 ## lsusb 查看usb接口
 
 ```bash
 lsusb
 ```
-
-
 
 ## lsblk 查看硬盘设备
 
@@ -280,16 +252,12 @@ List block
 lsblk
 ```
 
-
-
 df 查看硬盘
 
 ```bash
 df -h
 # 列出所有硬盘信息
 ```
-
-
 
 ## mount 挂载
 
@@ -300,8 +268,6 @@ mount /dev/sdx1 /mnt/usb
 umount /mnt/usb
 # 取消挂载点的挂载
 ```
-
-
 
 ## hostname 主机名
 
@@ -315,8 +281,6 @@ hotnamectl
 hostnamectl set-hostname <name>
 # 更改主机名
 ```
-
-
 
 ## ssh SSH连接
 
@@ -375,8 +339,6 @@ iftop -i wlo1
 curl http://localhost/weather/getB
 ```
 
-
-
 # 其他
 
 ## script
@@ -389,17 +351,11 @@ type some commands...
 exit
 ```
 
-
-
-
-
 ## history
 
 ```bash
 history # 查看历史命令
 ```
-
-
 
 ## alias 定义命令
 
@@ -407,3 +363,4 @@ history # 查看历史命令
 alias short="command"
 ```
 
+## iotop

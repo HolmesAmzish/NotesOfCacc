@@ -59,7 +59,7 @@ sh -c "$(curl -fsSL https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install
 如无法直接访问网络，使用以下步骤：
 
 1. 在可以联网的设备上下载项目文件：
-
+   
    ```bash
    git clone https://github.com/ohmyzsh/ohmyzsh.git
    tar -czvf oh-my-zsh.tar.gz ohmyzsh
@@ -68,14 +68,14 @@ sh -c "$(curl -fsSL https://gitee.com/mirrors/oh-my-zsh/raw/master/tools/install
 2. 将 `oh-my-zsh.tar.gz` 传输到目标服务器（可使用 `scp`）。
 
 3. 解压到用户目录：
-
+   
    ```bash
    tar -zxvf oh-my-zsh.tar.gz -C ~/
    mv ~/ohmyzsh ~/.oh-my-zsh
    ```
 
 4. 手动运行安装脚本：
-
+   
    ```bash
    sh ~/.oh-my-zsh/tools/install.sh
    ```
@@ -123,27 +123,27 @@ prompt agnoster
 #### 2. 安装插件
 
 1. **自动建议插件 (zsh-autosuggestions)**：
-
+   
    ```bash
    git clone https://github.com/zsh-users/zsh-autosuggestions ~/.oh-my-zsh/custom/plugins/zsh-autosuggestions
    ```
-
+   
    启用方法：将 `zsh-autosuggestions` 添加到 `plugins=(...)` 中。
 
 2. **语法高亮插件 (zsh-syntax-highlighting)**：
-
+   
    ```bash
    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ~/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting
    ```
-
+   
    启用方法：同上。
 
 3. **Powerlevel10k 主题 (可选)**： Powerlevel10k 是一个现代的 Zsh 主题，性能极高，支持高度自定义。
-
+   
    ```bash
    git clone https://github.com/romkatv/powerlevel10k.git ~/.oh-my-zsh/custom/themes/powerlevel10k
    ```
-
+   
    启用方法：将 `ZSH_THEME="powerlevel10k/powerlevel10k"` 添加到 `~/.zshrc` 中。
 
 #### 3. 重载配置
@@ -153,4 +153,3 @@ prompt agnoster
 ```bash
 source ~/.zshrc
 ```
-

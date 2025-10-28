@@ -4,8 +4,6 @@ Zerotier是一个内网穿透软件，他会创建一个虚拟局域网，将安
 
 主要工作原理通过VPN隧道，实现主机间P2P通信。除此之外，如果机器间创建隧道失败，会通过转发服务器进行流量转发。
 
-
-
 ## 下载Zerotier
 
 官网下载地址：https://www.zerotier.com/download/
@@ -18,8 +16,6 @@ curl -s https://install.zerotier.com | sudo bash
 
 下载完成后，Windows和Linux一般都会设置成开机自启动，并且Windows会带一个UI。
 
-
-
 ## 加入虚拟组网
 
 通过在Zerotier管理页面的虚拟网络ID加入，客户端可以通过UI添加，也可以通过命令行。
@@ -27,8 +23,6 @@ curl -s https://install.zerotier.com | sudo bash
 ```bash
 sudo zerotier-cli join <network_id>
 ```
-
-
 
 ## 搭建Moon服务器
 
@@ -67,7 +61,7 @@ sudo systemctl restart zerotier-one
 ```
 
 > [!NOTE]
->
+> 
 > 特别注意，编辑moon.json时地址必须是IP地址而不是域名。云服务器一般都有安全策略，需要放行服务器端口9993 TCP和UDP的连接。
 
 ### 客户端设置
@@ -94,6 +88,3 @@ Windows: C:\ProgramData\ZeroTier\One
 Linux: /var/lib/zerotier-one
 FreeBSD/OpenBSD: /var/db/zerotier-one
 ```
-
-
-

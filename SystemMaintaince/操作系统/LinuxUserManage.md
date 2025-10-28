@@ -12,10 +12,6 @@ sudo <command>
 su
 ```
 
-
-
-
-
 ## Debian 系统将普通用户添加到 sudoers
 
 **编辑 `/etc/sudoers/` 名单**
@@ -35,4 +31,3 @@ username ALL=(ALL:ALL) ALL
 ```bash
 echo "cacc ALL=(ALL) NOPASSWD:ALL" | sudo tee /etc/sudoers.d/cacc
 ```
-

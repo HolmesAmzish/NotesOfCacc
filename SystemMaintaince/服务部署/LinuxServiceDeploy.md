@@ -169,8 +169,6 @@ umount /dev/sdc1
 # umount /mount/udisk
 ```
 
-
-
 ## 添加新硬盘
 
 ### 硬盘分区
@@ -256,8 +254,6 @@ Linux访问Samba服务器
 smbclient //192.168.0.102/myshare
 ```
 
-
-
 # iperf3 网络测试
 
 ```bash
@@ -272,10 +268,6 @@ iperf3 -c <address>
 iperf3 -c <address> -R
 # 测试上行速度
 ```
-
-
-
-
 
 # Zsh
 
@@ -338,8 +330,6 @@ export EDITOR="vim"
 ```bash
 source .zshrc
 ```
-
-
 
 # Web服务器
 
@@ -650,10 +640,6 @@ ftp ftp_user@localhost
 # 连接至本地的FTP服务器
 ```
 
-
-
-
-
 # FRP
 
 ## 配置frp服务器
@@ -752,10 +738,6 @@ firewall-cmd --zone=public --list-ports
 firewall-cmd -- state
 ```
 
-
-
-
-
 # MSTSC
 
 ## 安装
@@ -822,4 +804,3 @@ apt install qbittorrent qbittorrent-nox
 ```
 
 # Jellyfin
-
