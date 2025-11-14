@@ -2,18 +2,6 @@
 
 ## 任务步骤
 
-在实验前，由于我想直接创建一个工作目录专门存放网络仿真的作业，需要将 ns3 添加到路径以方便操作
-
-```bash
-export PATH="$PATH:$HOME/Workspace/ns-3.46" 
-```
-
-```
-cacc@paradiso [01:50:23 PM] [~] 
--> % which ns3                                  
-/home/cacc/Workspace/ns-3.46/ns3
-```
-
 ### 任务 1：环境准备与第一次运行
 
 1. 打开终端，进入ns3主目录（如：~/ns3-workspace/ns-allinone-3.44/ns-3.44）。
@@ -199,4 +187,338 @@ Simulation ends
 
 - echoClient.SetAttribute("Interval", TimeValue(Seconds(1)));
 + echoClient.SetAttribute("Interval", TimeValue(Seconds(2)));
+```
+
+```
+cacc@paradiso [02:38:52 PM] [~/Workspace/ns-3.46] 
+-> % ./ns3 run examples/tutorial/first.cc
+[0/2] Re-checking globbed directories...
+[2/3] Linking CXX executable /home/cacc/Workspace/ns-3.46/build/examples/tutorial/ns3.46-first-debug
+Simulation begins
+At time +2s client sent 1024 bytes to 10.1.1.2 port 9
+At time +2.00369s server received 1024 bytes from 10.1.1.1 port 49153
+At time +2.00369s server sent 1024 bytes to 10.1.1.1 port 49153
+At time +2.00737s client received 1024 bytes from 10.1.1.2 port 9
+At time +4s client sent 1024 bytes to 10.1.1.2 port 9
+At time +4.00369s server received 1024 bytes from 10.1.1.1 port 49153
+At time +4.00369s server sent 1024 bytes to 10.1.1.1 port 49153
+At time +4.00737s client received 1024 bytes from 10.1.1.2 port 9
+At time +6s client sent 1024 bytes to 10.1.1.2 port 9
+At time +6.00369s server received 1024 bytes from 10.1.1.1 port 49153
+At time +6.00369s server sent 1024 bytes to 10.1.1.1 port 49153
+At time +6.00737s client received 1024 bytes from 10.1.1.2 port 9
+Simulation ends
+```
+
+### 任务 5：理解 C++ 面向对象
+
+```cpp
+NodeContainer nodes;
+```
+
+通过 NodeContainer 类创建了 nodes 对象，表示是一个网络节点的容器，从下面可以看出有 Create(int) 方法。
+
+```cpp
+PointToPointHelper pointToPoint;
+```
+
+点对点通讯助手，设置点对点通讯的相关参数，这里通过 SetDeviceAttribute 方法分别设置了带宽（DataRate）和延迟（Delay）。
+
+```cpp
+NetDeviceContainer devices;
+```
+
+同 NodeContainer，这里通过 Install 方法将节点装载到设备中。
+
+Ptr 是 ns-3 的引用计数智能指针，类似 `std::shared_ptr`，对象使用完毕自动销毁，防止内存泄漏。
+
+### 任务 6：创建一个新的测试代码
+
+```cpp
+#include "ns3/core-module.h"
+#include "ns3/network-module.h"
+#include "ns3/internet-module.h"
+#include "ns3/point-to-point-module.h"
+#include "ns3/applications-module.h"
+
+using namespace ns3;
+
+NS_LOG_COMPONENT_DEFINE("Task6Debug");
+
+class MyDebugApp : public Application
+{
+public:
+    MyDebugApp() : m_count(0) {}
+    virtual ~MyDebugApp() {}
+
+private:
+    virtual void StartApplication() override
+    {
+        NS_LOG_INFO("MyDebugApp START at " << Simulator::Now().GetSeconds() << "s");
+        ScheduleNext();
+    }
+
+    virtual void StopApplication() override
+    {
+        NS_LOG_INFO("MyDebugApp STOP at " << Simulator::Now().GetSeconds() << "s");
+    }
+
+    void ScheduleNext()
+    {
+        if (m_count < 5)
+        {
+            Simulator::Schedule(Seconds(1.0), &MyDebugApp::PrintTime, this);
+        }
+    }
+
+    void PrintTime()
+    {
+        m_count++;
+        NS_LOG_INFO(">>> [Time: " << Simulator::Now().GetSeconds()
+                    << "s] Packet count = " << m_count);
+
+        // 故意制造一个“可调试点”：当 count == 3 时，触发条件
+        if (m_count == 3)
+        {
+            NS_LOG_WARN("COUNT == 3! Ready for breakpoint inspection.");
+            // 可选：取消注释下面这行，制造段错误用于崩溃调试
+            // int* p = nullptr; *p = 42;
+        }
+
+        ScheduleNext();
+    }
+
+    uint32_t m_count;
+};
+
+int main(int argc, char* argv[])
+{
+    Time::SetResolution(Time::NS);
+    LogComponentEnable("Task6Debug", LOG_LEVEL_INFO);
+
+    CommandLine cmd(__FILE__);
+    cmd.Parse(argc, argv);
+
+    // === 拓扑 ===
+    NodeContainer nodes;
+    nodes.Create(2);
+
+    PointToPointHelper p2p;
+    p2p.SetDeviceAttribute("DataRate", StringValue("5Mbps"));
+    p2p.SetChannelAttribute("Delay", StringValue("2ms"));
+    NetDeviceContainer devices = p2p.Install(nodes);
+
+    InternetStackHelper stack;
+    stack.Install(nodes);
+
+    Ipv4AddressHelper addr;
+    addr.SetBase("10.1.1.0", "255.255.255.0");
+    Ipv4InterfaceContainer ifaces = addr.Assign(devices);
+
+    // === 服务器 ===
+    UdpEchoServerHelper server(9);
+    ApplicationContainer serverApp = server.Install(nodes.Get(1));
+    serverApp.Start(Seconds(1.0));
+    serverApp.Stop(Seconds(10.0));
+
+    // === 客户端 ===
+    UdpEchoClientHelper client(ifaces.GetAddress(1), 9);
+    client.SetAttribute("MaxPackets", UintegerValue(3));
+    client.SetAttribute("Interval", TimeValue(Seconds(2.0)));
+    client.SetAttribute("PacketSize", UintegerValue(1024));
+    ApplicationContainer clientApp = client.Install(nodes.Get(0));
+    clientApp.Start(Seconds(2.0));
+    clientApp.Stop(Seconds(10.0));
+
+    // === 自定义 App ===
+    Ptr<MyDebugApp> debugApp = CreateObject<MyDebugApp>();
+    nodes.Get(0)->AddApplication(debugApp);
+    debugApp->SetStartTime(Seconds(3.0));
+    debugApp->SetStopTime(Seconds(10.0));
+
+    NS_LOG_INFO("=== Simulation Start ===");
+    Simulator::Run();
+    Simulator::Destroy();
+    NS_LOG_INFO("=== Simulation End ===");
+
+    return 0;
+}
+```
+
+```
+=== Simulation Start ===
+MyDebugApp START at 3s
+>>> [Time: 4s] Packet count = 1
+>>> [Time: 5s] Packet count = 2
+>>> [Time: 6s] Packet count = 3
+COUNT == 3! Ready for breakpoint inspection.
+>>> [Time: 7s] Packet count = 4
+>>> [Time: 8s] Packet count = 5
+MyDebugApp STOP at 10s
+=== Simulation End ===
+```
+
+通过 gdb 调试程序
+
+```bash
+./ns3 run --gdb scratch/exp1/gdb-schedule.cc
+```
+
+![](../../assets/2025-10-28-23-23-19-image.png)
+
+```
+(gdb) break MyDebugApp::PrintTime
+Breakpoint 1 at 0x11bc9: file /home/cacc/Workspace/ns-3.46/scratch/exp1/gdb-schedule.cc, line 37.
+(gdb) commands
+Type commands for breakpoint(s) 1, one per line.
+End with a line saying just "end".
+>silent
+>print m_count
+>print Simulator::Now().GetSeconds()
+>info args
+>bt 5
+>continue
+>end
+(gdb) run
+Starting program: /home/cacc/Workspace/ns-3.46/build/scratch/exp1/ns3.46-gdb-schedule-debug 
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+=== Simulation Start ===
+MyDebugApp START at 3s
+$1 = 0
+$2 = 4
+this = 0x5555555bf620
+#0  MyDebugApp::PrintTime (this=0x5555555bf620)
+    at /home/cacc/Workspace/ns-3.46/scratch/exp1/gdb-schedule.cc:37
+#1  0x000055555556b4cc in std::__invoke_impl<void, void (MyDebugApp::*&)(), MyDebugApp*&> (
+    __f=@0x55555573c380: (void (MyDebugApp::*)(MyDebugApp * const)) 0x555555565bb8 <MyDebugApp::PrintTime()>, __t=@0x55555573c390: 0x5555555bf620)
+    at /usr/include/c++/13/bits/invoke.h:74
+#2  0x000055555556b3e7 in std::__invoke<void (MyDebugApp::*&)(), MyDebugApp*&> (
+    __fn=@0x55555573c380: (void (MyDebugApp::*)(MyDebugApp * const)) 0x555555565bb8 <MyDebugApp::PrintTime()>) at /usr/include/c++/13/bits/invoke.h:96
+#3  0x000055555556b2a3 in std::_Bind<void (MyDebugApp::*(MyDebugApp*))()>::__call<void, , 0ul>(std::tuple<>&&, std::_Index_tuple<0ul>) (this=0x55555573c380, 
+    __args=...) at /usr/include/c++/13/functional:506
+#4  0x000055555556b05b in std::_Bind<void (MyDebugApp::*(MyDebugApp*))()>::operator()<, void>() (this=0x55555573c380) at /usr/include/c++/13/functional:591
+>>> [Time: 4s] Packet count = 1
+$3 = 1
+$4 = 5
+this = 0x5555555bf620
+#0  MyDebugApp::PrintTime (this=0x5555555bf620)
+    at /home/cacc/Workspace/ns-3.46/scratch/exp1/gdb-schedule.cc:37
+#1  0x000055555556b4cc in std::__invoke_impl<void, void (MyDebugApp::*&)(), MyDebugApp*&> (
+    __f=@0x55555573c610: (void (MyDebugApp::*)(MyDebugApp * const)) 0x555555565bb8 <MyDebugApp::PrintTime()>, __t=@0x55555573c620: 0x5555555bf620)
+    at /usr/include/c++/13/bits/invoke.h:74
+#2  0x000055555556b3e7 in std::__invoke<void (MyDebugApp::*&)(), MyDebugApp*&> (
+    __fn=@0x55555573c610: (void (MyDebugApp::*)(MyDebugApp * const)) 0x555555565bb8 <MyDebugApp::PrintTime()>) at /usr/include/c++/13/bits/invoke.h:96
+#3  0x000055555556b2a3 in std::_Bind<void (MyDebugApp::*(MyDebugApp*))()>::__call<void, , 0ul>(std::tuple<>&&, std::_Index_tuple<0ul>) (this=0x55555573c610, 
+    __args=...) at /usr/include/c++/13/functional:506
+#4  0x000055555556b05b in std::_Bind<void (MyDebugApp::*(MyDebugApp*))()>::operator()<, void>() (this=0x55555573c610) at /usr/include/c++/13/functional:591
+>>> [Time: 5s] Packet count = 2
+$5 = 2
+$6 = 6
+this = 0x5555555bf620
+#0  MyDebugApp::PrintTime (this=0x5555555bf620)
+    at /home/cacc/Workspace/ns-3.46/scratch/exp1/gdb-schedule.cc:37
+#1  0x000055555556b4cc in std::__invoke_impl<void, void (MyDebugApp::*&)(), MyDebugApp*&> (
+    __f=@0x55555573d720: (void (MyDebugApp::*)(MyDebugApp * const)) 0x555555565bb8 <MyDebugApp::PrintTime()>, __t=@0x55555573d730: 0x5555555bf620)
+    at /usr/include/c++/13/bits/invoke.h:74
+#2  0x000055555556b3e7 in std::__invoke<void (MyDebugApp::*&)(), MyDebugApp*&> (
+    __fn=@0x55555573d720: (void (MyDebugApp::*)(MyDebugApp * const)) 0x555555565bb8 <MyDebugApp::PrintTime()>) at /usr/include/c++/13/bits/invoke.h:96
+#3  0x000055555556b2a3 in std::_Bind<void (MyDebugApp::*(MyDebugApp*))()>::__call<void, , 0ul>(std::tuple<>&&, std::_Index_tuple<0ul>) (this=0x55555573d720, 
+    __args=...) at /usr/include/c++/13/functional:506
+#4  0x000055555556b05b in std::_Bind<void (MyDebugApp::*(MyDebugApp*))()>::operator()<, void>() (this=0x55555573d720) at /usr/include/c++/13/functional:591
+>>> [Time: 6s] Packet count = 3
+COUNT == 3! Ready for breakpoint inspection.
+$7 = 3
+$8 = 7
+this = 0x5555555bf620
+#0  MyDebugApp::PrintTime (this=0x5555555bf620)
+    at /home/cacc/Workspace/ns-3.46/scratch/exp1/gdb-schedule.cc:37
+#1  0x000055555556b4cc in std::__invoke_impl<void, void (MyDebugApp::*&)(), MyDebugApp*&> (
+    __f=@0x55555573b370: (void (MyDebugApp::*)(MyDebugApp * const)) 0x555555565bb8 <MyDebugApp::PrintTime()>, __t=@0x55555573b380: 0x5555555bf620)
+    at /usr/include/c++/13/bits/invoke.h:74
+#2  0x000055555556b3e7 in std::__invoke<void (MyDebugApp::*&)(), MyDebugApp*&> (
+    __fn=@0x55555573b370: (void (MyDebugApp::*)(MyDebugApp * const)) 0x555555565bb8 <MyDebugApp::PrintTime()>) at /usr/include/c++/13/bits/invoke.h:96
+#3  0x000055555556b2a3 in std::_Bind<void (MyDebugApp::*(MyDebugApp*))()>::__call<void, , 0ul>(std::tuple<>&&, std::_Index_tuple<0ul>) (this=0x55555573b370, 
+    __args=...) at /usr/include/c++/13/functional:506
+#4  0x000055555556b05b in std::_Bind<void (MyDebugApp::*(MyDebugApp*))()>::operator()<, void>() (this=0x55555573b370) at /usr/include/c++/13/functional:591
+>>> [Time: 7s] Packet count = 4
+$9 = 4
+$10 = 8
+this = 0x5555555bf620
+#0  MyDebugApp::PrintTime (this=0x5555555bf620)
+    at /home/cacc/Workspace/ns-3.46/scratch/exp1/gdb-schedule.cc:37
+#1  0x000055555556b4cc in std::__invoke_impl<void, void (MyDebugApp::*&)(), MyDebugApp*&> (
+    __f=@0x55555573da20: (void (MyDebugApp::*)(MyDebugApp * const)) 0x555555565bb8 <MyDebugApp::PrintTime()>, __t=@0x55555573da30: 0x5555555bf620)
+    at /usr/include/c++/13/bits/invoke.h:74
+#2  0x000055555556b3e7 in std::__invoke<void (MyDebugApp::*&)(), MyDebugApp*&> (
+    __fn=@0x55555573da20: (void (MyDebugApp::*)(MyDebugApp * const)) 0x555555565bb8 <MyDebugApp::PrintTime()>) at /usr/include/c++/13/bits/invoke.h:96
+#3  0x000055555556b2a3 in std::_Bind<void (MyDebugApp::*(MyDebugApp*))()>::__call<void, , 0ul>(std::tuple<>&&, std::_Index_tuple<0ul>) (this=0x55555573da20, 
+    __args=...) at /usr/include/c++/13/functional:506
+#4  0x000055555556b05b in std::_Bind<void (MyDebugApp::*(MyDebugApp*))()>::operator()<, void>() (this=0x55555573da20) at /usr/include/c++/13/functional:591
+>>> [Time: 8s] Packet count = 5
+MyDebugApp STOP at 10s
+=== Simulation End ===
+[Inferior 1 (process 35717) exited normally]
+```
+
+![](../../assets/2025-10-28-19-23-44-image.png)
+
+### 任务 8：生成 trace 文件
+
+```diff
+  // === 服务器 ===
+  UdpEchoServerHelper server(9);
+  ApplicationContainer serverApp = server.Install(nodes.Get(1));
+  serverApp.Start(Seconds(1.0));
+  serverApp.Stop(Seconds(10.0));
+
+  // === 客户端 ===
+  UdpEchoClientHelper client(ifaces.GetAddress(1), 9);
+  client.SetAttribute("MaxPackets", UintegerValue(3));
+  client.SetAttribute("Interval", TimeValue(Seconds(2.0)));
+  client.SetAttribute("PacketSize", UintegerValue(1024));
+  ApplicationContainer clientApp = client.Install(nodes.Get(0));
+  clientApp.Start(Seconds(2.0));
+  clientApp.Stop(Seconds(10.0));
+
+  // === 自定义 App ===
+  Ptr<MyDebugApp> debugApp = CreateObject<MyDebugApp>();
+  nodes.Get(0)->AddApplication(debugApp);
+  debugApp->SetStartTime(Seconds(3.0));
+  debugApp->SetStopTime(Seconds(10.0));
+
+  NS_LOG_INFO("=== Simulation Start ===");
++
++ AsciiTraceHelper ascii;
++ p2p.EnableAsciiAll(ascii.CreateFileStream("task8-p2p.tr"));
++ // p2p.EnablePcapAll("task8-p2p");  // 可选：生成 .pcap
++
+  Simulator::Run();
+  Simulator::Destroy();
+  NS_LOG_INFO("=== Simulation End ===");
+
+  return 0;
+```
+
+运行完成后，当前目录会出现 task8-p2p.tr 查看内容
+
+```
++ 2 /NodeList/0/DeviceList/0/$ns3::PointToPointNetDevice/TxQueue/Enqueue ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 0 protocol 17 offset (bytes) 0 flags [none] length: 1052 10.1.1.1 > 10.1.1.2) ns3::UdpHeader (length: 1032 49153 > 9) Payload (size=1024)
+- 2 /NodeList/0/DeviceList/0/$ns3::PointToPointNetDevice/TxQueue/Dequeue ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 0 protocol 17 offset (bytes) 0 flags [none] length: 1052 10.1.1.1 > 10.1.1.2) ns3::UdpHeader (length: 1032 49153 > 9) Payload (size=1024)
+r 2.00369 /NodeList/1/DeviceList/0/$ns3::PointToPointNetDevice/MacRx ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 0 protocol 17 offset (bytes) 0 flags [none] length: 1052 10.1.1.1 > 10.1.1.2) ns3::UdpHeader (length: 1032 49153 > 9) Payload (size=1024)
++ 2.00369 /NodeList/1/DeviceList/0/$ns3::PointToPointNetDevice/TxQueue/Enqueue ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 0 protocol 17 offset (bytes) 0 flags [none] length: 1052 10.1.1.2 > 10.1.1.1) ns3::UdpHeader (length: 1032 9 > 49153) Payload (size=1024)
+- 2.00369 /NodeList/1/DeviceList/0/$ns3::PointToPointNetDevice/TxQueue/Dequeue ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 0 protocol 17 offset (bytes) 0 flags [none] length: 1052 10.1.1.2 > 10.1.1.1) ns3::UdpHeader (length: 1032 9 > 49153) Payload (size=1024)
+r 2.00737 /NodeList/0/DeviceList/0/$ns3::PointToPointNetDevice/MacRx ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 0 protocol 17 offset (bytes) 0 flags [none] length: 1052 10.1.1.2 > 10.1.1.1) ns3::UdpHeader (length: 1032 9 > 49153) Payload (size=1024)
++ 4 /NodeList/0/DeviceList/0/$ns3::PointToPointNetDevice/TxQueue/Enqueue ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 1 protocol 17 offset (bytes) 0 flags [none] length: 1052 10.1.1.1 > 10.1.1.2) ns3::UdpHeader (length: 1032 49153 > 9) Payload (size=1024)
+- 4 /NodeList/0/DeviceList/0/$ns3::PointToPointNetDevice/TxQueue/Dequeue ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 1 protocol 17 offset (bytes) 0 flags [none] length: 1052 10.1.1.1 > 10.1.1.2) ns3::UdpHeader (length: 1032 49153 > 9) Payload (size=1024)
+r 4.00369 /NodeList/1/DeviceList/0/$ns3::PointToPointNetDevice/MacRx ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 1 protocol 17 offset (bytes) 0 flags [none] length: 1052 10.1.1.1 > 10.1.1.2) ns3::UdpHeader (length: 1032 49153 > 9) Payload (size=1024)
++ 4.00369 /NodeList/1/DeviceList/0/$ns3::PointToPointNetDevice/TxQueue/Enqueue ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 1 protocol 17 offset (bytes) 0 flags [none] length: 1052 10.1.1.2 > 10.1.1.1) ns3::UdpHeader (length: 1032 9 > 49153) Payload (size=1024)
+- 4.00369 /NodeList/1/DeviceList/0/$ns3::PointToPointNetDevice/TxQueue/Dequeue ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 1 protocol 17 offset (bytes) 0 flags [none] length: 1052 10.1.1.2 > 10.1.1.1) ns3::UdpHeader (length: 1032 9 > 49153) Payload (size=1024)
+r 4.00737 /NodeList/0/DeviceList/0/$ns3::PointToPointNetDevice/MacRx ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 1 protocol 17 offset (bytes) 0 flags [none] length: 1052 10.1.1.2 > 10.1.1.1) ns3::UdpHeader (length: 1032 9 > 49153) Payload (size=1024)
++ 6 /NodeList/0/DeviceList/0/$ns3::PointToPointNetDevice/TxQueue/Enqueue ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 2 protocol 17 offset (bytes) 0 flags [none] length: 1052 10.1.1.1 > 10.1.1.2) ns3::UdpHeader (length: 1032 49153 > 9) Payload (size=1024)
+- 6 /NodeList/0/DeviceList/0/$ns3::PointToPointNetDevice/TxQueue/Dequeue ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 2 protocol 17 offset (bytes) 0 flags [none] length: 1052 10.1.1.1 > 10.1.1.2) ns3::UdpHeader (length: 1032 49153 > 9) Payload (size=1024)
+r 6.00369 /NodeList/1/DeviceList/0/$ns3::PointToPointNetDevice/MacRx ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 2 protocol 17 offset (bytes) 0 flags [none] length: 1052 10.1.1.1 > 10.1.1.2) ns3::UdpHeader (length: 1032 49153 > 9) Payload (size=1024)
++ 6.00369 /NodeList/1/DeviceList/0/$ns3::PointToPointNetDevice/TxQueue/Enqueue ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 2 protocol 17 offset (bytes) 0 flags [none] length: 1052 10.1.1.2 > 10.1.1.1) ns3::UdpHeader (length: 1032 9 > 49153) Payload (size=1024)
+- 6.00369 /NodeList/1/DeviceList/0/$ns3::PointToPointNetDevice/TxQueue/Dequeue ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 2 protocol 17 offset (bytes) 0 flags [none] length: 1052 10.1.1.2 > 10.1.1.1) ns3::UdpHeader (length: 1032 9 > 49153) Payload (size=1024)
+r 6.00737 /NodeList/0/DeviceList/0/$ns3::PointToPointNetDevice/MacRx ns3::PppHeader (Point-to-Point Protocol: IP (0x0021)) ns3::Ipv4Header (tos 0x0 DSCP Default ECN Not-ECT ttl 64 id 2 protocol 17 offset (bytes) 0 flags [none] length: 1052 10.1.1.2 > 10.1.1.1) ns3::UdpHeader (length: 1032 9 > 49153) Payload (size=1024)https://github.com/UJS-IoT2023/UJS-Android-HeatfeltTutoring
 ```

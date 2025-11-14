@@ -71,8 +71,6 @@ $$
 
 <img src="../../img/spatial_hierarchy.png" width=40%>
 
-
-
 **池化层**（Pooling）是卷积神经网络另一个重要的概念，他实际上是一种非线性形式的降采样。在图像进行卷积后，每一个卷积核扫过一遍图像都会产生一个新的特征举证输入给下一层。这时就增加了数据量，原本二维的图像矩阵会增加维度，数据的厚度根据卷积核个数而定。常见的池化函数有**最大池化**（Max pooling），他将输入的图像划分为若干个矩形区域，对每个子区域输出最大值。
 
 <img src="../../img/Convolutional_neural_network,_maxpooling.png" width=80%>

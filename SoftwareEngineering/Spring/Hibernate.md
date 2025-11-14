@@ -1,4 +1,8 @@
+# Hibernate in Spring Data JPA
+
 Hibernate JPA + PostgreSQL
+
+## Basic Configuration
 
 **application.yaml**
 
@@ -22,6 +26,14 @@ spring:
 
 Then set repository for SQL operation, most method was implemented by default.
 
+## Entity (Model)
+
+```java
+
+```
+
+## Repository
+
 **UserRepository.java**
 
 ```java
@@ -41,6 +53,8 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
 ```
 
 Then you can use it in service
+
+## Service
 
 **UserService**
 
@@ -71,4 +85,3 @@ public class UserService {
     }
 }
 ```
-

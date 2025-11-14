@@ -23,17 +23,17 @@ var s = new Socket("time-a.nist.gov", 13);
 用于打开一个套接字，负责启动该程序内部和外部之间的通信。如果连接失败，会抛出一个`UnknownHostException`，如果存在其他异常，则会抛出`IOException`。
 
 > [!NOTE]
->
+> 
 > `java.net.Socket`
->
+> 
 > - Socket(String host, int port)
->
+>   
 >   构建一个套接字，用来连接给定的主机和端口
->
+> 
 > - InputStream getInputStream()
->
+> 
 > - OutputStream getOutputStream()
->
+>   
 >   获取可以从套接字中读取的数据流和可以写出的数据流
 
 ### 套接字超时
@@ -55,27 +55,27 @@ try {
 ```
 
 > [!NOTE]
->
+> 
 > `java.net.Socket`
->
+> 
 > - Socket()
->
+>   
 >   创建一个还未被连接的套接字
->
+> 
 > - void connect(SocketAddress address)
->
+>   
 >   将该套接字连接到给定地址
->
+> 
 > - void connect(SocketAddress address, int timeoutInMilliseconds)
->
+>   
 >   如果给定时间没有响应则返回
->
+> 
 > - void setSoTimeout(int timeoutInMilliseconds)
->
+> 
 > - boolean isConnected()
->
+>   
 >   判断是否已经连接
->
+> 
 > - boolean isClosed()
 
 ### 因特网地址
@@ -87,28 +87,54 @@ InetAddress address = InetAddress.getByName("cn.bing.com");
 ```
 
 > [!NOTE]
->
+> 
 > `java.net.InetAddress`
->
+> 
 > - static InetAddress getByName(String host)
->
+> 
 > - static InetAddress[] getByName(String host)
->
+> 
 > - static InetAddress getLocalHost()
->
+>   
 >   为本地主机创建一个InetAddress对象
->
+> 
 > - byte[] getAddress()
->
+>   
 >   返回一个包含数字型地址的字节数组。
->
+> 
 > - String getHostAddress()
->
+>   
 >   返回一个十进制数组成的字符串
->
+> 
 > - String getHostName()
->
+>   
 >   返回主机名
+
+```java
+import java.net.InetAddress;
+
+/**
+ * This program demonstrates thee InetAddress class. Supply a host name as command-line
+ * argument, or run without command-line arguments to see the address of the local host.
+ * @version 1.02 2012-06-05
+ * @author Cay Horstmann
+ */
+
+public class InetAddressTest {
+    public static void main(String[] args) throws Exception {
+        if (args.length > 0) {
+            String host = args[0];
+            InetAddress[] addresses = InetAddress.getAllByName(host);
+            for (InetAddress addr : addresses) {
+                System.out.println(addr);
+            }
+        } else {
+            InetAddress addr = InetAddress.getLocalHost();
+            System.out.println(addr);
+        }
+    }
+}
+```
 
 ## 实现服务器
 
@@ -136,7 +162,63 @@ var out = new PrintWriter(new OutputStreamWriter(OutStream, StandardCharsets.UTF
                          true /* autoFlush */);
 ```
 
+```java
+import java.io.*;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
 
+/**
+ * This program implements a simple server that listens to port 8189 and echoes back all
+ * client input.
+ * @version 1.22 2018-03-17
+ * @author Cay Horstmann
+ */
+public class EchoServer {
+    public static void main(String[] args) throws IOException {
+        // establish server socket
+        try (var s = new ServerSocket(8189)) {
+            // wait for client connection
+            try (Socket incoming = s.accept()) {
+                InputStream inStream = incoming.getInputStream();
+                OutputStream outStream = incoming.getOutputStream();
+                try (var in = new Scanner(inStream, StandardCharsets.UTF_8)) {
+                    var out = new PrintWriter(new OutputStreamWriter(outStream, StandardCharsets.UTF_8), true);
+                    out.println("Hello! Enter BYE to exit.");
+                    
+                    // echo client input
+                    boolean done = false;
+                    while (!done && in.hasNext()) {
+                        String line = in.nextLine();
+                        out.println("Echo: " + line);
+                        if (line.trim().equals("BYE")) {
+                            done = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+```
+
+> ![NOTE]
+> 
+> `java.net.ServerSocket`
+> 
+> - ServerSocket(int port)
+>   
+>   创建一个监听端口的服务器套接字
+> 
+> - Socket accept()
+>   
+>   等待连接，该方法阻塞当前线程直到建立连接未知。该方法返回一个 Socket 对象，程序可以通过这个对象与连接中的客户端进行通信。
+> 
+> - void close()
+>   
+>   关闭服务器套接字。
 
 # 数据库
 
@@ -153,15 +235,13 @@ alonzosBirthday = LocalDate.of(1903, Month.JUNE, 14); // Uses the Month enumerat
 ```
 
 > [!NOTE]
->
+> 
 > `java.time.LocalDate`
->
+> 
 > - static LocalDate now()
 > - static LocalDate of(int year, int month, int dayOfMonth)
 > - LocalDate plus(TemporalAmount amountToAdd)
 > - LocalDate minus(TemporalAmount amountToSubtract)
-
-
 
 ## 本地时间
 
@@ -173,9 +253,9 @@ LocalTime wakeup = bedtime.plusHour(8); // wakeup is 6:30:00
 ```
 
 > [!NOTE]
->
+> 
 > `java.time.LocalTime`
->
+> 
 > - static LocalTime now()
 > - static LocalTime of(int hour, int minute, int second)
 > - LocalTime (plus|minus)(Hours|Minutes|Seconds|Nanos)(long number)
@@ -215,43 +295,40 @@ LocalTime timePart = customDateTime.toLocalTime(); // 提取时间部分
 ```
 
 > [!NOTE]
->
+> 
 > `java.time.LocalDateTime`
->
+> 
 > - static LocalDateTime now() 
->
+>   
 >   获取当前日期时间。
->
+> 
 > - static LocalDateTime of(int year, int month, int dayOfMonth, int hour, int minute, int second)
->
+>   
 >   根据指定的日期和时间创建对象。
->
+> 
 > - LocalDateTime plus(TemporalAmount amountToAdd)
->
+>   
 >   在当前时间加上指定时间量。
->
+> 
 > - LocalDateTime minus(TemporalAmount amountToSubtract)
->
+>   
 >   从当前时间减去指定时间量。
->
+> 
 > - boolean isBefore(LocalDateTime other)
->
+>   
 >   判断当前日期时间是否早于另一个日期时间。
->
+> 
 > - boolean isAfter(LocalDateTime other)
->
+>   
 >   判断当前日期时间是否晚于另一个日期时间。
->
+> 
 > - LocalDate toLocalDate()
->
+>   
 >   转换为 `LocalDate`。
->
+> 
 > - LocalTime toLocalTime()
->
+>   
 >   转换为 `LocalTime`。
-
-
-
 
 # 国际化
 
@@ -260,4 +337,3 @@ LocalTime timePart = customDateTime.toLocalTime(); // 提取时间部分
 # 高级Swing和图形化编程
 
 # 本地方法
-

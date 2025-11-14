@@ -4,15 +4,11 @@ date: 2025-02-07 18:02
 tags: ['python']
 ---
 
-
-
 # 安装与基本设置
 
 ```bash
 pip install matplotlib
 ```
-
-
 
 ## 设置字体
 
@@ -20,8 +16,6 @@ pip install matplotlib
 plt.rcParams['font.sans-serif'] = ['SimHei']
 plt.rcParams['axes.unicode_minus'] = False
 ```
-
-
 
 ```python
 import matplotlib
@@ -56,8 +50,6 @@ font.sans-serif: SimHei
 axes.unicode_minus: False
 ```
 
-
-
 # Plotting
 
 ## Default X-Points
@@ -73,8 +65,6 @@ ypoints = np.array([3, 8, 1, 10, 5, 7])
 plt.plot(ypoints)
 plt.show()
 ```
-
-
 
 # Markers
 
@@ -97,8 +87,6 @@ ypoints = np.array([3, 8, 1, 10])
 plt.plot(ypoints, 'o:r')
 plt.show()
 ```
-
-
 
 # Line
 
@@ -130,8 +118,6 @@ plt.plot(y2)
 
 plt.show()
 ```
-
-
 
 # Labels and Title
 
@@ -183,8 +169,6 @@ plt.show()
 ```python
 plt.title("Sports Watch Data", loc = 'left')
 ```
-
-
 
 # Grid
 
@@ -315,4 +299,3 @@ ax[1].set_ylim(0, max(y_power_law)*1.1)
 plt.tight_layout()
 plt.show()
 ```
-

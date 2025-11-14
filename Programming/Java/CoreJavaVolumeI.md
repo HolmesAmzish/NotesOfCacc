@@ -4,6 +4,16 @@
 
 # 基本程序设计结构
 
+## 变量与常量
+
+### 常量
+
+在 Java 中，利用关键字 final 指示常量，例如
+
+```java
+final double CM_PER_INCH = 2.54;
+```
+
 ## 运算符
 
 ### 强制类型转换
@@ -44,8 +54,6 @@ repeat方法
 String repeated = "Java".repeat(3); // repeated is "JavaJavaJava"
 ```
 
-
-
 ### 检测字符串是否相等
 
 ```java
@@ -82,8 +90,6 @@ int index = greeting.offsetByCodePoints(0, i);
 int cp = greeting.codePointAt(index);
 ```
 
-
-
 ## 输入与输出
 
 ### 读取输入
@@ -93,8 +99,6 @@ Scanner 类定义在`java.util`包中，当时用的类不是定义在基本`jav
 ```java
 import java.util.*;
 ```
-
-
 
 nextLine方法将读取一行输入
 
@@ -245,6 +249,19 @@ public class CalendarTest {
 
 # 静态字段与静态方法
 
+### 静态字段
+
+如果将一个字段定义为 static，每个类只有一个这样的字段。而面对非静态的实例字段，每个对象都有一个自己的副本。例如
+
+```java
+class Employee {
+    private static int nextId = 1;
+    private int id;
+}
+```
+
+每一个 Employee 对象都有一个自己的 id 字段，但是这个类的所有实例共享一个 nextId 字段。
+
 # 继承
 
 # 接口，lambda与内部类
@@ -254,10 +271,6 @@ public class CalendarTest {
 # 泛型程序设计
 
 # 集合
-
-
-
-
 
 # 用户界面程序设计
 
