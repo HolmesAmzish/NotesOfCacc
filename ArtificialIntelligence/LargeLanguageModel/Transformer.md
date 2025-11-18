@@ -49,6 +49,10 @@ $$
 
 ## 架构
 
+Transformer 的数据流程始于输入文本，文本首先被标记化，然后转换为**词嵌入向量**，同时为了提取序列顺序，将**位置编码**与词嵌入向量相加。随后输入编码器解码器架构：编码器利用**多头注意力机制**和**前馈网络**处理整个输入序列，生成丰富的上下文表示。**解码器**集合**掩码自注意力**、**跨注意力**、**前馈网络**逐步生成输出序列。
+
+![transformer](../assets/Screenshot_20251114_224539.png)
+
 ### 输入
 
 输入文本使用字节对编码（Byte Pair Encoding，BPE）以进行标记化，这是一种子词标记化方法，假设输入如下：
@@ -63,9 +67,24 @@ $$
 tokens = ["The", "transform", "er", "is", "power", "ful", "."]
 ```
 
-每个标记通过词嵌入（Embedding）转换为向量。然后，将标记的位置信息添加到嵌入向量中。词嵌入层（Token Embedding）是一个可学习的查找表，每个 token 对应一个固定维度的向量。
+每个标记通过词嵌入（Embedding）转换为向量。然后，将标记的位置信息添加到嵌入向量中。词嵌入层（Token Embedding）是一个**可学习的查找表**，每个 token 对应一个固定维度的向量。
 
-### 编码器 - 解码器架构
+![embedding](../assets/embedding_token.png)
+
+由于 Transformer 模型没有循环和卷积，而是基于注意力机制构建的，因此无法提取到位置信息的特征，需要人为进行位置编码：
+
+$$
+\begin{align}
+PE_{(pos, 2i)} &= \sin(pos/10000^{2i/d_{\text{model}}}) \\
+PE_{(pos, 2i + 1)} &= \cos(pos/10000^{2i/d_{\text{model}}})
+\end{align}
+$$
+
+最终文本输入转换为模型输入：
+
+$$
+X_{\text{input}} = E_{\text{token}} + PE_{\text{pos}}
+$$
 
 ### 注意力
 
@@ -79,14 +98,24 @@ K = X W^K \\
 V = X W^V
 $$
 
-计算注意力分数矩阵
+计算注意力分数矩阵，也称为 Attention Pattern
 
 $$
-E = QK^T
+E = \text{softmax}(\frac{QK^T}{\sqrt{d_k}})
 $$
 
+![attention pattern](../assets/attention_pattern.drawio.png)
+
+得到后，将注意力分数矩阵与值相乘得到最终对嵌入向量语义的修改，最终公式为：
+
 $$
-\text{Attention}(Q, K, V) = \text{softmax}(\frac{Q K^T}{\sqrt{d_k}})V
+\text{Attention}(Q, K, V) = EV =\text{softmax}(\frac{Q K^T}{\sqrt{d_k}})V
+$$
+
+拿其中一个嵌入向量举例：
+
+$$
+\Delta \vec{X_4} = 0.48\vec{V_2} + 0.52\vec{V_3}
 $$
 
 #### 多头注意力
@@ -102,3 +131,15 @@ $$
 $$
 \text{MultiHead}(X) = \text{Concat}(head_1, \dots, head_h)
 $$
+
+![attention](../assets/Screenshot_20251114_224602.png)
+
+### 前馈神经网络（Feed-Forward Network）
+
+每个编码器和解码器子层都包含一个简单的前馈神经网络，它通常由两个线性变换和一个 ReLU 激活函数组成：
+
+$$
+FFN(x) = \max(0, xW_1 + b_1) W_2 + b_2
+$$
+
+这个网络的目的是进一步处理注意力机制产生的上下文表示，增加模型的非线性能力。

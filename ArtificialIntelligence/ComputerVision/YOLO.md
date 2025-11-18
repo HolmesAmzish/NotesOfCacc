@@ -10,7 +10,7 @@ YOLO 作为单阶段目标检测算法，直接提取出图像中存在物体的
 
 特征提取结构：
 
-![image-20250705134626015](/home/cacc/Documents/NotesOfCacc/ArtififialIntellegence/ComputerVision/assets/image-20250705134626015.png)
+![image-20250705134626015](../../assets/image-20250705134626015.png)
 
 模型接受的输入大小是 $448 \times 448 \times 3$，输出为 $7 \times 7 \times 30$，中间经过了卷积与池化。最后化为 $7 \times 7 \times 30$ 的张量，也就是最终提取出来的最终特征。其中最终的向量被看作 $S \times S \times (5 \times B + C)$，$S \times S$ 为图像被分割的区域数，$5 \times B $为锚框特征。分别为坐标，边框长宽与有物体的信心。
 $$
