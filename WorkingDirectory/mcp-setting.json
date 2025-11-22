@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "mcp-mc-rcon": {
+      "command": "java",
+      "args": [
+        "-Dspring.ai.mcp.server.stdio=true",
+        "-jar",
+        "/home/cacc/Workspace/McpMcRcon/target/McpMcRcon-0.0.2-SNAPSHOT.jar"
+      ]
+    }
+  }
+}
